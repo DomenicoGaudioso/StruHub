@@ -26,7 +26,9 @@ In questo articolo analizziamo:
 
 **Formule di riferimento**
 
-\[( \frac{ M_{xRd}}M_{xEd} )^\alpha+(\frac{ M_{yRd}}M_{yEd} )^\alpha \le 1\]
+$$
+( \frac{ M_{xRd}}M_{xEd} )^\alpha+(\frac{ M_{yRd}}M_{yEd} )^\alpha \le 1
+$$
 
 Ipotesi di base allo SLU
 

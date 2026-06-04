@@ -14,17 +14,23 @@ Il plinto rigido mantiene piana la distribuzione degli spostamenti; il graticcio
 
 Nel modello rigido:
 
-\[R_i=a+bx_i+cy_i\]
+$$
+R_i=a+bx_i+cy_i
+$$
 
 Nel modello flessibile:
 
-\[R_i=k_{v,i}w_i, qquad Ku=F\]
+$$
+R_i=k_{v,i}w_i, qquad Ku=F
+$$
 
 Esempio.
 
 Se il modello rigido dà (R_{max}=1250,mathrm{kN}) e il FEM (R_{max}=1380,mathrm{kN}):
 
-\[Delta=\frac{1380-1250}{1250}=0.104\]
+$$
+Delta=\frac{1380-1250}{1250}=0.104
+$$
 
 La differenza è circa 10%.
 
@@ -46,9 +52,11 @@ L'ipotesi di plinto rigido è tanto più plausibile quanto maggiore è la rigide
 
 Un indicatore qualitativo è il confronto tra rigidezza flessionale del graticcio e rigidezza delle molle:
 
-\[\lambda=\frac{EI_{plinto}}{k_v s^4}\]
+$$
+\lambda=\frac{EI_{plinto}}{k_v s^4}
+$$
 
-dove \(s\) è un interasse caratteristico. Valori bassi suggeriscono maggiore deformabilità relativa.
+dove $s$ è un interasse caratteristico. Valori bassi suggeriscono maggiore deformabilità relativa.
 
 **Lettura del confronto**
 
@@ -60,15 +68,21 @@ Nel tema di il confronto plinto rigido e FEM a graticcio, il dato geotecnico non
 
 La tensione efficace è la grandezza che rende leggibile la risposta del terreno:
 
-\[\sigma'_v(z)=\sigma_v(z)-u(z)\]
+$$
+\sigma'_v(z)=\sigma_v(z)-u(z)
+$$
 
-\[\gamma'=\gamma_{sat}-\gamma_w\]
+$$
+\gamma'=\gamma_{sat}-\gamma_w
+$$
 
 Quando la falda cambia quota, non cambia solo un valore idraulico: cambiano resistenze, spinte, rigidezze e talvolta il meccanismo critico. Per questo ogni calcolo geotecnico deve mostrare come si costruisce (\sigma'_v(z)).
 
 Domanda, capacità e margine. La forma finale della verifica dovrebbe essere un rapporto domanda-capacità:
 
-\[\eta=\frac{E_d}{R_d}\]
+$$
+\eta=\frac{E_d}{R_d}
+$$
 
 **ma il rapporto va accompagnato dalla scomposizione dei contributi**
 
@@ -78,11 +92,17 @@ Nel caso di fondazione su pali, il valore massimo o minimo non è sufficiente: s
 
 Si consideri uno strato superficiale di 3 m con (\gamma=18\,\mathrm{kN/m^3}), seguito da uno strato saturo con (\gamma_{sat}=20\,\mathrm{kN/m^3}). Con falda a 3 m, a 6 m di profondità:
 
-\[\sigma_v=18\cdot3+20\cdot3=114\,\mathrm{kPa}\]
+$$
+\sigma_v=18\cdot3+20\cdot3=114\,\mathrm{kPa}
+$$
 
-\[u=9.81\cdot3=29.4\,\mathrm{kPa}\]
+$$
+u=9.81\cdot3=29.4\,\mathrm{kPa}
+$$
 
-\[\sigma'_v=84.6\,\mathrm{kPa}\]
+$$
+\sigma'_v=84.6\,\mathrm{kPa}
+$$
 
 Questo valore entra poi nelle formule di capacità, spinta o rigidezza. Se la falda fosse più alta, il risultato cambierebbe in modo diretto.
 
@@ -94,7 +114,9 @@ Un profilo minimo dovrebbe riportare quota superiore e inferiore, peso di volume
 
 Tensioni efficaci come filo conduttore. Molte grandezze geotecniche dipendono dalla tensione efficace. Per questo è utile costruire esplicitamente il diagramma:
 
-\[\sigma'_v(z)=\sigma_v(z)-u(z)\]
+$$
+\sigma'_v(z)=\sigma_v(z)-u(z)
+$$
 
 e non limitarsi a un valore alla quota di interesse. Nel caso dei pali, la tensione efficace alla punta influenza (Q_b), mentre quella lungo il fusto influenza (Q_s). Nel caso delle opere di sostegno, la tensione efficace entra nella spinta del terreno.
 
@@ -102,7 +124,9 @@ Domanda, capacità e deformabilità. Un calcolo geotecnico completo dovrebbe dis
 
 Il rapporto domanda-capacità è utile:
 
-\[\eta=\frac{E_d}{R_d}\]
+$$
+\eta=\frac{E_d}{R_d}
+$$
 
 ma deve essere affiancato alla grandezza deformativa, ad esempio spostamento, rotazione o cedimento.
 
@@ -112,7 +136,9 @@ Scrittura da riferimento tecnico. Un articolo geotecnico solido deve sempre most
 
 Plinto rigido: ipotesi e limiti. Il modello di plinto rigido assume che la testa dei pali resti su un piano. In questa ipotesi, gli spostamenti verticali dei pali sono compatibili con una traslazione e due rotazioni del plinto. La forza nel palo dipende dalla posizione nel gruppo e dalla rigidezza assiale:
 
-\[N_i=k_i\left(w+\theta_x y_i+\theta_y x_i\right)\]
+$$
+N_i=k_i\left(w+\theta_x y_i+\theta_y x_i\right)
+$$
 
 Se tutti i pali hanno rigidezza simile, si ottiene la classica ripartizione lineare. Il vantaggio e la trasparenza: il progettista vede subito quali pali sono caricati di piu e come l'eccentricita influenza il gruppo. Il limite e che il plinto reale puo flettersi, soprattutto se ha grandi dimensioni, spessori ridotti, carichi concentrati o disposizione irregolare dei pali.
 
@@ -120,19 +146,23 @@ Un plinto rigido produce spesso una distribuzione piu ordinata di quella reale. 
 
 Modello FEM a graticcio. Un modello FEM a graticcio o piastra consente di rappresentare la deformabilita del plinto. I pali possono essere inseriti come molle verticali e, se necessario, molle orizzontali o vincoli elastici. La rigidezza assiale equivalente del palo puo essere stimata come:
 
-\[k_p=\frac{E_p A_p}{L_{eq}}\]
+$$
+k_p=\frac{E_p A_p}{L_{eq}}
+$$
 
-Il valore \(L_{eq}\) non e sempre la lunghezza geometrica: dipende dalla mobilitazione del terreno e dal modello di interazione. La scelta della rigidezza delle molle e quindi uno dei punti piu delicati.
+Il valore $L_{eq}$ non e sempre la lunghezza geometrica: dipende dalla mobilitazione del terreno e dal modello di interazione. La scelta della rigidezza delle molle e quindi uno dei punti piu delicati.
 
 Il confronto tra modello rigido e FEM non deve servire a scegliere il risultato piu favorevole, ma a capire la sensibilita. Se le reazioni cambiano poco, l'ipotesi rigida e robusta. Se cambiano molto, il plinto ha un ruolo strutturale attivo e va verificato con un modello deformabile. Per fondazioni profonde e plinti, i riferimenti sono D.M. 17 gennaio 2018, Capitoli 4 e 6, Circolare C.S.LL.PP. 21 gennaio 2019 n. 7, UNI EN 1992-1-1:2015 e UNI EN 1997-1:2013.
 
-Controllo dimensionale. Un riferimento tecnico deve permettere al lettore di controllare gli ordini di grandezza. Ogni risultato numerico dovrebbe essere accompagnato da un controllo dimensionale, da una interpretazione fisica e da una indicazione del parametro dominante. Se una formula restituisce un valore in \(\mathrm{kN}\), \(\mathrm{kNm}\), \(\mathrm{kPa}\) o \(\mathrm{mm}\), l'unita deve essere esplicita e coerente con le grandezze inserite.
+Controllo dimensionale. Un riferimento tecnico deve permettere al lettore di controllare gli ordini di grandezza. Ogni risultato numerico dovrebbe essere accompagnato da un controllo dimensionale, da una interpretazione fisica e da una indicazione del parametro dominante. Se una formula restituisce un valore in $\mathrm{kN}$, $\mathrm{kNm}$, $\mathrm{kPa}$ o $\mathrm{mm}$, l'unita deve essere esplicita e coerente con le grandezze inserite.
 
 La forma generale di una verifica puo essere letta come:
 
-\[\eta=\frac{E_d}{R_d} \le 1\]
+$$
+\eta=\frac{E_d}{R_d} \le 1
+$$
 
-dove \(E_d\) e l'effetto dell'azione di progetto e \(R_d\) la resistenza di progetto. Questa scrittura, comune a molti problemi strutturali e geotecnici, aiuta a separare domanda, capacita e margine.
+dove $E_d$ e l'effetto dell'azione di progetto e $R_d$ la resistenza di progetto. Questa scrittura, comune a molti problemi strutturali e geotecnici, aiuta a separare domanda, capacita e margine.
 
 Dal calcolo alla decisione. Il valore finale non basta. Bisogna chiedersi da quale ipotesi dipende, quanto e sensibile ai parametri e quale meccanismo fisico rappresenta. Un margine ottenuto con parametri poco tracciabili ha meno valore di un margine piu modesto ma ben documentato. Per questo, quando si cita una norma o un criterio di combinazione, il riferimento deve essere scritto in modo esplicito e verificabile.
 

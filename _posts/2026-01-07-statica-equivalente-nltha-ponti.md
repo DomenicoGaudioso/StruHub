@@ -12,21 +12,29 @@ meta: "Quaderno tecnico · 1635 parole circa"
 
 La statica equivalente rappresenta il sisma con forze orizzontali; la NLTHA integra la risposta nel tempo includendo eventuali non linearità.
 
-\[F=mS_a(T)\]
+$$
+F=mS_a(T)
+$$
 
 Nel caso non lineare:
 
-\[Mddot{u}+Cdot{u}+R(u,dot{u})=-Mra_g(t)\]
+$$
+Mddot{u}+Cdot{u}+R(u,dot{u})=-Mra_g(t)
+$$
 
 Confronto degli effetti.
 
-\[Delta_V=\frac{V_{NLTHA,max}-V_{stat}}{V_{stat}}\]
+$$
+Delta_V=\frac{V_{NLTHA,max}-V_{stat}}{V_{stat}}
+$$
 
 Esempio.
 
 Se (V_{stat}=3.2,mathrm{MN}) e (V_{NLTHA,max}=3.8,mathrm{MN}):
 
-\[Delta_V=0.1875\]
+$$
+Delta_V=0.1875
+$$
 
 La differenza è circa 19%.
 
@@ -56,13 +64,17 @@ Un confronto minimo dovrebbe includere:
 
 Per grandezze verificabili, si può costruire una storia del rapporto:
 
-\[\eta(t)=\frac{E_d(t)}{R_d}\]
+$$
+\eta(t)=\frac{E_d(t)}{R_d}
+$$
 
-Il massimo \(\eta_{max}\) dice se la capacità viene superata; la durata e la ripetizione dei picchi aiutano a leggere la severità della domanda.
+Il massimo $\eta_{max}$ dice se la capacità viene superata; la durata e la ripetizione dei picchi aiutano a leggere la severità della domanda.
 
 Per trasformare il confronto tra statica equivalente e NLTHA in un riferimento tecnico è utile separare tre livelli: il modello fisico, il modello numerico e la lettura dei risultati. Il modello fisico identifica masse, rigidezze, smorzamento e azioni. Il modello numerico stabilisce come queste grandezze entrano nell'equazione del moto. La lettura dei risultati decide quali effetti sono davvero utili al progetto.
 
-\[M\ddot{u}(t)+C\dot{u}(t)+Ku(t)=F(t)\]
+$$
+M\ddot{u}(t)+C\dot{u}(t)+Ku(t)=F(t)
+$$
 
 Nel caso di ponte soggetto a sisma, la matrice di massa non è un dettaglio secondario. Una massa assegnata al nodo sbagliato modifica frequenze proprie e partecipazione modale; una rigidezza non coerente con la sezione resistente sposta il periodo e altera la domanda dinamica. Prima di discutere il risultato, il modello deve produrre modi plausibili.
 
@@ -70,9 +82,13 @@ Nel caso di ponte soggetto a sisma, la matrice di massa non è un dettaglio seco
 
 Il problema agli autovalori consente di estrarre frequenze e deformate. La forma modale non è solo un disegno: indica quali parti della struttura partecipano a un certo tipo di moto. Se la deformata è locale, il modo può essere poco rilevante per la risposta globale ma importante per una sollecitazione locale.
 
-\[K\phi_n=\omega_n^2M\phi_n\]
+$$
+K\phi_n=\omega_n^2M\phi_n
+$$
 
-\[T_n=\frac{2\pi}{\omega_n}\]
+$$
+T_n=\frac{2\pi}{\omega_n}
+$$
 
 La massa partecipante permette di passare da una lista di frequenze a una gerarchia ingegneristica. Un modo con alta partecipazione nella direzione dell'azione è un modo che può governare spostamenti e tagli globali. Modi con partecipazione inferiore possono comunque influenzare accelerazioni o curvature.
 
@@ -91,7 +107,9 @@ Una procedura robusta per il confronto tra statica equivalente e NLTHA parte da 
 
 Supponiamo che il primo controllo restituisca un periodo teorico di (0.55\,\mathrm{s}) e il modello FEM un periodo di (0.92\,\mathrm{s}). La differenza relativa è:
 
-\[\Delta_T=\frac{0.92-0.55}{0.55}=0.67\]
+$$
+\Delta_T=\frac{0.92-0.55}{0.55}=0.67
+$$
 
 **Uno scarto del 67% non va ignorato**
 
@@ -113,7 +131,9 @@ La grandezza di progetto non è sempre il massimo assoluto. Nelle verifiche acco
 
 Esempio di controllo incrociato. Supponiamo che un modello dinamico restituisca un taglio massimo alla base pari a (2.80\,\mathrm{MN}), mentre il controllo statico equivalente fornisce (2.35\,\mathrm{MN}). Il rapporto è:
 
-\[r_V=\frac{2.80}{2.35}=1.19\]
+$$
+r_V=\frac{2.80}{2.35}=1.19
+$$
 
 Il dato indica una amplificazione del 19%. Questo non significa automaticamente che il modello dinamico sia più corretto, ma segnala che l'effetto dinamico non è trascurabile. A questo punto il tecnico deve controllare se la velocità, il contenuto in frequenza o il segnale sismico sono coerenti con la condizione più gravosa.
 
@@ -123,23 +143,29 @@ Come trasformare il risultato in testo tecnico. Un post di riferimento deve chiu
 
 Quando l'equivalente statico smette di bastare. L'analisi statica equivalente e utile quando la risposta puo essere rappresentata da una distribuzione di forze coerente con il primo modo e con un comportamento sostanzialmente elastico. Nei ponti, pero, la massa dell'impalcato, la deformabilita delle pile, la presenza di appoggi, ritegni, isolatori o vincoli dissimmetrici possono rendere il comportamento fortemente dipendente dalla dinamica. La forza statica equivalente puo essere scritta, in forma sintetica, come:
 
-\[F_b = M^* S_a(T_1)\]
+$$
+F_b = M^* S_a(T_1)
+$$
 
-dove \(M^*\) e la massa partecipante e \(S_a(T_1)\) l'ordinata spettrale associata al periodo principale. Questa forma e chiara, ma nasconde una ipotesi forte: la domanda e concentrata in una forma modale dominante. Se piu modi partecipano, se la torsione e importante o se la risposta entra in campo non lineare, il modello statico diventa una semplificazione da giustificare, non una verita strutturale.
+dove $M^*$ e la massa partecipante e $S_a(T_1)$ l'ordinata spettrale associata al periodo principale. Questa forma e chiara, ma nasconde una ipotesi forte: la domanda e concentrata in una forma modale dominante. Se piu modi partecipano, se la torsione e importante o se la risposta entra in campo non lineare, il modello statico diventa una semplificazione da giustificare, non una verita strutturale.
 
 L'analisi dinamica non lineare descrive invece l'evoluzione temporale:
 
-\[M\ddot u(t)+C\dot u(t)+f_s(u,\dot u)= -M r a_g(t)\]
+$$
+M\ddot u(t)+C\dot u(t)+f_s(u,\dot u)= -M r a_g(t)
+$$
 
-Il termine \(f_s\) non e necessariamente lineare: puo includere plasticizzazioni, isteresi degli isolatori, degrado di rigidezza, attrito, gap o dispositivi di ritegno. La differenza concettuale e netta: nel metodo statico si assegna una domanda; nella time-history si lascia che la domanda emerga dall'interazione tra input, massa, smorzamento e legame resistente.
+Il termine $f_s$ non e necessariamente lineare: puo includere plasticizzazioni, isteresi degli isolatori, degrado di rigidezza, attrito, gap o dispositivi di ritegno. La differenza concettuale e netta: nel metodo statico si assegna una domanda; nella time-history si lascia che la domanda emerga dall'interazione tra input, massa, smorzamento e legame resistente.
 
 Uso comparativo dei due livelli di analisi. Un buon articolo tecnico non deve presentare i due metodi come alternativi ideologici. La statica equivalente serve spesso per orientare la progettazione, controllare ordini di grandezza e individuare le sottostrutture piu sollecitate. La dinamica non lineare serve per verificare meccanismi, spostamenti, contemporaneita delle azioni e margini locali. Il confronto tra i due risultati e prezioso: se la time-history produce tagli molto minori ma spostamenti molto maggiori, il messaggio progettuale non e che il ponte e "piu sicuro"; e che il problema si e spostato verso compatibilita e dettagli.
 
 Per valutare la coerenza, si puo confrontare un indicatore di domanda:
 
-\[\rho = \frac{E_{NLTHA}}{E_{stat}}\]
+$$
+\rho = \frac{E_{NLTHA}}{E_{stat}}
+$$
 
-Se \(\rho\) e molto diverso da 1, occorre spiegare il motivo: partecipazione modale, isolamento, non linearita, smorzamento, scaling degli accelerogrammi o distribuzione delle masse. Quando si richiamano analisi sismiche di ponti, i riferimenti principali sono D.M. 17 gennaio 2018, Capitoli 3 e 7, Circolare C.S.LL.PP. 21 gennaio 2019 n. 7 e UNI EN 1998-2:2011.
+Se $\rho$ e molto diverso da 1, occorre spiegare il motivo: partecipazione modale, isolamento, non linearita, smorzamento, scaling degli accelerogrammi o distribuzione delle masse. Quando si richiamano analisi sismiche di ponti, i riferimenti principali sono D.M. 17 gennaio 2018, Capitoli 3 e 7, Circolare C.S.LL.PP. 21 gennaio 2019 n. 7 e UNI EN 1998-2:2011.
 
 Riferimenti normativi e bibliografici utilizzati:
 

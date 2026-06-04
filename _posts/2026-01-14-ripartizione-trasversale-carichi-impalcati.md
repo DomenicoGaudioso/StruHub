@@ -12,17 +12,23 @@ meta: "Quaderno tecnico · 1349 parole circa"
 
 Un carico applicato su una corsia non viene assorbito da una sola trave. Soletta, traversi e torsione trasferiscono quota della domanda alle travi vicine.
 
-\[E_j=eta_jE_{tot}, qquad sum_jeta_japprox1\]
+$$
+E_j=eta_jE_{tot}, qquad sum_jeta_japprox1
+$$
 
 Rigidezze equivalenti.
 
-\[D_x=\frac{EI_x}{b}, qquad D_y=\frac{EI_y}{l}\]
+$$
+D_x=\frac{EI_x}{b}, qquad D_y=\frac{EI_y}{l}
+$$
 
 Esempio.
 
 Con (M_{tot}=1200,mathrm{kNm}) e coefficienti (0.25,0.50,0.25):
 
-\[M_1=300,quad M_2=600,quad M_3=300,mathrm{kNm}\]
+$$
+M_1=300,quad M_2=600,quad M_3=300,mathrm{kNm}
+$$
 
 Riferimenti tecnici utilizzati:
 
@@ -39,11 +45,15 @@ La somma dei coefficienti di ripartizione garantisce l'equilibrio globale, ma no
 
 In termini concettuali, la distribuzione non è solo:
 
-\[\sum_j V_j=V_{tot}\]
+$$
+\sum_j V_j=V_{tot}
+$$
 
 ma anche coerenza tra deformate:
 
-\[w_j(x)\approx w_{j+1}(x) \quad \text{se la soletta è molto rigida trasversalmente}\]
+$$
+w_j(x)\approx w_{j+1}(x) \quad \text{se la soletta è molto rigida trasversalmente}
+$$
 
 **Effetto della torsione**
 
@@ -53,19 +63,25 @@ Nel tema di la ripartizione trasversale dei carichi, il punto non è ottenere un
 
 Il primo controllo è l'equilibrio. Se gli effetti ripartiti non ricostruiscono l'azione globale, il modello non è accettabile. Il secondo controllo è la compatibilità: gli elementi connessi non possono deformarsi come sistemi indipendenti se la soletta o i collegamenti impongono continuità.
 
-\[\sum_j E_j \simeq E_{tot}\]
+$$
+\sum_j E_j \simeq E_{tot}
+$$
 
 **Rigidezze equivalenti e sensibilità**
 
 La ripartizione dipende dai rapporti di rigidezza, non dai soli interassi geometrici. Un elemento molto rigido attira più domanda, mentre un elemento flessibile tende a scaricare verso gli elementi vicini. Questo vale per travi, piastre equivalenti e modelli a graticcio.
 
-\[D_x \propto EI_x, \qquad D_y \propto EI_y, \qquad D_{xy} \propto GJ\]
+$$
+D_x \propto EI_x, \qquad D_y \propto EI_y, \qquad D_{xy} \propto GJ
+$$
 
 Una variazione del 20% nella rigidezza trasversale può modificare in modo significativo il coefficiente di ripartizione. Per questo l'articolo tecnico non deve limitarsi a presentare il risultato: deve spiegare quali parametri lo muovono.
 
 Esempio di confronto. Si consideri un effetto globale (E_{tot}=1000\,\mathrm{kNm}). Un primo modello fornisce coefficienti (0.20,0.35,0.35,0.10); un secondo modello, con maggiore rigidezza trasversale, fornisce (0.24,0.29,0.29,0.18). I due risultati sono entrambi equilibrati, ma raccontano impalcati diversi.
 
-\[E_{j}=\eta_j E_{tot}\]
+$$
+E_{j}=\eta_j E_{tot}
+$$
 
 Nel primo caso la domanda è concentrata sulle travi interne; nel secondo la distribuzione è più uniforme. La scelta progettuale deve leggere questa differenza, non solo copiare il massimo valore.
 
@@ -85,7 +101,9 @@ Tracciabilità delle combinazioni. Ogni valore dovrebbe conservare l'origine. Se
 
 Una forma pratica di archiviazione è associare a ogni effetto tre campi: valore, combinazione governante e posizione. Per gli inviluppi:
 
-\[E_{max}(x_j)=E_{d,k}(x_j) \quad con \quad k=k_{gov}(x_j)\]
+$$
+E_{max}(x_j)=E_{d,k}(x_j) \quad con \quad k=k_{gov}(x_j)
+$$
 
 Questa scrittura chiarisce che il massimo non è astratto: è prodotto da una combinazione precisa.
 
@@ -93,7 +111,9 @@ Controllo delle rigidezze. Quando si lavora con ripartizioni, sezioni composte o
 
 Per una sezione composta, ad esempio, una stessa azione può produrre tensioni diverse se applicata prima o dopo la maturazione della soletta. Il valore finale è la somma di contributi nati in tempi diversi:
 
-\[\sigma_{finale}=\sum_i \sigma_i(A_i,I_i,E_i,t_i)\]
+$$
+\sigma_{finale}=\sum_i \sigma_i(A_i,I_i,E_i,t_i)
+$$
 
 La notazione evidenzia che ogni contributo ha proprietà resistenti proprie.
 
@@ -101,21 +121,27 @@ Esempio di lettura critica. Si consideri un impalcato con quattro travi. Un mode
 
 Scrittura da riferimento tecnico. Il testo deve accompagnare il lettore dalla causa all'effetto: quale azione entra, come viene distribuita, quale proprietà resistente la trasforma in tensione o sollecitazione, quale limite viene controllato. Questa catena rende l'articolo consultabile anche a distanza di tempo.
 
-Il significato della ripartizione trasversale. La ripartizione trasversale dei carichi nasce da una domanda pratica: quanto del carico applicato su una corsia viene assorbito da ciascuna trave longitudinale? In un impalcato reale la risposta non e quella di travi isolate. Soletta, traversi, diaframmi e rigidezza torsionale trasferiscono parte dell'azione alle travi vicine. La quota assegnata a una trave puo essere espressa tramite un coefficiente di ripartizione \(\alpha_i\):
+Il significato della ripartizione trasversale. La ripartizione trasversale dei carichi nasce da una domanda pratica: quanto del carico applicato su una corsia viene assorbito da ciascuna trave longitudinale? In un impalcato reale la risposta non e quella di travi isolate. Soletta, traversi, diaframmi e rigidezza torsionale trasferiscono parte dell'azione alle travi vicine. La quota assegnata a una trave puo essere espressa tramite un coefficiente di ripartizione $\alpha_i$:
 
-\[Q_i=\alpha_i Q \qquad \sum_i \alpha_i \approx 1\]
+$$
+Q_i=\alpha_i Q \qquad \sum_i \alpha_i \approx 1
+$$
 
-La difficolta e stimare \(\alpha_i\) in modo coerente con geometria, rigidezze e posizione del carico. Nei ponti a piu travi, una stima troppo semplificata puo sovraccaricare o sottovalutare le travi di bordo, soprattutto quando la carreggiata consente eccentricita elevate del carico mobile.
+La difficolta e stimare $\alpha_i$ in modo coerente con geometria, rigidezze e posizione del carico. Nei ponti a piu travi, una stima troppo semplificata puo sovraccaricare o sottovalutare le travi di bordo, soprattutto quando la carreggiata consente eccentricita elevate del carico mobile.
 
 Un modello a graticcio rappresenta le travi longitudinali e gli elementi trasversali come aste, con rigidezze flessionali e torsionali equivalenti. La soletta non viene descritta punto per punto, ma trasferisce rigidezza tramite elementi trasversali. La scelta delle rigidezze equivalenti e il punto sensibile: se i traversi sono troppo rigidi, il modello distribuisce eccessivamente; se sono troppo deformabili, il carico resta confinato nella trave caricata.
 
-Rigidezza relativa e posizione del carico. Per capire la ripartizione e utile ragionare in termini di rigidezza relativa. Se \(k_i\) e la rigidezza verticale equivalente della trave \(i\), una prima approssimazione elastica puo essere:
+Rigidezza relativa e posizione del carico. Per capire la ripartizione e utile ragionare in termini di rigidezza relativa. Se $k_i$ e la rigidezza verticale equivalente della trave $i$, una prima approssimazione elastica puo essere:
 
-\[\alpha_i \simeq \frac{k_i}{\sum_j k_j}\]
+$$
+\alpha_i \simeq \frac{k_i}{\sum_j k_j}
+$$
 
-Questa formula e solo orientativa, perche ignora l'eccentricita del carico e la torsione dell'impalcato, ma chiarisce un punto: la ripartizione non e una percentuale geometrica, e una conseguenza della compatibilita degli spostamenti. Quando il carico e eccentrico, alla ripartizione verticale si somma un effetto torsionale. Per una risultante \(Q\) applicata con eccentricita \(e_q\), il momento torcente globale e:
+Questa formula e solo orientativa, perche ignora l'eccentricita del carico e la torsione dell'impalcato, ma chiarisce un punto: la ripartizione non e una percentuale geometrica, e una conseguenza della compatibilita degli spostamenti. Quando il carico e eccentrico, alla ripartizione verticale si somma un effetto torsionale. Per una risultante $Q$ applicata con eccentricita $e_q$, il momento torcente globale e:
 
-\[T = Q e_q\]
+$$
+T = Q e_q
+$$
 
 Le travi di bordo diventano allora decisive. Un controllo tecnico dovrebbe confrontare almeno tre scenari: carico centrato, carico eccentrico verso un bordo, carico distribuito su piu corsie. Quando si parla di carichi da traffico sui ponti, la citazione normativa corretta include D.M. 17 gennaio 2018, Capitolo 5, e UNI EN 1991-2:2005.
 

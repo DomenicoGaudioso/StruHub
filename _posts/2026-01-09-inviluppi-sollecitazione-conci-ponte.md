@@ -12,19 +12,27 @@ meta: "Quaderno tecnico · 1320 parole circa"
 
 Per ogni concio servono massimi e minimi delle sollecitazioni derivanti dalle combinazioni.
 
-\[E_d=sum_i gamma_ipsi_iE_i\]
+$$
+E_d=sum_i gamma_ipsi_iE_i
+$$
 
-\[E_{max}(x_j)=max_k E_{d,k}(x_j), qquad E_{min}(x_j)=min_k E_{d,k}(x_j)\]
+$$
+E_{max}(x_j)=max_k E_{d,k}(x_j), qquad E_{min}(x_j)=min_k E_{d,k}(x_j)
+$$
 
 Esempio.
 
 Momenti (820), (940), (760,mathrm{kNm}) danno:
 
-\[M_{max}=940,mathrm{kNm}\]
+$$
+M_{max}=940,mathrm{kNm}
+$$
 
 Minimi (-210), (-330), (-180,mathrm{kNm}) danno:
 
-\[M_{min}=-330,mathrm{kNm}\]
+$$
+M_{min}=-330,mathrm{kNm}
+$$
 
 Riferimenti tecnici utilizzati:
 
@@ -47,31 +55,39 @@ La combinazione che governa un concio può non governare quello vicino. Per ques
 
 Oltre al valore massimo, conviene memorizzare l'indice della combinazione:
 
-\[k_{max}(x_j)=\arg\max_k E_{d,k}(x_j)\]
+$$
+k_{max}(x_j)=\arg\max_k E_{d,k}(x_j)
+$$
 
 Questa informazione serve quando si passa dalla verifica numerica alla relazione di calcolo: permette di spiegare perché una sezione è governata da traffico, temperatura o fase costruttiva.
 
 **Inviluppi coerenti per verifiche composte**
 
-Per verifiche con interazione, ad esempio \(N-M\), può essere necessario usare set concomitanti e non solo massimi indipendenti. La coppia \((N,M)\) va letta dalla stessa combinazione quando entra in un dominio resistente.
+Per verifiche con interazione, ad esempio $N-M$, può essere necessario usare set concomitanti e non solo massimi indipendenti. La coppia $(N,M)$ va letta dalla stessa combinazione quando entra in un dominio resistente.
 
 Nel tema di la costruzione degli inviluppi, il punto non è ottenere un coefficiente isolato, ma costruire una catena coerente tra modello globale e verifica locale. Il carico applicato al conci di ponte attraversa una gerarchia resistente: soletta, traversi, travi principali, appoggi e infine sottostrutture.
 
 Il primo controllo è l'equilibrio. Se gli effetti ripartiti non ricostruiscono l'azione globale, il modello non è accettabile. Il secondo controllo è la compatibilità: gli elementi connessi non possono deformarsi come sistemi indipendenti se la soletta o i collegamenti impongono continuità.
 
-\[\sum_j E_j \simeq E_{tot}\]
+$$
+\sum_j E_j \simeq E_{tot}
+$$
 
 **Rigidezze equivalenti e sensibilità**
 
 La ripartizione dipende dai rapporti di rigidezza, non dai soli interassi geometrici. Un elemento molto rigido attira più domanda, mentre un elemento flessibile tende a scaricare verso gli elementi vicini. Questo vale per travi, piastre equivalenti e modelli a graticcio.
 
-\[D_x \propto EI_x, \qquad D_y \propto EI_y, \qquad D_{xy} \propto GJ\]
+$$
+D_x \propto EI_x, \qquad D_y \propto EI_y, \qquad D_{xy} \propto GJ
+$$
 
 Una variazione del 20% nella rigidezza trasversale può modificare in modo significativo il coefficiente di ripartizione. Per questo l'articolo tecnico non deve limitarsi a presentare il risultato: deve spiegare quali parametri lo muovono.
 
 Esempio di confronto. Si consideri un effetto globale (E_{tot}=1000\,\mathrm{kNm}). Un primo modello fornisce coefficienti (0.20,0.35,0.35,0.10); un secondo modello, con maggiore rigidezza trasversale, fornisce (0.24,0.29,0.29,0.18). I due risultati sono entrambi equilibrati, ma raccontano impalcati diversi.
 
-\[E_{j}=\eta_j E_{tot}\]
+$$
+E_{j}=\eta_j E_{tot}
+$$
 
 Nel primo caso la domanda è concentrata sulle travi interne; nel secondo la distribuzione è più uniforme. La scelta progettuale deve leggere questa differenza, non solo copiare il massimo valore.
 
@@ -89,7 +105,9 @@ Tracciabilità delle combinazioni. Ogni valore dovrebbe conservare l'origine. Se
 
 Una forma pratica di archiviazione è associare a ogni effetto tre campi: valore, combinazione governante e posizione. Per gli inviluppi:
 
-\[E_{max}(x_j)=E_{d,k}(x_j) \quad con \quad k=k_{gov}(x_j)\]
+$$
+E_{max}(x_j)=E_{d,k}(x_j) \quad con \quad k=k_{gov}(x_j)
+$$
 
 Questa scrittura chiarisce che il massimo non è astratto: è prodotto da una combinazione precisa.
 
@@ -97,7 +115,9 @@ Controllo delle rigidezze. Quando si lavora con ripartizioni, sezioni composte o
 
 Per una sezione composta, ad esempio, una stessa azione può produrre tensioni diverse se applicata prima o dopo la maturazione della soletta. Il valore finale è la somma di contributi nati in tempi diversi:
 
-\[\sigma_{finale}=\sum_i \sigma_i(A_i,I_i,E_i,t_i)\]
+$$
+\sigma_{finale}=\sum_i \sigma_i(A_i,I_i,E_i,t_i)
+$$
 
 La notazione evidenzia che ogni contributo ha proprietà resistenti proprie.
 
@@ -105,21 +125,27 @@ Esempio di lettura critica. Si consideri un impalcato con quattro travi. Un mode
 
 Scrittura da riferimento tecnico. Il testo deve accompagnare il lettore dalla causa all'effetto: quale azione entra, come viene distribuita, quale proprietà resistente la trasforma in tensione o sollecitazione, quale limite viene controllato. Questa catena rende l'articolo consultabile anche a distanza di tempo.
 
-Inviluppo come oggetto di progetto. L'inviluppo di sollecitazione per conci da ponte non e una figura accessoria: e l'oggetto che collega analisi globale, verifica locale e dettagli costruttivi. Ogni concio vede combinazioni diverse di momento, taglio, torsione, normale, effetti da precompressione, fasi costruttive e carichi mobili. Per una grandezza generica \(S(x)\), l'inviluppo massimo e minimo possono essere scritti come:
+Inviluppo come oggetto di progetto. L'inviluppo di sollecitazione per conci da ponte non e una figura accessoria: e l'oggetto che collega analisi globale, verifica locale e dettagli costruttivi. Ogni concio vede combinazioni diverse di momento, taglio, torsione, normale, effetti da precompressione, fasi costruttive e carichi mobili. Per una grandezza generica $S(x)$, l'inviluppo massimo e minimo possono essere scritti come:
 
-\[S_{max}(x)=\max_k S_k(x) \qquad S_{min}(x)=\min_k S_k(x)\]
+$$
+S_{max}(x)=\max_k S_k(x) \qquad S_{min}(x)=\min_k S_k(x)
+$$
 
-dove \(k\) indica configurazioni di carico, fasi o combinazioni. La formula sembra banale, ma nella pratica contiene due scelte decisive: quali configurazioni sono incluse e quale stato limite si sta considerando. Un inviluppo SLE non ha lo stesso significato di un inviluppo SLU; una fase provvisoria non va confusa con la configurazione finale.
+dove $k$ indica configurazioni di carico, fasi o combinazioni. La formula sembra banale, ma nella pratica contiene due scelte decisive: quali configurazioni sono incluse e quale stato limite si sta considerando. Un inviluppo SLE non ha lo stesso significato di un inviluppo SLU; una fase provvisoria non va confusa con la configurazione finale.
 
 Nei ponti a conci, la posizione della sezione rispetto agli appoggi e alla campata modifica il ruolo delle azioni. In mezzeria domina spesso il momento positivo; vicino agli appoggi continui cresce il momento negativo; nelle zone di deviazione o ancoraggio diventano importanti taglio, torsione e tensioni locali.
 
-Combinazioni e contemporaneita. Un inviluppo scalare non conserva sempre la contemporaneita delle azioni. Se si verifica una sezione pressoinflessa, la coppia \(N,M\) deve essere letta insieme. Se si verifica taglio e torsione, anche \(V,T\) possono dover restare associati. Un modo piu robusto consiste nel salvare, oltre al massimo di \(M\), anche le azioni concomitanti:
+Combinazioni e contemporaneita. Un inviluppo scalare non conserva sempre la contemporaneita delle azioni. Se si verifica una sezione pressoinflessa, la coppia $N,M$ deve essere letta insieme. Se si verifica taglio e torsione, anche $V,T$ possono dover restare associati. Un modo piu robusto consiste nel salvare, oltre al massimo di $M$, anche le azioni concomitanti:
 
-\[\{N,V,T\}_{M=max}=\{N(t_k),V(t_k),T(t_k)\}\]
+$$
+\{N,V,T\}_{M=max}=\{N(t_k),V(t_k),T(t_k)\}
+$$
 
-Nel caso dei carichi mobili, l'inviluppo richiede lo scorrimento del convoglio o del modello di carico lungo l'impalcato. La linea di influenza \(I_S(\xi)\) consente di esprimere la sollecitazione come:
+Nel caso dei carichi mobili, l'inviluppo richiede lo scorrimento del convoglio o del modello di carico lungo l'impalcato. La linea di influenza $I_S(\xi)$ consente di esprimere la sollecitazione come:
 
-\[S(x)=\sum_j P_j I_S(\xi_j)\]
+$$
+S(x)=\sum_j P_j I_S(\xi_j)
+$$
 
 Questa relazione e fondamentale per capire perche il massimo in una sezione non corrisponde sempre al carico "piu vicino" alla sezione. La forma della linea di influenza governa la posizione sfavorevole. Quando si citano inviluppi da traffico su ponti, i riferimenti principali sono D.M. 17 gennaio 2018, Capitolo 5, UNI EN 1990:2006 e UNI EN 1991-2:2005.
 

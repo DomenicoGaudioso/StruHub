@@ -16,17 +16,29 @@ Quando un treno attraversa un ponte, il sistema non è statico, il carico si muo
 
 **Formule di riferimento**
 
-\[\n\nm \frac{\partial^2 w(x,t)}{\partial t^2} + c \frac{\partial w(x,t)}{\partial t} + EI \frac{\partial^4 w(x,t)}{\partial x^4} = P \cdot \delta(x - vt)\n\n\]
+$$
+\n\nm \frac{\partial^2 w(x,t)}{\partial t^2} + c \frac{\partial w(x,t)}{\partial t} + EI \frac{\partial^4 w(x,t)}{\partial x^4} = P \cdot \delta(x - vt)\n\n
+$$
 
-\[f_1 = \frac{\pi^2}{2 L^2} \sqrt{\frac{EI}{m}}\]
+$$
+f_1 = \frac{\pi^2}{2 L^2} \sqrt{\frac{EI}{m}}
+$$
 
-\[v_c = f_1 \cdot s\]
+$$
+v_c = f_1 \cdot s
+$$
 
-\[\Phi = 1 + \frac{\alpha v}{\beta + v}\]
+$$
+\Phi = 1 + \frac{\alpha v}{\beta + v}
+$$
 
-\[\Phi = \frac{1}{\sqrt{\left(1 - \left(\frac{v}{v_c}\right)^2\right)^2 + \left(2 \zeta \frac{v}{v_c}\right)^2}}\]
+$$
+\Phi = \frac{1}{\sqrt{\left(1 - \left(\frac{v}{v_c}\right)^2\right)^2 + \left(2 \zeta \frac{v}{v_c}\right)^2}}
+$$
 
-\[f_{\text{eccitazione}} = \frac{v}{s}\]
+$$
+f_{\text{eccitazione}} = \frac{v}{s}
+$$
 
 Modello teorico: trave semplicemente appoggiata
 

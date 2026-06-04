@@ -12,11 +12,15 @@ meta: "Quaderno tecnico · 1331 parole circa"
 
 La capacità assiale ultima è la somma dei contributi di punta e laterale:
 
-\[Q_{ult}=Q_b+Q_s\]
+$$
+Q_{ult}=Q_b+Q_s
+$$
 
 Tensioni efficaci.
 
-\[sigma'_v=sigma_v-u, qquad gamma'=gamma_{sat}-gamma_w\]
+$$
+sigma'_v=sigma_v-u, qquad gamma'=gamma_{sat}-gamma_w
+$$
 
 Contributi resistenti.
 
@@ -24,13 +28,19 @@ In terreno granulare: (Q_b=N_qsigma'_v(L)A_b). In terreno coesivo: (Q_b=N_cc_uA_
 
 Per il fusto:
 
-\[q_s=etasigma'_v(z) quad oppure quad q_s=alpha c_u\]
+$$
+q_s=etasigma'_v(z) quad oppure quad q_s=alpha c_u
+$$
 
-\[Q_s=int_0^L q_s(z)p,dz\]
+$$
+Q_s=int_0^L q_s(z)p,dz
+$$
 
 Esempio. Con (Q_b=850,mathrm{kN}), (Q_s=620,mathrm{kN}):
 
-\[Q_{ult}=1470,mathrm{kN}\]
+$$
+Q_{ult}=1470,mathrm{kN}
+$$
 
 Con (gamma=2.5): (Q_{amm}=588,mathrm{kN}).
 
@@ -46,21 +56,27 @@ StruHub mantiene separati punta, fusto e stratigrafia per evitare che la capacit
 
 Attrito laterale come integrale, non come valore medio. In una stratigrafia reale, usare un unico valore medio di attrito laterale può nascondere il contributo degli strati. La forma corretta è un'integrazione per tratti:
 
-\[Q_s=\sum_i q_{s,i} p L_i\]
+$$
+Q_s=\sum_i q_{s,i} p L_i
+$$
 
-dove \(p\) è il perimetro del palo e \(L_i\) lo spessore attraversato nello strato.
+dove $p$ è il perimetro del palo e $L_i$ lo spessore attraversato nello strato.
 
 **Falda e punta**
 
-La tensione efficace alla punta \(\sigma'_v(L)\) può cambiare sensibilmente con la quota di falda. In terreni granulari, questo modifica direttamente:
+La tensione efficace alla punta $\sigma'_v(L)$ può cambiare sensibilmente con la quota di falda. In terreni granulari, questo modifica direttamente:
 
-\[Q_b=N_q\sigma'_v(L)A_b\]
+$$
+Q_b=N_q\sigma'_v(L)A_b
+$$
 
 La stessa geometria di palo può quindi avere capacità diverse solo per effetto idraulico.
 
-Domanda e capacità. La verifica non dovrebbe limitarsi a \(Q_{Ed}\le Q_{Rd}\). è utile leggere il rapporto:
+Domanda e capacità. La verifica non dovrebbe limitarsi a $Q_{Ed}\le Q_{Rd}$. è utile leggere il rapporto:
 
-\[\eta=\frac{Q_{Ed}}{Q_{Rd}}\]
+$$
+\eta=\frac{Q_{Ed}}{Q_{Rd}}
+$$
 
 per confrontare alternative di diametro, lunghezza e stratigrafia.
 
@@ -70,15 +86,21 @@ Nel tema di la capacita assiale del palo, il dato geotecnico non è un parametro
 
 La tensione efficace è la grandezza che rende leggibile la risposta del terreno:
 
-\[\sigma'_v(z)=\sigma_v(z)-u(z)\]
+$$
+\sigma'_v(z)=\sigma_v(z)-u(z)
+$$
 
-\[\gamma'=\gamma_{sat}-\gamma_w\]
+$$
+\gamma'=\gamma_{sat}-\gamma_w
+$$
 
 Quando la falda cambia quota, non cambia solo un valore idraulico: cambiano resistenze, spinte, rigidezze e talvolta il meccanismo critico. Per questo ogni calcolo geotecnico deve mostrare come si costruisce (\sigma'_v(z)).
 
 Domanda, capacità e margine. La forma finale della verifica dovrebbe essere un rapporto domanda-capacità:
 
-\[\eta=\frac{E_d}{R_d}\]
+$$
+\eta=\frac{E_d}{R_d}
+$$
 
 **ma il rapporto va accompagnato dalla scomposizione dei contributi**
 
@@ -88,11 +110,17 @@ Nel caso di palo singolo, il valore massimo o minimo non è sufficiente: servono
 
 Si consideri uno strato superficiale di 3 m con (\gamma=18\,\mathrm{kN/m^3}), seguito da uno strato saturo con (\gamma_{sat}=20\,\mathrm{kN/m^3}). Con falda a 3 m, a 6 m di profondità:
 
-\[\sigma_v=18\cdot3+20\cdot3=114\,\mathrm{kPa}\]
+$$
+\sigma_v=18\cdot3+20\cdot3=114\,\mathrm{kPa}
+$$
 
-\[u=9.81\cdot3=29.4\,\mathrm{kPa}\]
+$$
+u=9.81\cdot3=29.4\,\mathrm{kPa}
+$$
 
-\[\sigma'_v=84.6\,\mathrm{kPa}\]
+$$
+\sigma'_v=84.6\,\mathrm{kPa}
+$$
 
 Questo valore entra poi nelle formule di capacità, spinta o rigidezza. Se la falda fosse più alta, il risultato cambierebbe in modo diretto.
 
@@ -106,7 +134,9 @@ Un profilo minimo dovrebbe riportare quota superiore e inferiore, peso di volume
 
 Tensioni efficaci come filo conduttore. Molte grandezze geotecniche dipendono dalla tensione efficace. Per questo è utile costruire esplicitamente il diagramma:
 
-\[\sigma'_v(z)=\sigma_v(z)-u(z)\]
+$$
+\sigma'_v(z)=\sigma_v(z)-u(z)
+$$
 
 e non limitarsi a un valore alla quota di interesse. Nel caso dei pali, la tensione efficace alla punta influenza (Q_b), mentre quella lungo il fusto influenza (Q_s). Nel caso delle opere di sostegno, la tensione efficace entra nella spinta del terreno.
 
@@ -114,7 +144,9 @@ Domanda, capacità e deformabilità. Un calcolo geotecnico completo dovrebbe dis
 
 Il rapporto domanda-capacità è utile:
 
-\[\eta=\frac{E_d}{R_d}\]
+$$
+\eta=\frac{E_d}{R_d}
+$$
 
 ma deve essere affiancato alla grandezza deformativa, ad esempio spostamento, rotazione o cedimento.
 
@@ -124,35 +156,45 @@ Scrittura da riferimento tecnico. Un articolo geotecnico solido deve sempre most
 
 Resistenza di punta e resistenza laterale. La capacita portante assiale di un palo singolo deriva dalla somma di due meccanismi: resistenza alla punta e resistenza laterale lungo il fusto. In forma generale:
 
-\[R_{ult}=R_b+R_s=A_b q_b + \int_0^L f_s(z) p(z)\\,dz\]
+$$
+R_{ult}=R_b+R_s=A_b q_b + \int_0^L f_s(z) p(z)\\,dz
+$$
 
-dove \(A_b\) e l'area di base, \(q_b\) la pressione limite alla punta, \(f_s(z)\) la tensione tangenziale mobilitabile lungo il fusto e \(p(z)\) il perimetro. Questa formula e utile perche mostra che il palo non e un puntone rigido nel terreno: mobilita resistenza progressivamente, con contributi che dipendono da stratigrafia, tecnologia esecutiva, lunghezza e diametro.
+dove $A_b$ e l'area di base, $q_b$ la pressione limite alla punta, $f_s(z)$ la tensione tangenziale mobilitabile lungo il fusto e $p(z)$ il perimetro. Questa formula e utile perche mostra che il palo non e un puntone rigido nel terreno: mobilita resistenza progressivamente, con contributi che dipendono da stratigrafia, tecnologia esecutiva, lunghezza e diametro.
 
 Nei terreni granulari, la resistenza laterale puo essere espressa in termini efficaci come:
 
-\[f_s=K \sigma'_v \tan\delta\]
+$$
+f_s=K \sigma'_v \tan\delta
+$$
 
-dove \(K\) e un coefficiente di pressione laterale e \(\delta\) l'angolo di attrito palo-terreno. Nei terreni coesivi in condizioni non drenate, una forma semplificata e:
+dove $K$ e un coefficiente di pressione laterale e $\delta$ l'angolo di attrito palo-terreno. Nei terreni coesivi in condizioni non drenate, una forma semplificata e:
 
-\[f_s=\alpha c_u\]
+$$
+f_s=\alpha c_u
+$$
 
 La scelta tra modelli drenati e non drenati non e formale: dipende dal terreno, dal tempo di applicazione del carico e dalle condizioni idrauliche.
 
 Valore caratteristico e valore di progetto. Il passaggio da resistenza ultima a resistenza di progetto richiede l'applicazione dei coefficienti parziali e delle prescrizioni geotecniche. In forma sintetica:
 
-\[R_d=\frac{R_k}{\gamma_R}\]
+$$
+R_d=\frac{R_k}{\gamma_R}
+$$
 
-Il valore caratteristico \(R_k\) puo derivare da correlazioni geotecniche, prove in sito, prove di carico o combinazioni di queste informazioni. Una relazione tecnica robusta deve indicare la provenienza dei parametri: \(c_u\), \(\phi'\), \(\gamma'\), \(N_{SPT}\), \(q_c\), livello di falda e stratigrafia. Senza questa tracciabilita, il numero finale ha poca forza ingegneristica.
+Il valore caratteristico $R_k$ puo derivare da correlazioni geotecniche, prove in sito, prove di carico o combinazioni di queste informazioni. Una relazione tecnica robusta deve indicare la provenienza dei parametri: $c_u$, $\phi'$, $\gamma'$, $N_{SPT}$, $q_c$, livello di falda e stratigrafia. Senza questa tracciabilita, il numero finale ha poca forza ingegneristica.
 
-Un esempio: un palo con \(A_b=0.50\,\mathrm{m^2}\), \(q_b=2500\,\mathrm{kPa}\), perimetro \(p=2.5\,\mathrm{m}\), lunghezza utile \(L=18\,\mathrm{m}\) e \(f_s=45\,\mathrm{kPa}\) ha \(R_b=1250\,\mathrm{kN}\) e \(R_s=2025\,\mathrm{kN}\), quindi \(R_{ult}=3275\,\mathrm{kN}\). Il progetto non usa direttamente questo valore: lo trasforma secondo il quadro normativo e il livello di conoscenza. I riferimenti da citare sono D.M. 17 gennaio 2018, Capitolo 6, Circolare C.S.LL.PP. 21 gennaio 2019 n. 7 e UNI EN 1997-1:2013.
+Un esempio: un palo con $A_b=0.50\,\mathrm{m^2}$, $q_b=2500\,\mathrm{kPa}$, perimetro $p=2.5\,\mathrm{m}$, lunghezza utile $L=18\,\mathrm{m}$ e $f_s=45\,\mathrm{kPa}$ ha $R_b=1250\,\mathrm{kN}$ e $R_s=2025\,\mathrm{kN}$, quindi $R_{ult}=3275\,\mathrm{kN}$. Il progetto non usa direttamente questo valore: lo trasforma secondo il quadro normativo e il livello di conoscenza. I riferimenti da citare sono D.M. 17 gennaio 2018, Capitolo 6, Circolare C.S.LL.PP. 21 gennaio 2019 n. 7 e UNI EN 1997-1:2013.
 
-Controllo dimensionale. Un riferimento tecnico deve permettere al lettore di controllare gli ordini di grandezza. Ogni risultato numerico dovrebbe essere accompagnato da un controllo dimensionale, da una interpretazione fisica e da una indicazione del parametro dominante. Se una formula restituisce un valore in \(\mathrm{kN}\), \(\mathrm{kNm}\), \(\mathrm{kPa}\) o \(\mathrm{mm}\), l'unita deve essere esplicita e coerente con le grandezze inserite.
+Controllo dimensionale. Un riferimento tecnico deve permettere al lettore di controllare gli ordini di grandezza. Ogni risultato numerico dovrebbe essere accompagnato da un controllo dimensionale, da una interpretazione fisica e da una indicazione del parametro dominante. Se una formula restituisce un valore in $\mathrm{kN}$, $\mathrm{kNm}$, $\mathrm{kPa}$ o $\mathrm{mm}$, l'unita deve essere esplicita e coerente con le grandezze inserite.
 
 La forma generale di una verifica puo essere letta come:
 
-\[\eta=\frac{E_d}{R_d} \le 1\]
+$$
+\eta=\frac{E_d}{R_d} \le 1
+$$
 
-dove \(E_d\) e l'effetto dell'azione di progetto e \(R_d\) la resistenza di progetto. Questa scrittura, comune a molti problemi strutturali e geotecnici, aiuta a separare domanda, capacita e margine.
+dove $E_d$ e l'effetto dell'azione di progetto e $R_d$ la resistenza di progetto. Questa scrittura, comune a molti problemi strutturali e geotecnici, aiuta a separare domanda, capacita e margine.
 
 Dal calcolo alla decisione. Il valore finale non basta. Bisogna chiedersi da quale ipotesi dipende, quanto e sensibile ai parametri e quale meccanismo fisico rappresenta. Un margine ottenuto con parametri poco tracciabili ha meno valore di un margine piu modesto ma ben documentato. Per questo, quando si cita una norma o un criterio di combinazione, il riferimento deve essere scritto in modo esplicito e verificabile.
 

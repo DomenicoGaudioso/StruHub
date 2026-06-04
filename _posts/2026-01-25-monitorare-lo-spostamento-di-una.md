@@ -12,33 +12,61 @@ meta: "Archivio StruHub · 433 parole circa"
 
 **Formule di riferimento**
 
-\[f(x) = c_0 + c_1 x + c_2 x^2 + \dots + c_n x^n\]
+$$
+f(x) = c_0 + c_1 x + c_2 x^2 + \dots + c_n x^n
+$$
 
-\[f(x) = c_0 + c_1x + c_2x^2 + c_3x^3 + c_4x^4 + c_5x^5\]
+$$
+f(x) = c_0 + c_1x + c_2x^2 + c_3x^3 + c_4x^4 + c_5x^5
+$$
 
-\[\theta(x) = f'(x)\]
+$$
+\theta(x) = f'(x)
+$$
 
-\[f(x) = c_0 + c_1x + c_2x^2 + c_3x^3 + c_4x^4 + c_5x^5 + c_6x^6\]
+$$
+f(x) = c_0 + c_1x + c_2x^2 + c_3x^3 + c_4x^4 + c_5x^5 + c_6x^6
+$$
 
-\[f\]
+$$
+f
+$$
 
-\[(1)\quad f(0) = c_0 = 0\n\]
+$$
+(1)\quad f(0) = c_0 = 0\n
+$$
 
-\[(2)\quad f(L) = c_0 + c_1 L + c_2 L^2 + c_3 L^3 + c_4 L^4 + c_5 L^5 + c_6 L^6 = 0\n\]
+$$
+(2)\quad f(L) = c_0 + c_1 L + c_2 L^2 + c_3 L^3 + c_4 L^4 + c_5 L^5 + c_6 L^6 = 0\n
+$$
 
-\[(3)\quad f\]
+$$
+(3)\quad f
+$$
 
-\[(4)\quad f\]
+$$
+(4)\quad f
+$$
 
-\[(5)\quad f\]
+$$
+(5)\quad f
+$$
 
-\[(6)\quad f\]
+$$
+(6)\quad f
+$$
 
-\[(7)\quad f\]
+$$
+(7)\quad f
+$$
 
-\[c_1 = \theta_1\]
+$$
+c_1 = \theta_1
+$$
 
-\[f(x) =-\frac{w \cdot x}{{24 \cdot E \cdot I}} \left( L^3 - 6Lx^2 + 4x^3 \right)\]
+$$
+f(x) =-\frac{w \cdot x}{{24 \cdot E \cdot I}} \left( L^3 - 6Lx^2 + 4x^3 \right)
+$$
 
 **Impostazione tecnica**
 

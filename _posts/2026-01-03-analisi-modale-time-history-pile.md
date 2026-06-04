@@ -12,25 +12,35 @@ meta: "Quaderno tecnico · 1514 parole circa"
 
 Quando la massa e la rigidezza non sono concentrabili in un solo punto, il modello FEM consente di leggere la risposta lungo l'altezza.
 
-\[Mddot{u}+Cdot{u}+Ku=F(t)\]
+$$
+Mddot{u}+Cdot{u}+Ku=F(t)
+$$
 
 Modi propri.
 
-\[Kphi_n=omega_n^2Mphi_n\]
+$$
+Kphi_n=omega_n^2Mphi_n
+$$
 
 Il fattore di partecipazione modale può essere scritto come:
 
-\[Gamma_n=\frac{phi_n^TMr}{phi_n^TMphi_n}\]
+$$
+Gamma_n=\frac{phi_n^TMr}{phi_n^TMphi_n}
+$$
 
 Spettro e time-history.
 
 Con spettro di risposta si combinano effetti modali, ad esempio con SRSS:
 
-\[E=sqrt{sum_n E_n^2}\]
+$$
+E=sqrt{sum_n E_n^2}
+$$
 
 Con accelerogrammi si integra nel tempo e si estraggono inviluppi:
 
-\[M_{env}(z)=max_t M(z,t)\]
+$$
+M_{env}(z)=max_t M(z,t)
+$$
 
 Esempio. Se il primo modo ha massa partecipante 82%, governa la risposta globale; i modi successivi possono comunque influire su taglio e momento locali.
 
@@ -47,7 +57,9 @@ Il punto non è produrre più grafici, ma collegare modi, masse partecipanti e i
 
 In un modello FEM di pila non basta estrarre un numero arbitrario di modi. Occorre controllare la massa partecipante cumulata:
 
-\[M_{part,cum}=\sum_{n=1}^{N}M_{part,n}\]
+$$
+M_{part,cum}=\sum_{n=1}^{N}M_{part,n}
+$$
 
 Se il primo modo partecipa molto nella direzione trasversale, governa lo spostamento globale; i modi superiori possono però modificare il taglio, perché introducono curvature locali più marcate.
 
@@ -59,7 +71,9 @@ Per una pila a mensola, il primo modo deve mostrare una deformata flessionale mo
 
 Per trasformare l’analisi modale e time-history della pila in un riferimento tecnico è utile separare tre livelli: il modello fisico, il modello numerico e la lettura dei risultati. Il modello fisico identifica masse, rigidezze, smorzamento e azioni. Il modello numerico stabilisce come queste grandezze entrano nell'equazione del moto. La lettura dei risultati decide quali effetti sono davvero utili al progetto.
 
-\[M\ddot{u}(t)+C\dot{u}(t)+Ku(t)=F(t)\]
+$$
+M\ddot{u}(t)+C\dot{u}(t)+Ku(t)=F(t)
+$$
 
 Nel caso di modello FEM di pila, la matrice di massa non è un dettaglio secondario. Una massa assegnata al nodo sbagliato modifica frequenze proprie e partecipazione modale; una rigidezza non coerente con la sezione resistente sposta il periodo e altera la domanda dinamica. Prima di discutere il risultato, il modello deve produrre modi plausibili.
 
@@ -67,9 +81,13 @@ Nel caso di modello FEM di pila, la matrice di massa non è un dettaglio seconda
 
 Il problema agli autovalori consente di estrarre frequenze e deformate. La forma modale non è solo un disegno: indica quali parti della struttura partecipano a un certo tipo di moto. Se la deformata è locale, il modo può essere poco rilevante per la risposta globale ma importante per una sollecitazione locale.
 
-\[K\phi_n=\omega_n^2M\phi_n\]
+$$
+K\phi_n=\omega_n^2M\phi_n
+$$
 
-\[T_n=\frac{2\pi}{\omega_n}\]
+$$
+T_n=\frac{2\pi}{\omega_n}
+$$
 
 La massa partecipante permette di passare da una lista di frequenze a una gerarchia ingegneristica. Un modo con alta partecipazione nella direzione dell'azione è un modo che può governare spostamenti e tagli globali. Modi con partecipazione inferiore possono comunque influenzare accelerazioni o curvature.
 
@@ -88,7 +106,9 @@ Una procedura robusta per l’analisi modale e time-history della pila parte da 
 
 Supponiamo che il primo controllo restituisca un periodo teorico di (0.55\,\mathrm{s}) e il modello FEM un periodo di (0.92\,\mathrm{s}). La differenza relativa è:
 
-\[\Delta_T=\frac{0.92-0.55}{0.55}=0.67\]
+$$
+\Delta_T=\frac{0.92-0.55}{0.55}=0.67
+$$
 
 Uno scarto del 67% non va ignorato. Può derivare da vincoli troppo flessibili, massa eccessiva, inerzia ridotta o unità non coerenti. Questo tipo di controllo è ciò che distingue un calcolo numerico da un uso passivo del software.
 
@@ -108,7 +128,9 @@ La grandezza di progetto non è sempre il massimo assoluto. Nelle verifiche acco
 
 Esempio di controllo incrociato. Supponiamo che un modello dinamico restituisca un taglio massimo alla base pari a (2.80\,\mathrm{MN}), mentre il controllo statico equivalente fornisce (2.35\,\mathrm{MN}). Il rapporto è:
 
-\[r_V=\frac{2.80}{2.35}=1.19\]
+$$
+r_V=\frac{2.80}{2.35}=1.19
+$$
 
 Il dato indica una amplificazione del 19%. Questo non significa automaticamente che il modello dinamico sia più corretto, ma segnala che l'effetto dinamico non è trascurabile. A questo punto il tecnico deve controllare se la velocità, il contenuto in frequenza o il segnale sismico sono coerenti con la condizione più gravosa.
 
@@ -116,13 +138,15 @@ Se invece il rapporto fosse inferiore a 1, non si dovrebbe concludere in modo au
 
 Come trasformare il risultato in testo tecnico. Un post di riferimento deve chiudere il cerchio: non basta presentare formule e grafici. Bisogna spiegare quale grandezza governa, quale ipotesi è più sensibile e quale controllo manuale consente di validare il risultato. Questa impostazione rende il contenuto utile anche a chi non usa lo stesso software, perché il metodo rimane trasferibile.
 
-Controllo dimensionale. Un riferimento tecnico deve permettere al lettore di controllare gli ordini di grandezza. Ogni risultato numerico dovrebbe essere accompagnato da un controllo dimensionale, da una interpretazione fisica e da una indicazione del parametro dominante. Se una formula restituisce un valore in \(\mathrm{kN}\), \(\mathrm{kNm}\), \(\mathrm{kPa}\) o \(\mathrm{mm}\), l'unita deve essere esplicita e coerente con le grandezze inserite.
+Controllo dimensionale. Un riferimento tecnico deve permettere al lettore di controllare gli ordini di grandezza. Ogni risultato numerico dovrebbe essere accompagnato da un controllo dimensionale, da una interpretazione fisica e da una indicazione del parametro dominante. Se una formula restituisce un valore in $\mathrm{kN}$, $\mathrm{kNm}$, $\mathrm{kPa}$ o $\mathrm{mm}$, l'unita deve essere esplicita e coerente con le grandezze inserite.
 
 La forma generale di una verifica puo essere letta come:
 
-\[\eta=\frac{E_d}{R_d} \le 1\]
+$$
+\eta=\frac{E_d}{R_d} \le 1
+$$
 
-dove \(E_d\) e l'effetto dell'azione di progetto e \(R_d\) la resistenza di progetto. Questa scrittura, comune a molti problemi strutturali e geotecnici, aiuta a separare domanda, capacita e margine.
+dove $E_d$ e l'effetto dell'azione di progetto e $R_d$ la resistenza di progetto. Questa scrittura, comune a molti problemi strutturali e geotecnici, aiuta a separare domanda, capacita e margine.
 
 Dal calcolo alla decisione. Il valore finale non basta. Bisogna chiedersi da quale ipotesi dipende, quanto e sensibile ai parametri e quale meccanismo fisico rappresenta. Un margine ottenuto con parametri poco tracciabili ha meno valore di un margine piu modesto ma ben documentato. Per questo, quando si cita una norma o un criterio di combinazione, il riferimento deve essere scritto in modo esplicito e verificabile.
 

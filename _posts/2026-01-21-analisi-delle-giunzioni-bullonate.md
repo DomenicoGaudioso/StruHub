@@ -12,29 +12,53 @@ meta: "Archivio StruHub · 702 parole circa"
 
 **Formule di riferimento**
 
-\[F_{v,Ed,1} = \frac{V_{Ed}}{n}\]
+$$
+F_{v,Ed,1} = \frac{V_{Ed}}{n}
+$$
 
-\[F_{v,Ed,2} = \frac{M_{Ed} \cdot r_i}{\sum r_j^2}\]
+$$
+F_{v,Ed,2} = \frac{M_{Ed} \cdot r_i}{\sum r_j^2}
+$$
 
-\[F_{Ed} = \sqrt{F_{v,Ed,1}^2 + F_{v,Ed,2}^2}\]
+$$
+F_{Ed} = \sqrt{F_{v,Ed,1}^2 + F_{v,Ed,2}^2}
+$$
 
-\[e_1, e_2 \geq 1.2 d_0\]
+$$
+e_1, e_2 \geq 1.2 d_0
+$$
 
-\[p_1 \geq 2.2 d_0, p_2 \geq 2.4 d_0\]
+$$
+p_1 \geq 2.2 d_0, p_2 \geq 2.4 d_0
+$$
 
-\[F_{v,Rd} = \frac{\alpha_v \cdot f_{ub} \cdot A_{res}}{\gamma_{M2}}\]
+$$
+F_{v,Rd} = \frac{\alpha_v \cdot f_{ub} \cdot A_{res}}{\gamma_{M2}}
+$$
 
-\[F_{b,Rd} = \frac{k_1 \cdot \alpha_b \cdot f_{tk} \cdot d \cdot t}{\gamma_{M2}}\]
+$$
+F_{b,Rd} = \frac{k_1 \cdot \alpha_b \cdot f_{tk} \cdot d \cdot t}{\gamma_{M2}}
+$$
 
-\[F_{t,Rd} = \frac{0.9 \cdot f_{ub} \cdot A_{res}}{\gamma_{M2}}\]
+$$
+F_{t,Rd} = \frac{0.9 \cdot f_{ub} \cdot A_{res}}{\gamma_{M2}}
+$$
 
-\[B_{p,Rd} = \frac{0.6 \cdot \pi \cdot d_m \cdot t_p \cdot f_{tk}}{\gamma_{M2}}\]
+$$
+B_{p,Rd} = \frac{0.6 \cdot \pi \cdot d_m \cdot t_p \cdot f_{tk}}{\gamma_{M2}}
+$$
 
-\[\frac{F_{v,Ed}}{F_{v,Rd}} + \frac{F_{t,Ed}}{1.4 \cdot F_{t,Rd}} \leq 1.0\]
+$$
+\frac{F_{v,Ed}}{F_{v,Rd}} + \frac{F_{t,Ed}}{1.4 \cdot F_{t,Rd}} \leq 1.0
+$$
 
-\[F_{s,Rd} = \frac{n \cdot \mu \cdot F_{p,C}}{\gamma_{M3}}\]
+$$
+F_{s,Rd} = \frac{n \cdot \mu \cdot F_{p,C}}{\gamma_{M3}}
+$$
 
-\[V_{eff,1,Rd} = \frac{f_{tk} \cdot A_{nt}}{\gamma_{M2}} + \frac{f_{yk} \cdot A_{nv}}{\sqrt{3} \cdot \gamma_{M0}}\]
+$$
+V_{eff,1,Rd} = \frac{f_{tk} \cdot A_{nt}}{\gamma_{M2}} + \frac{f_{yk} \cdot A_{nv}}{\sqrt{3} \cdot \gamma_{M0}}
+$$
 
 **Impostazione tecnica**
 
@@ -90,7 +114,7 @@ I coefficienti α b e k 1 sono calcolati dinamicamente distinguendo tra:
 
 Trazione e Punzonamento
 
-Nelle unioni soggette a trazione assiale, oltre alla resistenza del gambo (\(F_{t,Rd}\)), è vitale verificare il punzonamento (\(B_{p,Rd}\)), ovvero il rischio che la testa del bullone o il dado "sfondino" la lamiera, specialmente in presenza di spessori sottili.
+Nelle unioni soggette a trazione assiale, oltre alla resistenza del gambo ($F_{t,Rd}$), è vitale verificare il punzonamento ($B_{p,Rd}$), ovvero il rischio che la testa del bullone o il dado "sfondino" la lamiera, specialmente in presenza di spessori sottili.
 
 - Trazione:
 

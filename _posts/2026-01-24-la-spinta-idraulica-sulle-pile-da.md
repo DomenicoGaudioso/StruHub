@@ -26,15 +26,25 @@ La forma geometrica delle pile può essere la più varia possibile. Spesso è co
 
 **Formule di riferimento**
 
-\[q_w = \frac{F}A = C_D \frac{1}2 \rho U^2\]
+$$
+q_w = \frac{F}A = C_D \frac{1}2 \rho U^2
+$$
 
-\[A = p\cdot h\]
+$$
+A = p\cdot h
+$$
 
-\[S = S_z + S_w = \frac{1}2 \gamma z^2 A + C_D \frac{1}2 \rho U^2 A\]
+$$
+S = S_z + S_w = \frac{1}2 \gamma z^2 A + C_D \frac{1}2 \rho U^2 A
+$$
 
-\[S = S_m - S_v\]
+$$
+S = S_m - S_v
+$$
 
-\[S = [\gamma_w \cdot Y_{Gm} \cdot A + \beta \cdot \rho \cdot \frac{Q^2}A] - [\gamma_w \cdot Y_{Gv} \cdot A + \beta \cdot \rho \cdot \frac{Q^2}A]\]
+$$
+S = [\gamma_w \cdot Y_{Gm} \cdot A + \beta \cdot \rho \cdot \frac{Q^2}A] - [\gamma_w \cdot Y_{Gv} \cdot A + \beta \cdot \rho \cdot \frac{Q^2}A]
+$$
 
 Le forme delle pile idraulicamente più efficienti (che producono un rialzo idraulico meno accentuato) sono quelle a rostri arrotondati e semicircolari, che accompagnano meglio la corrente. Il rapporto lunghezza-larghezza idraulicamente ottimale per una pila varia con la velocità, essendo compreso tra 4 e 7.
 

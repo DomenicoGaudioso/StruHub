@@ -12,13 +12,17 @@ meta: "Quaderno tecnico · 1323 parole circa"
 
 Le verifiche dipendono dalla corretta definizione delle azioni: permanenti, traffico, temperatura, vento, sisma, ritiro, viscosità ed eventuali azioni eccezionali.
 
-\[E_d=sum gamma_GG_k+gamma_QQ_{k,1}+sum gamma_Qpsi_{0,i}Q_{k,i}\]
+$$
+E_d=sum gamma_GG_k+gamma_QQ_{k,1}+sum gamma_Qpsi_{0,i}Q_{k,i}
+$$
 
 Esempio.
 
 Con (G=600), (Q_1=350), (Q_2=120,mathrm{kNm}), (gamma_G=1.35), (gamma_Q=1.50), (psi_{0,2}=0.6):
 
-\[E_d=1.35cdot600+1.50cdot350+1.50cdot0.6cdot120=1443,mathrm{kNm}\]
+$$
+E_d=1.35cdot600+1.50cdot350+1.50cdot0.6cdot120=1443,mathrm{kNm}
+$$
 
 Riferimenti tecnici utilizzati:
 
@@ -50,19 +54,25 @@ Nel tema di la definizione delle azioni di progetto, il punto non è ottenere un
 
 Il primo controllo è l'equilibrio. Se gli effetti ripartiti non ricostruiscono l'azione globale, il modello non è accettabile. Il secondo controllo è la compatibilità: gli elementi connessi non possono deformarsi come sistemi indipendenti se la soletta o i collegamenti impongono continuità.
 
-\[\sum_j E_j \simeq E_{tot}\]
+$$
+\sum_j E_j \simeq E_{tot}
+$$
 
 **Rigidezze equivalenti e sensibilità**
 
 La ripartizione dipende dai rapporti di rigidezza, non dai soli interassi geometrici. Un elemento molto rigido attira più domanda, mentre un elemento flessibile tende a scaricare verso gli elementi vicini. Questo vale per travi, piastre equivalenti e modelli a graticcio.
 
-\[D_x \propto EI_x, \qquad D_y \propto EI_y, \qquad D_{xy} \propto GJ\]
+$$
+D_x \propto EI_x, \qquad D_y \propto EI_y, \qquad D_{xy} \propto GJ
+$$
 
 Una variazione del 20% nella rigidezza trasversale può modificare in modo significativo il coefficiente di ripartizione. Per questo l'articolo tecnico non deve limitarsi a presentare il risultato: deve spiegare quali parametri lo muovono.
 
 Esempio di confronto. Si consideri un effetto globale (E_{tot}=1000\,\mathrm{kNm}). Un primo modello fornisce coefficienti (0.20,0.35,0.35,0.10); un secondo modello, con maggiore rigidezza trasversale, fornisce (0.24,0.29,0.29,0.18). I due risultati sono entrambi equilibrati, ma raccontano impalcati diversi.
 
-\[E_{j}=\eta_j E_{tot}\]
+$$
+E_{j}=\eta_j E_{tot}
+$$
 
 Nel primo caso la domanda è concentrata sulle travi interne; nel secondo la distribuzione è più uniforme. La scelta progettuale deve leggere questa differenza, non solo copiare il massimo valore.
 
@@ -80,7 +90,9 @@ Tracciabilità delle combinazioni. Ogni valore dovrebbe conservare l'origine. Se
 
 Una forma pratica di archiviazione è associare a ogni effetto tre campi: valore, combinazione governante e posizione. Per gli inviluppi:
 
-\[E_{max}(x_j)=E_{d,k}(x_j) \quad con \quad k=k_{gov}(x_j)\]
+$$
+E_{max}(x_j)=E_{d,k}(x_j) \quad con \quad k=k_{gov}(x_j)
+$$
 
 Questa scrittura chiarisce che il massimo non è astratto: è prodotto da una combinazione precisa.
 
@@ -88,7 +100,9 @@ Controllo delle rigidezze. Quando si lavora con ripartizioni, sezioni composte o
 
 Per una sezione composta, ad esempio, una stessa azione può produrre tensioni diverse se applicata prima o dopo la maturazione della soletta. Il valore finale è la somma di contributi nati in tempi diversi:
 
-\[\sigma_{finale}=\sum_i \sigma_i(A_i,I_i,E_i,t_i)\]
+$$
+\sigma_{finale}=\sum_i \sigma_i(A_i,I_i,E_i,t_i)
+$$
 
 La notazione evidenzia che ogni contributo ha proprietà resistenti proprie.
 
@@ -96,19 +110,23 @@ Esempio di lettura critica. Si consideri un impalcato con quattro travi. Un mode
 
 Scrittura da riferimento tecnico. Il testo deve accompagnare il lettore dalla causa all'effetto: quale azione entra, come viene distribuita, quale proprietà resistente la trasforma in tensione o sollecitazione, quale limite viene controllato. Questa catena rende l'articolo consultabile anche a distanza di tempo.
 
-Azioni permanenti, variabili e accidentali. La definizione delle azioni di progetto per ponti richiede una classificazione ordinata. I pesi propri strutturali, indicati spesso come \(G_1\), comprendono travi, soletta, pulvini e parti resistenti. I permanenti non strutturali, \(G_2\), includono pavimentazioni, barriere, cordoli, impermeabilizzazioni e impianti. Le azioni variabili, \(Q\), comprendono traffico, vento, temperatura, frenatura, centrifuga, neve dove rilevante e azioni di cantiere.
+Azioni permanenti, variabili e accidentali. La definizione delle azioni di progetto per ponti richiede una classificazione ordinata. I pesi propri strutturali, indicati spesso come $G_1$, comprendono travi, soletta, pulvini e parti resistenti. I permanenti non strutturali, $G_2$, includono pavimentazioni, barriere, cordoli, impermeabilizzazioni e impianti. Le azioni variabili, $Q$, comprendono traffico, vento, temperatura, frenatura, centrifuga, neve dove rilevante e azioni di cantiere.
 
 La combinazione fondamentale allo SLU puo essere rappresentata in forma generale come:
 
-\[E_d=\sum \gamma_G G_k + \gamma_Q Q_{k,1}+\sum \gamma_Q \psi_{0,i}Q_{k,i}\]
+$$
+E_d=\sum \gamma_G G_k + \gamma_Q Q_{k,1}+\sum \gamma_Q \psi_{0,i}Q_{k,i}
+$$
 
-La formula serve a ricordare che non tutte le azioni variabili sono massime contemporaneamente. Il coefficiente \(\psi_0\) riduce le variabili accompagnatrici in funzione della probabilita di concomitanza. La corretta identificazione dell'azione dominante e una scelta tecnica, non un passaggio automatico.
+La formula serve a ricordare che non tutte le azioni variabili sono massime contemporaneamente. Il coefficiente $\psi_0$ riduce le variabili accompagnatrici in funzione della probabilita di concomitanza. La corretta identificazione dell'azione dominante e una scelta tecnica, non un passaggio automatico.
 
 Per i ponti, i carichi da traffico hanno modelli specifici. La norma UNI EN 1991-2:2005 definisce modelli di carico per traffico stradale e ferroviario; il D.M. 17 gennaio 2018, Capitolo 5, fornisce il quadro nazionale per i ponti. Quando si parla di azioni su ponti italiani, questi riferimenti devono essere citati esplicitamente.
 
 Azioni orizzontali e effetti cinematici. Oltre ai carichi verticali, un ponte riceve azioni longitudinali e trasversali. Frenatura e avviamento producono forze orizzontali sull'impalcato; vento e sisma possono governare sottostrutture e appoggi; temperatura, ritiro e viscosita generano deformazioni imposte. Una variazione termica uniforme produce:
 
-\[\Delta L=\alpha_T L \Delta T\]
+$$
+\Delta L=\alpha_T L \Delta T
+$$
 
 Se gli appoggi consentono lo spostamento, l'effetto si manifesta come movimento; se lo impediscono, genera azioni vincolari. Questa distinzione e decisiva nella modellazione: la stessa azione termica puo essere quasi innocua in uno schema libero e severa in uno schema bloccato.
 

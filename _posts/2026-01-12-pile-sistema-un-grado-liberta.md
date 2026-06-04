@@ -12,27 +12,37 @@ meta: "Quaderno tecnico · 1506 parole circa"
 
 Una pila snella può essere letta in prima approssimazione come una mensola con massa concentrata in sommità. Il modello equivalente consente di stimare periodo, rigidezza laterale e azione sismica prima del FEM.
 
-\[m\ddot{u}(t)+c\dot{u}(t)+ku(t)=F(t)\]
+$$
+m\ddot{u}(t)+c\dot{u}(t)+ku(t)=F(t)
+$$
 
 Rigidezza laterale.
 
 Per una mensola prismatica:
 
-\[u=\frac{FH^3}{3EI}, \qquad k=\frac{3EI}{H^3}\]
+$$
+u=\frac{FH^3}{3EI}, \qquad k=\frac{3EI}{H^3}
+$$
 
 Periodo e forza equivalente.
 
-\[T=2\pi\sqrt{\frac{m}{k}}=2\pi\sqrt{\frac{mH^3}{3EI}}\]
+$$
+T=2\pi\sqrt{\frac{m}{k}}=2\pi\sqrt{\frac{mH^3}{3EI}}
+$$
 
-Se lo spettro fornisce \(S_a(T)\) in multipli di \(g\):
+Se lo spettro fornisce $S_a(T)$ in multipli di $g$:
 
-\[F=mgS_a(T)\]
+$$
+F=mgS_a(T)
+$$
 
-Esempio. Con \(H=12\,\mathrm{m}\), \(E=32\cdot10^9\,\mathrm{N/m^2}\), \(I=1.20\,\mathrm{m^4}\), \(m=450000\,\mathrm{kg}\):
+Esempio. Con $H=12\,\mathrm{m}$, $E=32\cdot10^9\,\mathrm{N/m^2}$, $I=1.20\,\mathrm{m^4}$, $m=450000\,\mathrm{kg}$:
 
-\[k\approx66.7\cdot10^6\,\mathrm{N/m}, \qquad T\approx0.52\,\mathrm{s}\]
+$$
+k\approx66.7\cdot10^6\,\mathrm{N/m}, \qquad T\approx0.52\,\mathrm{s}
+$$
 
-Con \(S_a=0.25g\): \(F\approx1.10\cdot10^6\,\mathrm{N}\), \(M_b=FH\approx13.2\,\mathrm{MN m}\).
+Con $S_a=0.25g$: $F\approx1.10\cdot10^6\,\mathrm{N}$, $M_b=FH\approx13.2\,\mathrm{MN m}$.
 
 Riferimenti tecnici utilizzati:
 
@@ -45,13 +55,17 @@ Il modello a un grado di libertà resta un controllo preliminare; StruHub lo col
 
 **Massa efficace e forma modale**
 
-Il valore della massa nel modello a un grado di libertà non è una scelta puramente geometrica. Se una quota di massa è distribuita lungo la pila, la sua partecipazione dipende dalla deformata assunta. Per una forma modale \(\phi(z)\), la massa generalizzata è:
+Il valore della massa nel modello a un grado di libertà non è una scelta puramente geometrica. Se una quota di massa è distribuita lungo la pila, la sua partecipazione dipende dalla deformata assunta. Per una forma modale $\phi(z)$, la massa generalizzata è:
 
-\[M^*=\int_0^H m(z)\phi^2(z)\,dz\]
+$$
+M^*=\int_0^H m(z)\phi^2(z)\,dz
+$$
 
 Il fattore di partecipazione nella direzione orizzontale è:
 
-\[\Gamma=\frac{\int_0^H m(z)\phi(z)\,dz}{\int_0^H m(z)\phi^2(z)\,dz}\]
+$$
+\Gamma=\frac{\int_0^H m(z)\phi(z)\,dz}{\int_0^H m(z)\phi^2(z)\,dz}
+$$
 
 Questa distinzione evita di assegnare al sistema una massa troppo alta o troppo bassa.
 
@@ -61,7 +75,9 @@ Il modello SDOF è utile se viene usato come controllo: periodo, taglio alla bas
 
 Per trasformare la riduzione di una pila a oscillatore equivalente in un riferimento tecnico è utile separare tre livelli: il modello fisico, il modello numerico e la lettura dei risultati. Il modello fisico identifica masse, rigidezze, smorzamento e azioni. Il modello numerico stabilisce come queste grandezze entrano nell'equazione del moto. La lettura dei risultati decide quali effetti sono davvero utili al progetto.
 
-\[M\ddot{u}(t)+C\dot{u}(t)+Ku(t)=F(t)\]
+$$
+M\ddot{u}(t)+C\dot{u}(t)+Ku(t)=F(t)
+$$
 
 Nel caso di pila da ponte, la matrice di massa non è un dettaglio secondario. Una massa assegnata al nodo sbagliato modifica frequenze proprie e partecipazione modale; una rigidezza non coerente con la sezione resistente sposta il periodo e altera la domanda dinamica. Prima di discutere il risultato, il modello deve produrre modi plausibili.
 
@@ -69,9 +85,13 @@ Nel caso di pila da ponte, la matrice di massa non è un dettaglio secondario. U
 
 Il problema agli autovalori consente di estrarre frequenze e deformate. La forma modale non è solo un disegno: indica quali parti della struttura partecipano a un certo tipo di moto. Se la deformata è locale, il modo può essere poco rilevante per la risposta globale ma importante per una sollecitazione locale.
 
-\[K\phi_n=\omega_n^2M\phi_n\]
+$$
+K\phi_n=\omega_n^2M\phi_n
+$$
 
-\[T_n=\frac{2\pi}{\omega_n}\]
+$$
+T_n=\frac{2\pi}{\omega_n}
+$$
 
 La massa partecipante permette di passare da una lista di frequenze a una gerarchia ingegneristica. Un modo con alta partecipazione nella direzione dell'azione è un modo che può governare spostamenti e tagli globali. Modi con partecipazione inferiore possono comunque influenzare accelerazioni o curvature.
 
@@ -90,7 +110,9 @@ Una procedura robusta per la riduzione di una pila a oscillatore equivalente par
 
 Supponiamo che il primo controllo restituisca un periodo teorico di (0.55\,\mathrm{s}) e il modello FEM un periodo di (0.92\,\mathrm{s}). La differenza relativa è:
 
-\[\Delta_T=\frac{0.92-0.55}{0.55}=0.67\]
+$$
+\Delta_T=\frac{0.92-0.55}{0.55}=0.67
+$$
 
 Uno scarto del 67% non va ignorato. Può derivare da vincoli troppo flessibili, massa eccessiva, inerzia ridotta o unità non coerenti. Questo tipo di controllo è ciò che distingue un calcolo numerico da un uso passivo del software.
 
@@ -110,7 +132,9 @@ La grandezza di progetto non è sempre il massimo assoluto. Nelle verifiche acco
 
 Esempio di controllo incrociato. Supponiamo che un modello dinamico restituisca un taglio massimo alla base pari a (2.80\,\mathrm{MN}), mentre il controllo statico equivalente fornisce (2.35\,\mathrm{MN}). Il rapporto è:
 
-\[r_V=\frac{2.80}{2.35}=1.19\]
+$$
+r_V=\frac{2.80}{2.35}=1.19
+$$
 
 Il dato indica una amplificazione del 19%. Questo non significa automaticamente che il modello dinamico sia più corretto, ma segnala che l'effetto dinamico non è trascurabile. A questo punto il tecnico deve controllare se la velocità, il contenuto in frequenza o il segnale sismico sono coerenti con la condizione più gravosa.
 
@@ -118,13 +142,15 @@ Se invece il rapporto fosse inferiore a 1, non si dovrebbe concludere in modo au
 
 Come trasformare il risultato in testo tecnico. Un post di riferimento deve chiudere il cerchio: non basta presentare formule e grafici. Bisogna spiegare quale grandezza governa, quale ipotesi è più sensibile e quale controllo manuale consente di validare il risultato. Questa impostazione rende il contenuto utile anche a chi non usa lo stesso software, perché il metodo rimane trasferibile.
 
-Controllo dimensionale. Un riferimento tecnico deve permettere al lettore di controllare gli ordini di grandezza. Ogni risultato numerico dovrebbe essere accompagnato da un controllo dimensionale, da una interpretazione fisica e da una indicazione del parametro dominante. Se una formula restituisce un valore in \(\mathrm{kN}\), \(\mathrm{kNm}\), \(\mathrm{kPa}\) o \(\mathrm{mm}\), l'unita deve essere esplicita e coerente con le grandezze inserite.
+Controllo dimensionale. Un riferimento tecnico deve permettere al lettore di controllare gli ordini di grandezza. Ogni risultato numerico dovrebbe essere accompagnato da un controllo dimensionale, da una interpretazione fisica e da una indicazione del parametro dominante. Se una formula restituisce un valore in $\mathrm{kN}$, $\mathrm{kNm}$, $\mathrm{kPa}$ o $\mathrm{mm}$, l'unita deve essere esplicita e coerente con le grandezze inserite.
 
 La forma generale di una verifica puo essere letta come:
 
-\[\eta=\frac{E_d}{R_d} \le 1\]
+$$
+\eta=\frac{E_d}{R_d} \le 1
+$$
 
-dove \(E_d\) e l'effetto dell'azione di progetto e \(R_d\) la resistenza di progetto. Questa scrittura, comune a molti problemi strutturali e geotecnici, aiuta a separare domanda, capacita e margine.
+dove $E_d$ e l'effetto dell'azione di progetto e $R_d$ la resistenza di progetto. Questa scrittura, comune a molti problemi strutturali e geotecnici, aiuta a separare domanda, capacita e margine.
 
 Dal calcolo alla decisione. Il valore finale non basta. Bisogna chiedersi da quale ipotesi dipende, quanto e sensibile ai parametri e quale meccanismo fisico rappresenta. Un margine ottenuto con parametri poco tracciabili ha meno valore di un margine piu modesto ma ben documentato. Per questo, quando si cita una norma o un criterio di combinazione, il riferimento deve essere scritto in modo esplicito e verificabile.
 

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Monitorare lo spostamento di una trave tramite inclinometri | StruHub</title>
+  <meta name="description" content="Articolo tecnico StruHub con immagini e passaggi di calcolo.">
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html">StruHub</a>
+    <nav>
+      <a href="../index.html#articoli">Articoli</a>
+      <a href="../about.html">Metodo</a>
+    </nav>
+  </header>
+  <main>
+    <article class="post">
+      <a class="back-link" href="../index.html#articoli">Tutti gli articoli</a>
+      <h1>Monitorare lo spostamento di una trave tramite inclinometri</h1>
+      <div class="post-meta">Archivio StruHub · 433 parole circa</div>
+      <div class="post-body">
+<p><img src="https://substackcdn.com/image/fetch/$s_!09S0!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F35626147-16d1-44ee-98d8-c60eb8a5bf4f_1024x616.png" alt=""></p>
+<p><strong>Formule di riferimento</strong></p>
+<p><img src="https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20f(x)%20%3D%20c_0%20%2B%20c_1%20x%20%2B%20c_2%20x%5E2%20%2B%20%5Cdots%20%2B%20c_n%20x%5En" alt="f(x) = c_0 + c_1 x + c_2 x^2 + \dots + c_n x^n"></p>
+<p><img src="https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20f(x)%20%3D%20c_0%20%2B%20c_1x%20%2B%20c_2x%5E2%20%2B%20c_3x%5E3%20%2B%20c_4x%5E4%20%2B%20c_5x%5E5" alt="f(x) = c_0 + c_1x + c_2x^2 + c_3x^3 + c_4x^4 + c_5x^5"></p>
+<p><img src="https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20%5Ctheta(x)%20%3D%20f%E2%80%99(x)" alt="\theta(x) = f’(x)"></p>
+<p><img src="https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20f(x)%20%3D%20c_0%20%2B%20c_1x%20%2B%20c_2x%5E2%20%2B%20c_3x%5E3%20%2B%20c_4x%5E4%20%2B%20c_5x%5E5%20%2B%20c_6x%5E6" alt="f(x) = c_0 + c_1x + c_2x^2 + c_3x^3 + c_4x^4 + c_5x^5 + c_6x^6"></p>
+<p><img src="https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20f" alt="f"></p>
+<p><img src="https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20(1)%5Cquad%20f(0)%20%3D%20c_0%20%3D%200%5Cn" alt="(1)\quad f(0) = c_0 = 0\n"></p>
+<p><img src="https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20(2)%5Cquad%20f(L)%20%3D%20c_0%20%2B%20c_1%20L%20%2B%20c_2%20L%5E2%20%2B%20c_3%20L%5E3%20%2B%20c_4%20L%5E4%20%2B%20c_5%20L%5E5%20%2B%20c_6%20L%5E6%20%3D%200%5Cn" alt="(2)\quad f(L) = c_0 + c_1 L + c_2 L^2 + c_3 L^3 + c_4 L^4 + c_5 L^5 + c_6 L^6 = 0\n"></p>
+<p><img src="https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20(3)%5Cquad%20f" alt="(3)\quad f"></p>
+<p><img src="https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20(4)%5Cquad%20f" alt="(4)\quad f"></p>
+<p><img src="https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20(5)%5Cquad%20f" alt="(5)\quad f"></p>
+<p><img src="https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20(6)%5Cquad%20f" alt="(6)\quad f"></p>
+<p><img src="https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20(7)%5Cquad%20f" alt="(7)\quad f"></p>
+<p><img src="https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20c_1%20%3D%20%5Ctheta_1" alt="c_1 = \theta_1"></p>
+<p><img src="https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20f(x)%20%3D-%5Cfrac%7Bw%20%5Ccdot%20x%7D%7B%7B24%20%5Ccdot%20E%20%5Ccdot%20I%7D%7D%20%5Cleft(%20L%5E3%20-%206Lx%5E2%20%2B%204x%5E3%20%5Cright)" alt="f(x) =-\frac{w \cdot x}{{24 \cdot E \cdot I}} \left( L^3 - 6Lx^2 + 4x^3 \right)"></p>
+
+<p><strong>Impostazione tecnica</strong></p><p>In questo articolo viene descritto il metodo per la ricostruzione della deformata di una trave semplicemente appoggiata a partire dalle misure di rotazione fornite da inclinometri installati lungo l&#39;asse della trave.</p>
+<p>L&#39;idea di base consiste nell&#39;esprimere l&#39;abbassamento verticale della trave mediante una funzione polinomiale, definita separatamente per ciascuna trave. Nel caso di ponti, ci&#242; che verr&#224; descritto viene spesso utilizzato in fase di collaudo statico dell&#39;opera oppure durante il suo monitoraggio continuo.</p>
+<p>Formulazione matematica</p>
+<p>Per una generica campata, se sono note n+1n+1n+1 condizioni al contorno indipendenti, la funzione di abbassamento pu&#242; essere approssimata tramite un polinomio di grado n:</p>
+<p>Ad esempio, un polinomio di quinto grado assume la forma:</p>
+<p>I coefficienti c i vengono determinati imponendo le condizioni al contorno, che nel caso in esame sono:</p>
+<p>- spostamento verticale nullo in corrispondenza degli appoggi;</p>
+<p>- rotazioni note nei punti in cui sono installati gli inclinometri.</p>
+<p>Il problema si riduce quindi alla risoluzione di un sistema lineare, i cui termini noti sono forniti direttamente dalle misure sperimentali.</p>
+<p>Impostazione del sistema di equazioni</p>
+<p>Ogni inclinometro misura la rotazione locale della trave, che corrisponde alla derivata prima della funzione di abbassamento:</p>
+<p>Si consideri, a titolo di esempio, una campata di lunghezza L su cui sono installati 5 inclinometri. Le condizioni al contorno complessive sono:</p>
+<p>- 2 condizioni di spostamento (abbassamento nullo agli appoggi);</p>
+<p>- 5 condizioni di rotazione (fornite dagli inclinometri).</p>
+<p>In totale si hanno quindi 7 condizioni al contorno, che richiedono un polinomio di grado 6:</p>
+<p>La derivata del polinomio &#232;:</p>
+<p>Condizioni sugli appoggi</p>
+<p>Imponendo l&#39;abbassamento nullo agli estremi della campata si ottengono le prime due equazioni:</p>
+<p>Condizioni sugli inclinometri</p>
+<p>Si assumono le seguenti posizioni dei sensori:</p>
+<p>- Sensore 1: x=0</p>
+<p>- Sensore 2: x=L/4</p>
+<p>- Sensore 3: x=L/2</p>
+<p>- Sensore 4: x=3L/4</p>
+<p>- Sensore 5: x=L</p>
+<p>Esplicitando, ad esempio, la terza equazione:</p>
+<p>e analogamente per le altre posizioni.</p>
+<p>Ricostruzione della deformata</p>
+<p>Una volta costruito il sistema di 7 equazioni lineari nelle 7 incognite c0,…,c6, &#232; sufficiente risolverlo per ottenere i coefficienti del polinomio interpolante. La funzione f(x) cos&#236; determinata consente di ricostruire l&#39;intera deformata della trave lungo la campata, a partire esclusivamente dalle misure inclinometriche.</p>
+<p><img src="https://substackcdn.com/image/fetch/$s_!H-3R!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F04e2b353-8019-43db-886f-0b047bf55126_1536x1024.png" alt=""></p>
+
+<p>Esempio numerico</p>
+<p>Di seguito si riporta un esempio di confronto tra la deformata ricostruita con l&#39;algoritmo descritto e la soluzione teorica di Eulero-Bernoulli.</p>
+<p>DATI:</p>
+<p>w = 8 N/mm carico</p>
+<p>E = 210000 MPa</p>
+<p>b = 400 mm</p>
+<p>h = 1200 mm</p>
+<p>I = b*h^3/12 mm4</p>
+<p>L = 51800 mm</p>
+<p>i sensori sono stati ipotizzati alle seguenti posizioni:</p>
+<p>s1: 0</p>
+<p>s2: L/4</p>
+<p>s3: L/2</p>
+<p>s5: 3L/4</p>
+<p>s4: L</p>
+
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>StruHub raccoglie appunti tecnici, modelli di calcolo e riferimenti per l'ingegneria strutturale digitale.</p>
+  </footer>
+</body>
+</html>

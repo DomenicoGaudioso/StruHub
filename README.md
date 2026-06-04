@@ -1,4 +1,4 @@
-# StruHub
+﻿# StruHub
 
 Quaderno tecnico pubblico di ingegneria strutturale digitale.
 
@@ -10,4 +10,5 @@ Il sito raccoglie articoli su ponti, geotecnica, calcestruzzo armato, acciaio, s
 - `posts/`: articoli HTML pubblicati.
 - `assets/style.css`: stile del sito.
 
-Le formule sono renderizzate come immagini esterne per garantire compatibilità con piattaforme che non supportano LaTeX nativo.
+Le formule sono renderizzate come immagini esterne per garantire compatibilitÃ  con piattaforme che non supportano LaTeX nativo.
+

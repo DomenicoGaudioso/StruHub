@@ -6,6 +6,17 @@
   <title>La ripartizione trasversale dei carichi negli impalcati da Ponte | StruHub</title>
   <meta name="description" content="Articolo tecnico StruHub con immagini e passaggi di calcolo.">
   <link rel="stylesheet" href="../assets/style.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
   <header class="site-header">
@@ -23,33 +34,67 @@
       <div class="post-body">
 <p><img src="../assets/images/la-ripartizione-trasversale-dei-carichi-01.jpg" alt=""></p>
 <p><strong>Formule di riferimento</strong></p>
-<p><img src="../assets/formula-images/formula-eaa5b08e9b83018889.png" alt="\n\rho=\frac{E\,I_\ell}{s}"></p>
-<p><img src="../assets/formula-images/formula-87688c810fc4b00044.png" alt="\gamma=\frac{E\,I_t}{s_t}"></p>
-<p><img src="../assets/formula-images/formula-4cb62fe7b5c78aa4e0.png" alt="\n\n\rho_G=\frac{G\,J_\ell}{s},\qquad\n\n\gamma_G=\frac{G\,J_t}{s_t}\n"></p>
-<p><img src="../assets/formula-images/formula-6d343f05d16d2ce52b.png" alt="\alpha=\frac{\gamma_G+\rho_G}{2\sqrt{\rho\,\gamma}},\qquad\n\n\theta=\frac{b}{L}\,\sqrt[4]{\frac{\rho}{\gamma}}\n\n"></p>
-<p><img src="../assets/formula-images/formula-1102d606f07ca9f4ee.png" alt="\n\n\n\lambda b=\frac{\pi\,\theta}{\sqrt{2}},\qquad \sigma=\pi\,\theta\n"></p>
-<p><img src="../assets/formula-images/formula-7590209c42aedc6f7c.png" alt="\np(x)=\sum_{m\ge1} a_m\sin\!\Big(\frac{m\pi x}{L}\Big),\qquad\n\na_m=\frac{2}{L}\int_0^L p(x)\sin\!\Big(\frac{m\pi x}{L}\Big)\,dx\n\n<p><img src="../assets/formula-images/formula-b5375a56acabc90e4c.png" alt="&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20%5Cna_m%3D%5Cfrac%7B2P%7D%7BL%7D%5C%2C%5Csin%5C!%5CBig(%5Cfrac%7Bm%5Cpi%20x_c%7D%7BL%7D%5CBig)&quot; alt=&quot;\na_m=\frac{2P}{L}\,\sin\!\Big(\frac{m\pi x_c}{L}\Big)&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20%5Cna_m%3D%5Cfrac%7B2p%7D%7Bm%5Cpi%7D%5Cleft%5B%5Ccos%5C!%5CBig(%5Cfrac%7Bm%5Cpi%20x_1%7D%7BL%7D%5CBig)-%5Ccos%5C!%5CBig(%5Cfrac%7Bm%5Cpi%20x_2%7D%7BL%7D%5CBig)%5Cright%5D&quot; alt=&quot;\na_m=\frac{2p}{m\pi}\left[\cos\!\Big(\frac{m\pi x_1}{L}\Big)-\cos\!\Big(\frac{m\pi x_2}{L}\Big)\right]&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20%5Cna_m%3D%5Cfrac%7B4q%7D%7Bm%5Cpi%7D&quot; alt=&quot;\na_m=\frac{4q}{m\pi}&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20%5Cmathrm%7Bden%7D%3D%5Csinh(2%5Clambda%20b)%5E2-%5Csin(2%5Clambda%20b)%5E2%2C%5Cqquad%5Cn%5Cn%5Cmathrm%7Bpf%7D%3D%5Cfrac%7B2%5C%2C%5Clambda%20b%7D%7B%5Cmathrm%7Bden%7D%7D%5Cn&quot; alt=&quot;\mathrm{den}=\sinh(2\lambda b)^2-\sin(2\lambda b)^2,\qquad\n\n\mathrm{pf}=\frac{2\,\lambda b}{\mathrm{den}}\n&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20%5Cn%5CLambda_%7By%2Bb%7D%3D%5Clambda%5C%2C(y%5E*%2Bb)%2C%5Cqquad%5Cn%5Cn%5CLambda_%7Bb%5Cpm%20e%7D%3D%5Clambda%5C%2C(b%5Cpm%20e%5E*)%5Cn&quot; alt=&quot;\n\Lambda_{y+b}=\lambda\,(y^*+b),\qquad\n\n\Lambda_{b\pm e}=\lambda\,(b\pm e^*)\n&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20%5Cbegin%7Baligned%7D%5Cn%5Cna%E2%80%99%26%3D2%5Ccosh(%5CLambda_%7By%2Bb%7D)%5Ccos(%5CLambda_%7By%2Bb%7D)%2C%5C%5Cn%5Cnb%E2%80%99%26%3D%5Ccosh(%5CLambda_%7By%2Bb%7D)%5Csin(%5CLambda_%7By%2Bb%7D)%2B%5Csinh(%5CLambda_%7By%2Bb%7D)%5Ccos(%5CLambda_%7By%2Bb%7D)%2C%5C%5Cn%5CnA%26%3D%5Csinh(2%5Clambda%20b)%5Ccos(%5CLambda_%7Bb%2Be%7D)%5Ccosh(%5CLambda_%7Bb-e%7D)-%5Csin(2%5Clambda%20b)%5Ccosh(%5CLambda_%7Bb%2Be%7D)%5Ccos(%5CLambda_%7Bb-e%7D)%2C%5C%5Cn%5CnB_1%26%3D%5Csinh(2%5Clambda%20b)%5C%2C%5B%5Csin(%5CLambda_%7Bb%2Be%7D)%5Ccosh(%5CLambda_%7Bb-e%7D)-%5Ccos(%5CLambda_%7Bb%2Be%7D)%5Csinh(%5CLambda_%7Bb-e%7D)%5D%2C%5C%5Cn%5CnB_2%26%3D%5Csin(2%5Clambda%20b)%5C%2C%5B%5Csinh(%5CLambda_%7Bb%2Be%7D)%5Ccos(%5CLambda_%7Bb-e%7D)-%5Ccosh(%5CLambda_%7Bb%2Be%7D)%5Csin(%5CLambda_%7Bb-e%7D)%5D%5Cn%5Cn%5Cend%7Baligned%7D%5Cn&quot; alt=&quot;\begin{aligned}\n\na€™&amp;amp;=2\cosh(\Lambda_{y+b})\cos(\Lambda_{y+b}),\\n\nb€™&amp;amp;=\cosh(\Lambda_{y+b})\sin(\Lambda_{y+b})+\sinh(\Lambda_{y+b})\cos(\Lambda_{y+b}),\\n\nA&amp;amp;=\sinh(2\lambda b)\cos(\Lambda_{b+e})\cosh(\Lambda_{b-e})-\sin(2\lambda b)\cosh(\Lambda_{b+e})\cos(\Lambda_{b-e}),\\n\nB_1&amp;amp;=\sinh(2\lambda b)\,[\sin(\Lambda_{b+e})\cosh(\Lambda_{b-e})-\cos(\Lambda_{b+e})\sinh(\Lambda_{b-e})],\\n\nB_2&amp;amp;=\sin(2\lambda b)\,[\sinh(\Lambda_{b+e})\cos(\Lambda_{b-e})-\cosh(\Lambda_{b+e})\sin(\Lambda_{b-e})]\n\n\end{aligned}\n&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20%5CnK_0(y%2Ce%3B%5Ctheta)%3D%5Cmathrm%7Bpf%7D%5C%2C%5B%5C%2Ca%E2%80%99%5C%2CA%2Bb%E2%80%99(B_1%2BB_2)%5C%2C%5D%5Cn&quot; alt=&quot;\nK_0(y,e;\theta)=\mathrm{pf}\,[\,a€™\,A+b€™(B_1+B_2)\,]\n&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20%5Cbeta%3D%5Cdfrac%7B%5Cpi%20y%7D%7Bb%7D&quot; alt=&quot;\beta=\dfrac{\pi y}{b}&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20%5Cpsi%3D%5Cdfrac%7B%5Cpi%20e%7D%7Bb%7D&quot; alt=&quot;\psi=\dfrac{\pi e}{b}&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20%5Cchi%3D%5Cpi-%7C%5Cbeta-%5Cpsi%7C&quot; alt=&quot;\chi=\pi-|\beta-\psi|&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20%5CTheta_u%3D%5Ctheta%5C%2Cu&quot; alt=&quot;\Theta_u=\theta\,u&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20%5Cmathrm%7Bpf%7D%3D%5Cdfrac%7B%5Csigma%7D%7B2%5Csinh(%5Csigma)%5E2%7D&quot; alt=&quot;\mathrm{pf}=\dfrac{\sigma}{2\sinh(\sigma)^2}&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://latex.codecogs.com/png.image?%5Cdpi%7B170%7D%20%5Cbegin%7Baligned%7D%5Cn%5CnR(u)%26%3D%5Ccosh(%5CTheta_u)%5C%2C%5B%5Csigma%5Ccosh(%5Csigma)-%5Csinh(%5Csigma)%5D-%5CTheta_u%5Csinh(%5Csigma)%5Csinh(%5CTheta_u)%2C%5C%5Cn%5CnQ(u)%26%3D%5Csinh(%5CTheta_u)%5C%2C%5B2%5Csinh(%5Csigma)%2B%5Csigma%5Ccosh(%5Csigma)%5D-%5CTheta_u%5Csinh(%5Csigma)%5Ccosh(%5CTheta_u)%2C%5C%5Cn%5CnC%26%3D%5Ccosh(%5CTheta_%5Cchi)%5C%2C%5B%5Csigma%5Ccosh(%5Csigma)%2B%5Csinh(%5Csigma)%5D%2C%5Cqquad%5Cn%5CnD%3D%5CTheta_%5Cchi%5Csinh(%5Csigma)%5Csinh(%5CTheta_%5Cchi)%2C%5C%5Cn%5CnE%26%3D%5Cdfrac%7BR(%5Cbeta)R(%5Cpsi)%7D%7B3%5Csinh(%5Csigma)%5Ccosh(%5Csigma)-%5Csigma%7D%2C%5Cqquad%5Cn%5CnF%3D%5Cdfrac%7BQ(%5Cbeta)Q(%5Cpsi)%7D%7B3%5Csinh(%5Csigma)%5Ccosh(%5Csigma)%2B%5Csigma%7D%5Cn%5Cn%5Cend%7Baligned%7D%5Cn%5Cn%24%24&quot; alt=&quot;\begin{aligned}\n\nR(u)&amp;amp;=\cosh(\Theta_u)\,[\sigma\cosh(\sigma)-\sinh(\sigma)]-\Theta_u\sinh(\sigma)\sinh(\Theta_u),\\n\nQ(u)&amp;amp;=\sinh(\Theta_u)\,[2\sinh(\sigma)+\sigma\cosh(\sigma)]-\Theta_u\sinh(\sigma)\cosh(\Theta_u),\\n\nC&amp;amp;=\cosh(\Theta_\chi)\,[\sigma\cosh(\sigma)+\sinh(\sigma)],\qquad\n\nD=\Theta_\chi\sinh(\sigma)\sinh(\Theta_\chi),\\n\nE&amp;amp;=\dfrac{R(\beta)R(\psi)}{3\sinh(\sigma)\cosh(\sigma)-\sigma},\qquad\n\nF=\dfrac{Q(\beta)Q(\psi)}{3\sinh(\sigma)\cosh(\sigma)+\sigma}\n\n\end{aligned}\n\n"></p>"></p>
-<p><img src="../assets/formula-images/formula-01b80312d570266c0f.png" alt="K_1(y,e;\theta)=\mathrm{pf}\,[\,C-D+E+F\,]"></p>
-<p><img src="../assets/formula-images/formula-6e1f85f02a79b44a2c.png" alt="\nK_\alpha(y,e;\theta,\alpha)=K_0+\big(K_1-K_0\big)\,\alpha^{\,\eta(\theta)}\n"></p>
-<p><img src="../assets/formula-images/formula-86b7254f8a1783f558.png" alt="\eta=1-\exp\!\big((0.065-\theta)/0.663\big)"></p>
-<p><img src="../assets/formula-images/formula-7b9c7c35aeafed5f28.png" alt="w(y,x)=\sum_{m\ge1}\left[\frac{1}{\rho\,\alpha_m^4}\sum_e a_m(e)\,K_\alpha(y,e)\right]\sin(\alpha_m x)"></p>
-<p><img src="../assets/formula-images/formula-b6d1afb020759943d2.png" alt="M_{\text{medio}}(x)=\frac{M_{\text{tot}}(x)}{n_{\text{travi}}},\qquad\n\nV_{\text{medio}}(x)=\frac{V_{\text{tot}}(x)}{n_{\text{travi}}}"></p>
-<p><img src="../assets/formula-images/formula-48a3a9c774b224df03.png" alt="P(e)=\int_0^L p_e(x)\,dx"></p>
-<p><img src="../assets/formula-images/formula-94d0ccf95536dae964.png" alt="W(y_j)=\frac{\sum_e P(e)\,K_\alpha(y_j,e)}{\sum_e P(e)},\qquad \sum_j W(y_j)=1"></p>
-<p><img src="../assets/formula-images/formula-3c45dd7f632eb7c993.png" alt="M^{(j)}(x)=W(y_j)\,M_{\text{medio}}(x),\qquad\n\nV^{(j)}(x)=W(y_j)\,V_{\text{medio}}(x)"></p>
+<p class="math-block">\[\n\rho=\frac{E\,I_\ell}{s}\]</p>
+<p class="math-block">\[\gamma=\frac{E\,I_t}{s_t}\]</p>
+<p class="math-block">\[\n\n\rho_G=\frac{G\,J_\ell}{s},\qquad\n\n\gamma_G=\frac{G\,J_t}{s_t}\n\]</p>
+<p class="math-block">\[\alpha=\frac{\gamma_G+\rho_G}{2\sqrt{\rho\,\gamma}},\qquad\n\n\theta=\frac{b}{L}\,\sqrt[4]{\frac{\rho}{\gamma}}\n\n\]</p>
+<p class="math-block">\[\n\n\n\lambda b=\frac{\pi\,\theta}{\sqrt{2}},\qquad \sigma=\pi\,\theta\n\]</p>
+<p><strong>Formule di riferimento</strong></p>
+<p class="math-block">\[p(x)=\sum_{m\ge1} a_m\sin\!\Big(\frac{m\pi x}{L}\Big)\]</p>
+<p class="math-block">\[a_m=\frac{2}{L}\int_0^L p(x)\sin\!\Big(\frac{m\pi x}{L}\Big)\,dx\]</p>
+<p class="math-block">\[a_m=\frac{2P}{L}\,\sin\!\Big(\frac{m\pi x_c}{L}\Big)\]</p>
+<p class="math-block">\[a_m=\frac{2p}{m\pi}\left[\cos\!\Big(\frac{m\pi x_1}{L}\Big)-\cos\!\Big(\frac{m\pi x_2}{L}\Big)\right\]</p>
+<p class="math-block">\[a_m=\frac{4q}{m\pi}\]</p>
+<p class="math-block">\[\mathrm{den}=\sinh(2\lambda b)^2-\sin(2\lambda b)^2,\qquad
+
+\mathrm{pf}=\frac{2\,\lambda b}{\mathrm{den}}\]</p>
+<p class="math-block">\[\Lambda_{y+b}=\lambda\,(y^*+b),\qquad
+
+\Lambda_{b\pm e}=\lambda\,(b\pm e^*)\]</p>
+<p class="math-block">\[\begin{aligned}
+
+a'&=2\cosh(\Lambda_{y+b})\cos(\Lambda_{y+b}),\
+
+b'&=\cosh(\Lambda_{y+b})\sin(\Lambda_{y+b})+\sinh(\Lambda_{y+b})\cos(\Lambda_{y+b}),\
+
+A&=\sinh(2\lambda b)\cos(\Lambda_{b+e})\cosh(\Lambda_{b-e})-\sin(2\lambda b)\cosh(\Lambda_{b+e})\cos(\Lambda_{b-e}),\
+
+B_1&=\sinh(2\lambda b)\,[\sin(\Lambda_{b+e})\cosh(\Lambda_{b-e})-\cos(\Lambda_{b+e})\sinh(\Lambda_{b-e})],\
+
+B_2&=\sin(2\lambda b)\,[\sinh(\Lambda_{b+e})\cos(\Lambda_{b-e})-\cosh(\Lambda_{b+e})\sin(\Lambda_{b-e})]
+
+\end{aligned}\]</p>
+<p class="math-block">\[K_0(y,e;\theta)=\mathrm{pf}\,[\,a'\,A+b'(B_1+B_2)\,\]</p>
+<p class="math-block">\[\beta=\dfrac{\pi y}{b}\]</p>
+<p class="math-block">\[\psi=\dfrac{\pi e}{b}\]</p>
+<p class="math-block">\[\chi=\pi-|\beta-\psi|\]</p>
+<p class="math-block">\[\Theta_u=\theta\,u\]</p>
+<p class="math-block">\[\mathrm{pf}=\dfrac{\sigma}{2\sinh(\sigma)^2}\]</p>
+<p class="math-block">\[\begin{aligned}
+
+R(u)&=\cosh(\Theta_u)\,[\sigma\cosh(\sigma)-\sinh(\sigma)]-\Theta_u\sinh(\sigma)\sinh(\Theta_u),\
+
+Q(u)&=\sinh(\Theta_u)\,[2\sinh(\sigma)+\sigma\cosh(\sigma)]-\Theta_u\sinh(\sigma)\cosh(\Theta_u),\
+
+C&=\cosh(\Theta_\chi)\,[\sigma\cosh(\sigma)+\sinh(\sigma)],\qquad
+
+D=\Theta_\chi\sinh(\sigma)\sinh(\Theta_\chi),\
+
+E&=\dfrac{R(\beta)R(\psi)}{3\sinh(\sigma)\cosh(\sigma)-\sigma},\qquad
+
+F=\dfrac{Q(\beta)Q(\psi)}{3\sinh(\sigma)\cosh(\sigma)+\sigma}
+
+\end{aligned}
+
+\]</p>\]</p>
+<p class="math-block">\[K_1(y,e;\theta)=\mathrm{pf}\,[\,C-D+E+F\,]\]</p>
+<p class="math-block">\[\nK_\alpha(y,e;\theta,\alpha)=K_0+\big(K_1-K_0\big)\,\alpha^{\,\eta(\theta)}\n\]</p>
+<p class="math-block">\[\eta=1-\exp\!\big((0.065-\theta)/0.663\big)\]</p>
+<p class="math-block">\[w(y,x)=\sum_{m\ge1}\left[\frac{1}{\rho\,\alpha_m^4}\sum_e a_m(e)\,K_\alpha(y,e)\right]\sin(\alpha_m x)\]</p>
+<p class="math-block">\[M_{\text{medio}}(x)=\frac{M_{\text{tot}}(x)}{n_{\text{travi}}},\qquad\n\nV_{\text{medio}}(x)=\frac{V_{\text{tot}}(x)}{n_{\text{travi}}}\]</p>
+<p class="math-block">\[P(e)=\int_0^L p_e(x)\,dx\]</p>
+<p class="math-block">\[W(y_j)=\frac{\sum_e P(e)\,K_\alpha(y_j,e)}{\sum_e P(e)},\qquad \sum_j W(y_j)=1\]</p>
+<p class="math-block">\[M^{(j)}(x)=W(y_j)\,M_{\text{medio}}(x),\qquad\n\nV^{(j)}(x)=W(y_j)\,V_{\text{medio}}(x)\]</p>
 
 <p><strong>Impostazione tecnica</strong></p><p>La ripartizione trasversale dei carichi in impalcati a travi con soletta collaborante pu&#242; essere ricondotta alla risposta di una piastra ortotropa equivalente : l&#39;impalcato discreto (travi longitudinali, eventuali traversi, soletta) viene rappresentato come mezzo continuo con rigidezze per unit&#224; di lunghezza nelle due direzioni principali. La formulazione di Guyon-Massonnet-BareÅ¡ (GMB) permette di combinare uno sviluppo modale lungo la luce con funzioni di ripartizione trasversale per stimare, in modo coerente e rapido, gli effetti (momento/taglio) su ciascuna trave.</p>
 <p>Ipotesi alla base della formulazione</p>

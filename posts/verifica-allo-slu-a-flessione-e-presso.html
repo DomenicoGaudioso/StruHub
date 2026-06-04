@@ -6,6 +6,17 @@
   <title>Verifica allo SLU a flessione e presso-flessione nelle sezione in c.a. | StruHub</title>
   <meta name="description" content="Articolo tecnico StruHub con immagini e passaggi di calcolo.">
   <link rel="stylesheet" href="../assets/style.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
   <header class="site-header">
@@ -29,7 +40,7 @@
 <p>- esempi pratici di calcolo implementati in Python , con un approccio coerente con librerie tipo ConcreteSection</p>
 <p><img src="../assets/images/verifica-allo-slu-a-flessione-e-presso-01.jpg" alt=""></p>
 <p><strong>Formule di riferimento</strong></p>
-<p><img src="../assets/formula-images/formula-ac1dc44e5fbfef88e6.png" alt="( \frac{ M_{xRd}}M_{xEd}€‹€‹ )^\alpha+(\frac{ M_{yRd}}M_{yEd}€‹€‹ )^\alpha ‰¤1"></p>
+<p class="math-block">\[( \frac{ M_{xRd}}M_{xEd}€‹€‹ )^\alpha+(\frac{ M_{yRd}}M_{yEd}€‹€‹ )^\alpha ‰¤1\]</p>
 
 <p>Ipotesi di base allo SLU</p>
 <p>Le verifiche a flessione e presso-flessione si basano su alcune ipotesi fondamentali:</p>

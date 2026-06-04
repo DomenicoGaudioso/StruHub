@@ -6,6 +6,17 @@
   <title>Analisi delle Giunzioni Bullonate | StruHub</title>
   <meta name="description" content="Articolo tecnico StruHub con immagini e passaggi di calcolo.">
   <link rel="stylesheet" href="../assets/style.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
   <header class="site-header">
@@ -23,18 +34,18 @@
       <div class="post-body">
 <p><img src="../assets/images/analisi-delle-giunzioni-bullonate-01.jpg" alt=""></p>
 <p><strong>Formule di riferimento</strong></p>
-<p><img src="../assets/formula-images/formula-b3ac46c3d382d46f0a.png" alt="F_{v,Ed,1} = \frac{V_{Ed}}{n}"></p>
-<p><img src="../assets/formula-images/formula-1aa129c09d714fdea7.png" alt="F_{v,Ed,2} = \frac{M_{Ed} \cdot r_i}{\sum r_j^2}"></p>
-<p><img src="../assets/formula-images/formula-8a9bf12d128b59b241.png" alt="F_{Ed} = \sqrt{F_{v,Ed,1}^2 + F_{v,Ed,2}^2}"></p>
-<p><img src="../assets/formula-images/formula-2e6829ff1b20f257ba.png" alt="e_1, e_2 \geq 1.2 d_0"></p>
-<p><img src="../assets/formula-images/formula-7542f2af1b8f1eee8a.png" alt="p_1 \geq 2.2 d_0, p_2 \geq 2.4 d_0"></p>
-<p><img src="../assets/formula-images/formula-d8664e2e17b8e4efba.png" alt="F_{v,Rd} = \frac{\alpha_v \cdot f_{ub} \cdot A_{res}}{\gamma_{M2}}"></p>
-<p><img src="../assets/formula-images/formula-26b1f5ba9866a6925a.png" alt="F_{b,Rd} = \frac{k_1 \cdot \alpha_b \cdot f_{tk} \cdot d \cdot t}{\gamma_{M2}}"></p>
-<p><img src="../assets/formula-images/formula-bbe32c45b1f1f29954.png" alt="F_{t,Rd} = \frac{0.9 \cdot f_{ub} \cdot A_{res}}{\gamma_{M2}}"></p>
-<p><img src="../assets/formula-images/formula-ba55bf3163c7b215ec.png" alt="B_{p,Rd} = \frac{0.6 \cdot \pi \cdot d_m \cdot t_p \cdot f_{tk}}{\gamma_{M2}}"></p>
-<p><img src="../assets/formula-images/formula-7ce0f5c010252250b8.png" alt="\frac{F_{v,Ed}}{F_{v,Rd}} + \frac{F_{t,Ed}}{1.4 \cdot F_{t,Rd}} \leq 1.0"></p>
-<p><img src="../assets/formula-images/formula-ff7ffb59d46314fcc1.png" alt="F_{s,Rd} = \frac{n \cdot \mu \cdot F_{p,C}}{\gamma_{M3}}"></p>
-<p><img src="../assets/formula-images/formula-d12e3973348221effa.png" alt="V_{eff,1,Rd} = \frac{f_{tk} \cdot A_{nt}}{\gamma_{M2}} + \frac{f_{yk} \cdot A_{nv}}{\sqrt{3} \cdot \gamma_{M0}}"></p>
+<p class="math-block">\[F_{v,Ed,1} = \frac{V_{Ed}}{n}\]</p>
+<p class="math-block">\[F_{v,Ed,2} = \frac{M_{Ed} \cdot r_i}{\sum r_j^2}\]</p>
+<p class="math-block">\[F_{Ed} = \sqrt{F_{v,Ed,1}^2 + F_{v,Ed,2}^2}\]</p>
+<p class="math-block">\[e_1, e_2 \geq 1.2 d_0\]</p>
+<p class="math-block">\[p_1 \geq 2.2 d_0, p_2 \geq 2.4 d_0\]</p>
+<p class="math-block">\[F_{v,Rd} = \frac{\alpha_v \cdot f_{ub} \cdot A_{res}}{\gamma_{M2}}\]</p>
+<p class="math-block">\[F_{b,Rd} = \frac{k_1 \cdot \alpha_b \cdot f_{tk} \cdot d \cdot t}{\gamma_{M2}}\]</p>
+<p class="math-block">\[F_{t,Rd} = \frac{0.9 \cdot f_{ub} \cdot A_{res}}{\gamma_{M2}}\]</p>
+<p class="math-block">\[B_{p,Rd} = \frac{0.6 \cdot \pi \cdot d_m \cdot t_p \cdot f_{tk}}{\gamma_{M2}}\]</p>
+<p class="math-block">\[\frac{F_{v,Ed}}{F_{v,Rd}} + \frac{F_{t,Ed}}{1.4 \cdot F_{t,Rd}} \leq 1.0\]</p>
+<p class="math-block">\[F_{s,Rd} = \frac{n \cdot \mu \cdot F_{p,C}}{\gamma_{M3}}\]</p>
+<p class="math-block">\[V_{eff,1,Rd} = \frac{f_{tk} \cdot A_{nt}}{\gamma_{M2}} + \frac{f_{yk} \cdot A_{nv}}{\sqrt{3} \cdot \gamma_{M0}}\]</p>
 
 <p><strong>Impostazione tecnica</strong></p><p>La progettazione delle unioni metalliche &#232; uno aspetto importante dell&#39;ingegneria strutturale. Un nodo mal progettato pu&#242; compromettere la duttilit&#224; globale della struttura o portare a rotture fragili improvvise. In questo articolo vedremo le principali verifiche indicate dalle NTC 2018 e dall&#39; Eurocodice 3.</p>
 <p>Prima di procedere al calcolo, &#232; fondamentale classificare correttamente il tipo di collegamento. Le normative distinguono le unioni in base alla modalit&#224; di trasmissione degli sforzi:</p>
@@ -62,7 +73,7 @@
 <p>- Bulloni di bordo: penalizzati dalle distanze ridotte (e1, e2) verso l&#39;estremit&#224; della piastra.</p>
 <p>- Bulloni interni: influenzati dagli interassi (p1, p2).</p>
 <p>Trazione e Punzonamento</p>
-<p>Nelle unioni soggette a trazione assiale, oltre alla resistenza del gambo (<img src="../assets/formula-images/formula-5dc6340b4c0501deca.png" alt="F_{t,Rd}">), &#232; vitale verificare il punzonamento (<img src="../assets/formula-images/formula-d099dffaa3fe0261ea.png" alt="B_{p,Rd}">), ovvero il rischio che la testa del bullone o il dado &quot;sfondino&quot; la lamiera, specialmente in presenza di spessori sottili.</p>
+<p>Nelle unioni soggette a trazione assiale, oltre alla resistenza del gambo (<span class="math-inline">\(F_{t,Rd}\)</span>), &#232; vitale verificare il punzonamento (<span class="math-inline">\(B_{p,Rd}\)</span>), ovvero il rischio che la testa del bullone o il dado &quot;sfondino&quot; la lamiera, specialmente in presenza di spessori sottili.</p>
 <p>- Trazione:</p>
 <p>- Punzonamento:</p>
 <p>Interazione Taglio-Trazione</p>

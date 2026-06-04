@@ -6,6 +6,17 @@
   <title>La spinta idraulica sulle Pile da Ponte | StruHub</title>
   <meta name="description" content="Articolo tecnico StruHub con immagini e passaggi di calcolo.">
   <link rel="stylesheet" href="../assets/style.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
   <header class="site-header">
@@ -29,11 +40,11 @@
 <p>- L&#39;altezza delle pile e le modalit&#224; costruttive.</p>
 <p><img src="../assets/images/la-spinta-idraulica-sulle-pile-da-01.jpg" alt=""></p>
 <p><strong>Formule di riferimento</strong></p>
-<p><img src="../assets/formula-images/formula-7ce368e20826ef4e85.png" alt="q_w = \frac{F}A = C_D \frac{1}2 \rho U^2"></p>
-<p><img src="../assets/formula-images/formula-9aff82c25860fc8889.png" alt="A = p\cdot h"></p>
-<p><img src="../assets/formula-images/formula-1e22b642821a8c7a7c.png" alt="S = S_z + S_w = \frac{1}2 \gamma z^2 A + C_D \frac{1}2 \rho U^2 A"></p>
-<p><img src="../assets/formula-images/formula-c9d35493ba9a694607.png" alt="S = S_m - S_v"></p>
-<p><img src="../assets/formula-images/formula-47247816abd3c3c201.png" alt="S = [\gamma_w \cdot Y_{Gm} \cdot A + \beta \cdot \rho \cdot \frac{Q^2}A] - [\gamma_w \cdot Y_{Gv} \cdot A + \beta \cdot \rho \cdot \frac{Q^2}A]"></p>
+<p class="math-block">\[q_w = \frac{F}A = C_D \frac{1}2 \rho U^2\]</p>
+<p class="math-block">\[A = p\cdot h\]</p>
+<p class="math-block">\[S = S_z + S_w = \frac{1}2 \gamma z^2 A + C_D \frac{1}2 \rho U^2 A\]</p>
+<p class="math-block">\[S = S_m - S_v\]</p>
+<p class="math-block">\[S = [\gamma_w \cdot Y_{Gm} \cdot A + \beta \cdot \rho \cdot \frac{Q^2}A] - [\gamma_w \cdot Y_{Gv} \cdot A + \beta \cdot \rho \cdot \frac{Q^2}A]\]</p>
 
 <p>Le forme delle pile idraulicamente pi&#249; efficienti (che producono un rialzo idraulico meno accentuato) sono quelle a rostri arrotondati e semicircolari, che accompagnano meglio la corrente. Il rapporto lunghezza-larghezza idraulicamente ottimale per una pila varia con la velocit&#224;, essendo compreso tra 4 e 7.</p>
 <p><img src="../assets/images/la-spinta-idraulica-sulle-pile-da-02.jpg" alt=""></p>

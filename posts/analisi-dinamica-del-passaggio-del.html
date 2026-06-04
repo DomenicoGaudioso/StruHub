@@ -6,6 +6,17 @@
   <title>Analisi dinamica del passaggio del treno su un ponte | StruHub</title>
   <meta name="description" content="Articolo tecnico StruHub con immagini e passaggi di calcolo.">
   <link rel="stylesheet" href="../assets/style.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
   <header class="site-header">
@@ -24,12 +35,12 @@
 <p><strong>Impostazione tecnica</strong></p><p>Quando un treno attraversa un ponte, il sistema non &#232; statico, il carico si muove e induce vibrazioni. Questo fenomeno &#232; descritto dall&#39; analisi dinamica , fondamentale per rispettare le normative (Eurocodici, UNI EN, ecc.) e garantire sicurezza.</p>
 <p><img src="../assets/images/analisi-dinamica-del-passaggio-del-01.jpg" alt=""></p>
 <p><strong>Formule di riferimento</strong></p>
-<p><img src="../assets/formula-images/formula-7bde6b4563dcd7ac64.png" alt="\n\nm \frac{\partial^2 w(x,t)}{\partial t^2} + c \frac{\partial w(x,t)}{\partial t} + EI \frac{\partial^4 w(x,t)}{\partial x^4} = P \cdot \delta(x - vt)\n\n"></p>
-<p><img src="../assets/formula-images/formula-e53d2e705f3ea6aecc.png" alt="f_1 = \frac{\pi^2}{2 L^2} \sqrt{\frac{EI}{m}}"></p>
-<p><img src="../assets/formula-images/formula-cf627c924ab56bda2a.png" alt="v_c = f_1 \cdot s"></p>
-<p><img src="../assets/formula-images/formula-bea03b8115e9c19053.png" alt="\Phi = 1 + \frac{\alpha v}{\beta + v}"></p>
-<p><img src="../assets/formula-images/formula-16fa7e4e9f7760a69c.png" alt="\Phi = \frac{1}{\sqrt{\left(1 - \left(\frac{v}{v_c}\right)^2\right)^2 + \left(2 \zeta \frac{v}{v_c}\right)^2}}"></p>
-<p><img src="../assets/formula-images/formula-f474e06c7d4a8c61c9.png" alt="f_{\text{eccitazione}} = \frac{v}{s}"></p>
+<p class="math-block">\[\n\nm \frac{\partial^2 w(x,t)}{\partial t^2} + c \frac{\partial w(x,t)}{\partial t} + EI \frac{\partial^4 w(x,t)}{\partial x^4} = P \cdot \delta(x - vt)\n\n\]</p>
+<p class="math-block">\[f_1 = \frac{\pi^2}{2 L^2} \sqrt{\frac{EI}{m}}\]</p>
+<p class="math-block">\[v_c = f_1 \cdot s\]</p>
+<p class="math-block">\[\Phi = 1 + \frac{\alpha v}{\beta + v}\]</p>
+<p class="math-block">\[\Phi = \frac{1}{\sqrt{\left(1 - \left(\frac{v}{v_c}\right)^2\right)^2 + \left(2 \zeta \frac{v}{v_c}\right)^2}}\]</p>
+<p class="math-block">\[f_{\text{eccitazione}} = \frac{v}{s}\]</p>
 
 <p>Modello teorico: trave semplicemente appoggiata</p>
 <p>Consideriamo una trave di luce L, massa per unit&#224; di lunghezza mmm, rigidezza EI, attraversata da un carico P che si muove con velocit&#224; costante v.</p>

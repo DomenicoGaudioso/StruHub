@@ -1,0 +1,11 @@
+---
+layout: default
+---
+<article class="post">
+  <a class="back-link" href="{{ '/#articoli' | relative_url }}">Tutti gli articoli</a>
+  <h1>{{ page.title }}</h1>
+  <div class="post-meta">{{ page.meta | default: 'Quaderno tecnico' }}</div>
+  <div class="post-body">
+    {{ content }}
+  </div>
+</article>

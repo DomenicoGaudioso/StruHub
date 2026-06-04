@@ -117,12 +117,5 @@
     "post": "verifica-allo-slu-a-flessione-e-presso.html",
     "bytes": 51091,
     "contentType": "image/png"
-  },
-  {
-    "sourceUrl": "provided asset: copertina.png",
-    "localPath": "assets/images/cover.png",
-    "post": "site-cover",
-    "bytes": 2289454,
-    "contentType": "image/png"
   }
 ]

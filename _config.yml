@@ -1,0 +1,15 @@
+title: StruHub
+description: Quaderno tecnico pubblico di ingegneria strutturale digitale.
+lang: it
+baseurl: "/StruHub"
+url: "https://domenicogaudioso.github.io"
+markdown: kramdown
+kramdown:
+  input: GFM
+permalink: /posts/:title.html
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post

@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   color-scheme: light;
   --ink: #182026;
   --muted: #66717a;
@@ -33,7 +33,6 @@ a { color: inherit; }
   display: inline-flex;
   align-items: center;
   text-decoration: none;
-  letter-spacing: 0;
 }
 .brand img {
   display: block;
@@ -46,46 +45,15 @@ nav a, .back-link {
   text-decoration: none;
   font-size: 0.95rem;
 }
-.hero {
-  padding: clamp(48px, 9vw, 96px) clamp(20px, 5vw, 72px) clamp(36px, 6vw, 72px);
+.home-hero {
+  padding: clamp(54px, 9vw, 108px) clamp(20px, 5vw, 72px) clamp(42px, 7vw, 84px);
   background: var(--band);
   border-bottom: 1px solid var(--line);
-}
-.hero-cover-full {
-  position: relative;
-  min-height: clamp(430px, 68vh, 680px);
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  isolation: isolate;
-  background: #f7faf9;
-}
-.hero-cover-full::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(90deg, rgba(251, 251, 248, 0.96) 0%, rgba(251, 251, 248, 0.78) 34%, rgba(251, 251, 248, 0.18) 72%),
-    linear-gradient(0deg, rgba(251, 251, 248, 0.42), rgba(251, 251, 248, 0.02) 42%);
-}
-.hero-image {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-.hero-copy {
-  max-width: min(720px, 58vw);
 }
 .eyebrow, .label, .post-meta {
   color: var(--accent);
   font-size: 0.86rem;
   font-weight: 650;
-  letter-spacing: 0;
 }
 h1 {
   font-size: clamp(2.4rem, 7vw, 5.6rem);
@@ -151,7 +119,8 @@ h1 {
   margin-top: 16px;
 }
 .post-body p { margin: 1rem 0; }
-.post-body p strong {
+.post-body p strong,
+.post-body > strong {
   display: inline-block;
   margin-top: 0.8rem;
   font-size: 1.02rem;
@@ -159,22 +128,16 @@ h1 {
 .post-body img {
   max-width: 100%;
   height: auto;
-  vertical-align: middle;
-}
-.post-body p > img:only-child {
   display: block;
   margin: 16px auto;
 }
-.math-block {
+.MathJax {
+  max-width: 100%;
+}
+.post-body mjx-container[display="true"] {
   overflow-x: auto;
   overflow-y: hidden;
   padding: 6px 0;
-}
-.math-inline {
-  white-space: nowrap;
-}
-.MathJax {
-  max-width: 100%;
 }
 .post-body ul, .post-body ol {
   padding-left: 1.2rem;
@@ -187,15 +150,4 @@ h1 {
 @media (max-width: 640px) {
   .site-header { align-items: flex-start; flex-direction: column; }
   .section-title { align-items: flex-start; flex-direction: column; gap: 0; }
-  .hero-cover-full {
-    min-height: 560px;
-    align-items: flex-end;
-  }
-  .hero-cover-full::after {
-    background:
-      linear-gradient(0deg, rgba(251, 251, 248, 0.96) 0%, rgba(251, 251, 248, 0.84) 48%, rgba(251, 251, 248, 0.18) 100%);
-  }
-  .hero-image { object-position: 58% center; }
-  .hero-copy { max-width: 100%; }
 }
-

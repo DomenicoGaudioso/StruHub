@@ -119,10 +119,10 @@
     "contentType": "image/png"
   },
   {
-    "sourceUrl": "https://substackcdn.com/image/fetch/$s_!eo_c!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F920030d5-f28a-4cbe-929d-d4e34faef031_1071x225.png",
-    "localPath": "assets/images/cover.jpg",
+    "sourceUrl": "provided asset: copertina.png",
+    "localPath": "assets/images/cover.png",
     "post": "site-cover",
-    "bytes": 18148,
-    "contentType": "image/jpeg"
+    "bytes": 2289454,
+    "contentType": "image/png"
   }
 ]

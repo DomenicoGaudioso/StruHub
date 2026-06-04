@@ -30,9 +30,15 @@ a { color: inherit; }
   z-index: 10;
 }
 .brand {
-  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
   text-decoration: none;
   letter-spacing: 0;
+}
+.brand img {
+  display: block;
+  width: auto;
+  height: clamp(42px, 6vw, 64px);
 }
 nav { display: flex; gap: 18px; }
 nav a, .back-link {

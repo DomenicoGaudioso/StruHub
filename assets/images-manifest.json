@@ -7,6 +7,13 @@
     "contentType": "image/jpeg"
   },
   {
+    "sourceUrl": "generated://codex/analisi-delle-giunzioni-bullonate-schema.svg",
+    "localPath": "assets/images/analisi-delle-giunzioni-bullonate-schema.svg",
+    "post": "analisi-delle-giunzioni-bullonate.html",
+    "bytes": 5396,
+    "contentType": "image/svg+xml"
+  },
+  {
     "sourceUrl": "https://substackcdn.com/image/fetch/$s_!zt6Q!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fac79f59b-cc51-49a1-8c40-d1734b655c11_1024x1024.png",
     "localPath": "assets/images/analisi-dinamica-del-passaggio-del-01.jpg",
     "post": "analisi-dinamica-del-passaggio-del.html",

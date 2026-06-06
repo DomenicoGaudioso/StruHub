@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="820" viewBox="0 0 1200 820" role="img" aria-labelledby="title desc">
+  <title id="title">Schema di gruppo bullonato con taglio eccentrico</title>
+  <desc id="desc">Schema tecnico di una piastra con quattro bulloni M20, assi baricentrici, quote geometriche e linea di azione del taglio eccentrico.</desc>
+  <defs>
+    <marker id="arrow-navy" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#0f3b5f"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#b33a2b"/>
+    </marker>
+    <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#666"/>
+    </marker>
+    <style>
+      .bg { fill: #f7f7f2; }
+      .plate { fill: #e7ecf0; stroke: #405466; stroke-width: 4; }
+      .hole { fill: #ffffff; stroke: #405466; stroke-width: 4; }
+      .bolt { fill: #c7ced6; stroke: #405466; stroke-width: 3; }
+      .axis { stroke: #7b8a97; stroke-width: 2.5; stroke-dasharray: 10 8; }
+      .force { stroke: #0f3b5f; stroke-width: 6; fill: none; marker-end: url(#arrow-navy); }
+      .moment { stroke: #b33a2b; stroke-width: 6; fill: none; marker-end: url(#arrow-red); }
+      .dim { stroke: #666; stroke-width: 2.5; fill: none; marker-start: url(#arrow-gray); marker-end: url(#arrow-gray); }
+      .guide { stroke: #999; stroke-width: 2; stroke-dasharray: 6 6; }
+      .critical { stroke: #b33a2b; stroke-width: 4; fill: none; }
+      .label { font-family: 'Segoe UI', Arial, sans-serif; font-size: 28px; fill: #24313c; }
+      .small { font-family: 'Segoe UI', Arial, sans-serif; font-size: 24px; fill: #24313c; }
+      .tiny { font-family: 'Segoe UI', Arial, sans-serif; font-size: 21px; fill: #24313c; }
+      .accent { fill: #b33a2b; }
+      .note { fill: #0f3b5f; font-weight: 600; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1200" height="820" />
+
+  <text class="label" x="70" y="70">Gruppo bullonato 2x2 con taglio eccentrico</text>
+  <text class="tiny" x="70" y="108">Esempio del post: 4 bulloni M20 8.8, piastra S275, VEd = 160 kN, e = 70 mm</text>
+
+  <rect class="plate" x="330" y="170" width="480" height="500" rx="12" />
+
+  <line class="axis" x1="570" y1="130" x2="570" y2="710" />
+  <line class="axis" x1="290" y1="420" x2="850" y2="420" />
+  <circle cx="570" cy="420" r="7" fill="#0f3b5f" />
+  <text class="small note" x="586" y="410">Baricentro</text>
+  <text class="small" x="822" y="408">x</text>
+  <text class="small" x="580" y="155">y</text>
+
+  <g transform="translate(450,300)">
+    <circle class="bolt" cx="0" cy="0" r="26" />
+    <circle class="hole" cx="0" cy="0" r="14" />
+  </g>
+  <g transform="translate(690,300)">
+    <circle class="bolt" cx="0" cy="0" r="26" />
+    <circle class="hole" cx="0" cy="0" r="14" />
+  </g>
+  <g transform="translate(450,540)">
+    <circle class="bolt" cx="0" cy="0" r="26" />
+    <circle class="hole" cx="0" cy="0" r="14" />
+  </g>
+  <g transform="translate(690,540)">
+    <circle class="bolt" cx="0" cy="0" r="26" />
+    <circle class="hole" cx="0" cy="0" r="14" />
+  </g>
+
+  <ellipse class="critical" cx="450" cy="420" rx="58" ry="182" />
+  <text class="small accent" x="245" y="260">Bulloni critici</text>
+  <text class="tiny accent" x="220" y="292">taglio diretto + torsione</text>
+
+  <line class="force" x1="200" y1="230" x2="200" y2="520" />
+  <text class="small note" x="120" y="215">VEd = 160 kN</text>
+
+  <line class="guide" x1="200" y1="420" x2="570" y2="420" />
+  <line class="dim" x1="200" y1="610" x2="570" y2="610" />
+  <line class="guide" x1="200" y1="580" x2="200" y2="640" />
+  <line class="guide" x1="570" y1="580" x2="570" y2="640" />
+  <text class="small" x="340" y="598">e = 70 mm</text>
+
+  <path class="moment" d="M120 455 C120 360, 210 320, 275 360" />
+  <text class="small accent" x="78" y="505">MEd = VEd · e</text>
+
+  <line class="guide" x1="450" y1="300" x2="450" y2="540" />
+  <line class="dim" x1="860" y1="300" x2="860" y2="540" />
+  <line class="guide" x1="830" y1="300" x2="890" y2="300" />
+  <line class="guide" x1="830" y1="540" x2="890" y2="540" />
+  <text class="small" x="878" y="430" transform="rotate(90 878 430)">p1 = 120 mm</text>
+
+  <line class="guide" x1="450" y1="300" x2="690" y2="300" />
+  <line class="dim" x1="450" y1="720" x2="690" y2="720" />
+  <line class="guide" x1="450" y1="690" x2="450" y2="750" />
+  <line class="guide" x1="690" y1="690" x2="690" y2="750" />
+  <text class="small" x="525" y="708">p2 = 80 mm</text>
+
+  <line class="dim" x1="330" y1="300" x2="450" y2="300" />
+  <line class="guide" x1="330" y1="270" x2="330" y2="330" />
+  <line class="guide" x1="450" y1="270" x2="450" y2="330" />
+  <text class="small" x="355" y="288">e2 = 40 mm</text>
+
+  <line class="dim" x1="930" y1="170" x2="930" y2="300" />
+  <line class="guide" x1="900" y1="170" x2="960" y2="170" />
+  <line class="guide" x1="900" y1="300" x2="960" y2="300" />
+  <text class="small" x="948" y="250" transform="rotate(90 948 250)">e1 = 50 mm</text>
+
+  <text class="tiny" x="905" y="500">Coordinate dei bulloni:</text>
+  <text class="tiny" x="905" y="534">(±40, ±60) mm</text>
+  <text class="tiny" x="905" y="568">d0 = 22 mm</text>
+  <text class="tiny" x="905" y="602">Taglio su un piano</text>
+</svg>

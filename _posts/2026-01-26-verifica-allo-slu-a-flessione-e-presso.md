@@ -1,285 +1,234 @@
 ---
 layout: post
-title: "Verifica allo SLU a flessione e presso-flessione nelle sezione in c.a."
-description: "Articolo tecnico StruHub con immagini e passaggi di calcolo."
+title: "Verifica allo SLU a flessione e presso-flessione nelle sezioni in c.a."
+description: "Riferimento tecnico StruHub con esempio numerico completo, schema della sezione e riferimenti normativi tracciabili."
 date: 2026-01-26
 order: 26
 permalink: /posts/verifica-allo-slu-a-flessione-e-presso.html
-meta: "Archivio StruHub · 660 parole circa"
+meta: "Quaderno tecnico - 1510 parole circa"
 ---
 
-**Impostazione tecnica**
+![Schema di deformazioni, blocco di compressione e forze interne in una sezione rettangolare in c.a.]({{ site.baseurl }}/assets/images/verifica-allo-slu-a-flessione-e-presso-schema.svg)
 
-Nel progetto strutturale in calcestruzzo armato, la verifica allo Stato Limite Ultimo (SLU) rappresenta il momento decisivo: è qui che accertiamo che la sezione sia in grado di resistere alle azioni di progetto senza collassare.
+**La sezione non si verifica con una formula isolata**
 
-In questo articolo analizziamo:
+Nella pratica di progetto la verifica allo SLU di una sezione in cemento armato e' un percorso: si fissano materiali e copriferro, si sceglie il legame di calcolo, si impone la compatibilita' delle deformazioni, si trovano asse neutro e forze interne e solo alla fine si confronta la domanda con la capacita'. Saltare uno di questi passaggi produce risultati poco revisionabili, soprattutto quando la stessa sezione passa da flessione semplice a presso-flessione.
 
-- la verifica a flessione semplice
+Le grandezze minime da dichiarare sono:
 
-- la verifica a presso-flessione retta
+- geometria della sezione $b \times h$;
+- posizione delle armature e copriferro reale;
+- classe del calcestruzzo e acciaio di armatura;
+- combinazione di progetto $(N_{Ed}, M_{Ed})$;
+- convenzione dei segni e unita' di misura.
 
-- il significato fisico delle formule normative
-
-- esempi pratici di calcolo implementati in Python, con un approccio coerente con librerie tipo ConcreteSection
-
-![Immagine tecnica StruHub]({{ site.baseurl }}/assets/images/verifica-allo-slu-a-flessione-e-presso-01.jpg)
-
-**Formule di riferimento**
+Per una verifica manuale o con una piccola routine numerica, il punto chiave resta questo:
 
 $$
-( \frac{ M_{xRd}}M_{xEd} )^\alpha+(\frac{ M_{yRd}}M_{yEd} )^\alpha \le 1
+N_{Rd}=\sum F_{c,Rd}+\sum F_{s,Rd},
+\qquad
+M_{Rd}=\sum F_{Rd}\,z
 $$
 
-Ipotesi di base allo SLU
+In altre parole, la resistenza nasce dall'equilibrio tra blocco compresso di calcestruzzo e armature, non da un coefficiente isolato.
 
-Le verifiche a flessione e presso-flessione si basano su alcune ipotesi fondamentali:
+**Ipotesi di base da tenere visibili**
 
-- Ipotesi di Bernoulli: Le sezioni piane restano piane dopo la deformazione.
+Per le sezioni ordinarie in c.a. le ipotesi classiche, coerenti con NTC 2018 e con l'impostazione dell'Eurocodice 2, sono:
 
-- Leggi costitutive di progetto: Ad esempio:
+- conservazione delle sezioni piane;
+- perfetta aderenza acciaio-calcestruzzo;
+- resistenza a trazione del calcestruzzo trascurata allo SLU;
+- crisi del calcestruzzo a compressione al raggiungimento della deformazione ultima;
+- legame dell'acciaio assunto elastico-perfettamente plastico di progetto.
 
-- Calcestruzzo: diagramma parabola-rettangolo
+Le resistenze di progetto da cui partire sono:
 
-- Acciaio: elastico-perfettamente plastico
+$$
+f_{cd}=\frac{\alpha_{cc} f_{ck}}{\gamma_c},
+\qquad
+f_{yd}=\frac{f_{yk}}{\gamma_s}
+$$
 
-- Stato tensionale ultimo
+Assumendo $\alpha_{cc}=0.85$, $\gamma_c=1.50$ e $\gamma_s=1.15$, per una sezione in calcestruzzo C30/37 con armature B450C si ottiene:
 
-Il calcestruzzo lavora solo a compressione, l'acciaio anche a trazione.
+$$
+f_{cd}=\frac{0.85 \cdot 30}{1.50}=17.0\,\mathrm{MPa},
+\qquad
+f_{yd}=\frac{450}{1.15}=391\,\mathrm{MPa}
+$$
 
-Queste ipotesi consentono di passare dal problema reale a un equilibrio di forze e momenti.
+Questi sono i numeri che entrano davvero nell'equilibrio di sezione.
 
-Il Modello resistente
+**Caso 1: flessione semplice su una trave rettangolare**
 
-In flessione semplice:
+Si consideri una sezione rettangolare di base $b=300\,\mathrm{mm}$ e altezza $h=500\,\mathrm{mm}$, con copriferro nominale $c_{nom}=40\,\mathrm{mm}$, staffe $\phi 8$ e 4 barre $\phi 20$ all'intradosso. Per una verifica rapida in flessione positiva, la presenza dell'armatura superiore viene trascurata in modo conservativo.
 
-- il calcestruzzo compresso fornisce una risultante C
+L'area tesa vale:
 
-- l'armatura tesa fornisce una risultante T
+$$
+A_s=4 \cdot \frac{\pi 20^2}{4}=1256\,\mathrm{mm^2}
+$$
 
-- l'equilibrio è garantito da: C=T
+La distanza utile delle barre tese dal lembo compresso e':
 
-Il momento resistente ultimo è: MRd=T‹…z
+$$
+d=500-40-8-10=442\,\mathrm{mm}
+$$
 
-dove z è il braccio interno.
+Se il momento sollecitante di progetto in campata e' $M_{Ed}=175\,\mathrm{kNm}$, un controllo manuale trasparente puo' essere impostato con il blocco rettangolare equivalente:
 
-![Progetto di una sezione in c.a. sottoposta a flessione...]({{ site.baseurl }}/assets/images/verifica-allo-slu-a-flessione-e-presso-02.jpg)
+$$
+x=\frac{A_s f_{yd}}{0.8\,b\,f_{cd}}=
+\frac{1256 \cdot 391}{0.8 \cdot 300 \cdot 17.0}
+=120.4\,\mathrm{mm}
+$$
 
-Secondo §4.1.2.1.3 NTC, in assenza (o quasi) di sforzo normale:
+Il braccio interno diventa:
 
-MEd\leqMRd
+$$
+z=d-0.4x=442-0.4 \cdot 120.4=393.8\,\mathrm{mm}
+$$
 
-dove:
+e quindi:
 
-- MEd è il momento sollecitante di progetto
+$$
+M_{Rd}=A_s f_{yd} z=
+1256 \cdot 391 \cdot 393.8
+\cdot 10^{-6}
+=193.4\,\mathrm{kNm}
+$$
 
-- MRd è il momento resistente ultimo della sezione
+Il rapporto domanda/capacita' e':
 
-Il valore di MRd deve essere determinato con modelli coerenti con le leggi costitutive di progetto.
+$$
+\eta_M=\frac{M_{Ed}}{M_{Rd}}=
+\frac{175}{193.4}=0.91
+$$
 
-La Verifica a presso-flessione retta
+La sezione e' verificata, ma il margine non e' grande. In pratica, questa e' la situazione tipica in cui il progettista non dovrebbe limitarsi al solo valore finale: conviene controllare anche copriferro effettivo, diametro realmente disponibile in officina, possibilita' di aumentare la base compressa o di redistribuire il momento nella modellazione globale.
 
-Quando è presente anche uno sforzo normale N, la situazione diventa più interessante.
+**Dove si nascondono gli errori piu' frequenti**
 
-A seconda dell'entità di N, cambiano:
+Su verifiche come questa i due errori ricorrenti non sono "di formula", ma di tracciabilita':
 
-- posizione dell'asse neutro
+- usare $d$ geometrico invece della distanza reale al baricentro delle barre;
+- riportare $M_{Ed}$ in $\mathrm{kNm}$ e le forze interne in $\mathrm{N}$ o $\mathrm{mm}$ senza coerenza di unita'.
 
-- stato tensionale dell'armatura
+Un tool serio, anche molto semplice, ha senso solo se rende espliciti questi passaggi. E' questo il tipo di logica utile in un calcolatore di sezione nello spirito StruHub o di una piccola utility CivilBox: mostrare asse neutro, braccio interno e rapporto $E_d/R_d$, non soltanto un esito verde o rosso.
 
-- contributo del calcestruzzo
+**Caso 2: presso-flessione retta su una sezione con armatura simmetrica**
 
-È per questo che la norma introduce il dominio di interazione N-M.
+Consideriamo ora la stessa sezione $300 \times 500\,\mathrm{mm}$, ma con 4 barre $\phi 20$ sia all'estradosso sia all'intradosso. La distanza del baricentro delle armature superiori dal bordo compresso vale:
 
-![A simple method for N-M interaction diagrams of circular reinforced concrete cross sections | Engissol Ltd.- Structural Engineering Software]({{ site.baseurl }}/assets/images/verifica-allo-slu-a-flessione-e-presso-03.jpg)
+$$
+d'=40+8+10=58\,\mathrm{mm}
+$$
 
-Verifica allo SLU a presso-flessione deviata (NTC 2018)
+Supponiamo di dover verificare una combinazione di progetto realistica per un pilastro o per un elemento di estremita' di telaio:
 
-La presso-flessione deviata la sezione è soggetta contemporaneamente a:
+$$
+N_{Ed}=700\,\mathrm{kN},
+\qquad
+M_{Ed}=250\,\mathrm{kNm}
+$$
 
-- sforzo normale N;
+Assumendo, per il punto analizzato del dominio resistente, che entrambe le armature abbiano raggiunto la tensione di progetto, l'equilibrio assiale porta a:
 
-- momento flettente Mx;
+$$
+N_{Rd}=0.8\,b\,x\,f_{cd}
+$$
 
-- momento flettente My;
+perche' il contributo di compressione dell'armatura superiore e quello di trazione dell'armatura inferiore si compensano in valore assoluto. Da qui:
 
-È il caso tipico di:
+$$
+x=\frac{N_{Ed}}{0.8\,b\,f_{cd}}=
+\frac{700000}{0.8 \cdot 300 \cdot 17.0}
+=171.6\,\mathrm{mm}
+$$
 
-- pilastri in c.a.
+Il controllo di congruenza sulle deformazioni e' rapido ma essenziale:
 
-- setti
+$$
+\varepsilon_s=
+\frac{d-x}{x}\,\varepsilon_{cu}=
+\frac{442-171.6}{171.6} \cdot 0.35\%
+=0.55\%
+$$
 
-- travi soggette ad azioni eccentriche
+quindi l'armatura tesa e' effettivamente oltre lo snervamento. Per l'armatura compressa:
 
-Il riferimento normativo è sempre il §4.1.2.1.3 - Verifiche delle sezioni.
+$$
+\varepsilon'_s=
+\frac{x-d'}{x}\,\varepsilon_{cu}=
+\frac{171.6-58}{171.6} \cdot 0.35\%
+=0.23\%
+$$
 
-Le NTC stabiliscono che: La verifica allo SLU di una sezione soggetta a sforzo normale e momenti flettenti in due direzioni deve essere condotta tenendo conto dell'interazione tra N, Mx e My, verificando che le azioni di progetto non superino le resistenze della sezione.
+anche questo valore e' compatibile con l'ipotesi di snervamento in compressione.
 
-(NEd, MxEd, MyEd)ˆˆDominio resistente della sezione
+Le forze interne risultano:
 
-La norma non impone una formula chiusa, ma richiede che:
+$$
+C_c=0.8\,b\,x\,f_{cd}=700\,\mathrm{kN}
+$$
 
-- siano rispettate le leggi costitutive di progetto
+$$
+C_s=A'_s f_{yd}=491\,\mathrm{kN},
+\qquad
+T_s=A_s f_{yd}=491\,\mathrm{kN}
+$$
 
-- sia garantito l' equilibrio globale della sezione
+Il momento resistente, calcolato rispetto al baricentro della sezione, vale:
 
-- sia verificata la compatibilità delle deformazioni
+$$
+M_{Rd}=C_c(250-0.4x)+C_s(250-d')+T_s(d-250)
+$$
 
-Per sezioni ordinarie, le NTC ammettono anche una verifica approssimata, del tipo:
+$$
+M_{Rd}=700 \cdot 181.4 + 491 \cdot 192 + 491 \cdot 192
+=315.7 \cdot 10^3\,\mathrm{kN\,mm}
+$$
 
-con:
+che in $\mathrm{kNm}$ diventa:
 
-- α generalmente compreso tra 1 e 2
+$$
+M_{Rd}=
+\left(700 \cdot 181.4 + 491 \cdot 192 + 491 \cdot 192\right)\cdot 10^{-3}
+=315.7\,\mathrm{kNm}
+$$
 
-- Mx,Rd ed My,Rd valutati in presenza dello stesso sforzo normale NEd
+ovvero:
 
-La costruzione dei domini tramite python, la libreria ConcreteSection
+$$
+\eta_{NM}=\frac{M_{Ed}}{M_{Rd}}=
+\frac{250}{315.7}=0.79
+$$
 
-concreteproperties è un pacchetto Python che può essere utilizzato per calcolare le proprietà della sezione di sezioni in cemento armato, eseguire analisi momento -curvatura e generare diagrammi di interazione. https://robbievanleeuwen.github.io/concrete-properties /
+La lettura tecnica e' utile: in questo punto del dominio la compressione assiale sposta l'asse neutro verso il basso e fa crescere la zona compressa; la verifica non e' governata dall'acciaio, ma dal modo in cui la combinazione $N$-$M$ utilizza il blocco di calcestruzzo.
 
-Import delle librerie necessarie import numpy as np
+**Dal controllo manuale al dominio di interazione**
 
-from concreteproperties.material import Concrete, SteelBar
+Quando le combinazioni aumentano o la sezione smette di essere rettangolare semplice, il passaggio corretto non e' "complicare il foglio Excel", ma costruire il dominio di interazione $N$-$M$ mantenendo visibili le ipotesi di calcolo.
 
-from concreteproperties.stress_strain_profile import (
+![Diagramma di interazione momento-sforzo normale per la sezione analizzata]({{ site.baseurl }}/assets/images/verifica-allo-slu-a-flessione-e-presso-04.png)
 
-ConcreteLinear,
+Questa e' la vera utilita' operativa del dominio: non tanto produrre un'immagine elegante, quanto capire rapidamente se una combinazione si trova vicino al ramo a forte compressione, al ramo quasi puramente flessionale o alla zona in cui piccole variazioni del copriferro e dell'armatura cambiano sensibilmente il margine disponibile.
 
-RectangularStressBlock,
+**Checklist pratica prima di chiudere la verifica**
 
-SteelElasticPlastic,
+Per una relazione di calcolo o per una revisione interna conviene lasciare sempre espliciti questi punti:
 
-)
+1. materiali e resistenze di progetto effettivamente usate;
+2. geometria della sezione con quote ai baricentri delle armature;
+3. convenzione dei segni di $N_{Ed}$ e $M_{Ed}$;
+4. posizione dell'asse neutro e controllo delle deformazioni;
+5. rapporto finale $\eta=E_d/R_d$ con l'unita' di misura coerente.
 
-from sectionproperties.pre.library.concrete_sections import concrete_rectangular_section
+Se uno di questi passaggi manca, il numero finale resta poco auditabile anche se formalmente corretto.
 
-from concreteproperties.concrete_section import ConcreteSection
+**Riferimenti normativi e tecnici**
 
-from concreteproperties.results import MomentInteractionResults Definizione dei Materiali concrete = Concrete(
-
-name="32 MPa Concrete",
-
-density=2.4e-6,
-
-stress_strain_profile=ConcreteLinear(elastic_modulus=30.1e3),
-
-ultimate_stress_strain_profile=RectangularStressBlock(
-
-compressive_strength=32,
-
-alpha=0.802,
-
-gamma=0.89,
-
-ultimate_strain=0.003,
-
-),
-
-flexural_tensile_strength=3.4,
-
-colour="lightgrey",
-
-)
-
-steel = SteelBar(
-
-name="500 MPa Steel",
-
-density=7.85e-6,
-
-stress_strain_profile=SteelElasticPlastic(
-
-yield_strength=500,
-
-elastic_modulus=200e3,
-
-fracture_strain=0.05,
-
-),
-
-colour="grey",
-
-) Creazione della sezione geom = concrete_rectangular_section(
-
-b=400,
-
-d=600,
-
-dia_top=20,
-
-n_top=3,
-
-dia_bot=24,
-
-n_bot=3,
-
-n_circle=4,
-
-cover=30,
-
-area_top=310,
-
-area_bot=450,
-
-conc_mat=concrete,
-
-steel_mat=steel,
-
-)
-
-conc_sec = ConcreteSection(geom)
-
-conc_sec.plot_section() Momento d'interazione geom = concrete_rectangular_section(
-
-b=400,
-
-d=600,
-
-dia_top=20,
-
-n_top=3,
-
-dia_bot=24,
-
-n_bot=3,
-
-n_circle=4,
-
-cover=30,
-
-area_top=310,
-
-area_bot=450,
-
-conc_mat=concrete,
-
-steel_mat=steel,
-
-)
-
-conc_sec = ConcreteSection(geom)
-
-mi_res_pos = conc_sec.moment_interaction_diagram(progress_bar=False)
-
-mi_res_neg = conc_sec.moment_interaction_diagram(theta=np.pi, progress_bar=False)
-
-MomentInteractionResults.plot_multiple_diagrams(
-
-moment_interaction_results=[mi_res_pos, mi_res_neg],
-
-labels=["Positive", "Negative"],
-
-fmt="-",
-
-)
-
-![Immagine tecnica StruHub]({{ site.baseurl }}/assets/images/verifica-allo-slu-a-flessione-e-presso-04.png)
-
-Oppure, se vogliamo il diagramma 3D: n_list = np.linspace(0, 7400e3, 11)
-
-biaxial_results = []
-
-for n in n_list:
-
-biaxial_results.append(conc_sec.biaxial_bending_diagram(n=n, progress_bar=False))
-
-![Immagine tecnica StruHub]({{ site.baseurl }}/assets/images/verifica-allo-slu-a-flessione-e-presso-05.png)
+- D.M. 17 gennaio 2018, *Aggiornamento delle Norme tecniche per le costruzioni*, Capitolo 4, par. 4.1.2.1.2, Ministero delle Infrastrutture e dei Trasporti, G.U. n. 42 del 20 febbraio 2018, Suppl. Ord. n. 8.
+- Circolare 21 gennaio 2019, n. 7 C.S.LL.PP., *Istruzioni per l'applicazione dell'Aggiornamento delle "Norme tecniche per le costruzioni" di cui al decreto ministeriale 17 gennaio 2018*, par. C4.1.2.1.2, G.U. n. 35 del 11 febbraio 2019, Suppl. Ord. n. 5.
+- UNI EN 1992-1-1, Eurocodice 2 - Progettazione delle strutture di calcestruzzo - Parte 1-1: Regole generali e regole per gli edifici. Per chi lavora con riferimenti aggiornati, la scheda UNI segnala la sostituzione della edizione 2015 con la UNI EN 1992-1-1:2024 dal 18 gennaio 2024.

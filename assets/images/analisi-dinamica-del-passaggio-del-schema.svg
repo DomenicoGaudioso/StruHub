@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Schema di analisi dinamica del transito ferroviario su ponte</title>
+  <desc id="desc">Workflow con convoglio, impalcato, formule per frequenza e velocita critica e lettura dei picchi dinamici.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f4f1e8"/>
+      <stop offset="100%" stop-color="#dce9ee"/>
+    </linearGradient>
+    <linearGradient id="beam" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#51606b"/>
+      <stop offset="100%" stop-color="#2f3b44"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#eef3f5"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#174a5a"/>
+    </marker>
+    <style>
+      .title { font: 700 34px 'Segoe UI', Arial, sans-serif; fill: #20323a; }
+      .subtitle { font: 600 20px 'Segoe UI', Arial, sans-serif; fill: #355562; }
+      .body { font: 18px 'Segoe UI', Arial, sans-serif; fill: #28414a; }
+      .small { font: 16px 'Segoe UI', Arial, sans-serif; fill: #3d5964; }
+      .formula { font: 600 21px 'Segoe UI', Arial, sans-serif; fill: #17353f; }
+      .box { fill: url(#panel); stroke: #97aeb8; stroke-width: 2; rx: 20; }
+      .accent { fill: #d4682d; }
+      .steel { fill: #5a6d78; }
+      .track { stroke: #475963; stroke-width: 5; }
+      .rail { stroke: #8da0a9; stroke-width: 3; }
+      .line { stroke: #174a5a; stroke-width: 4; fill: none; marker-end: url(#arrow); }
+      .dashed { stroke-dasharray: 10 10; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="720" fill="url(#bg)"/>
+
+  <text x="70" y="70" class="title">Analisi dinamica del passaggio del treno</text>
+  <text x="70" y="102" class="subtitle">Dalla frequenza propria del ponte alle velocita critiche del convoglio</text>
+
+  <rect x="60" y="140" width="1080" height="220" class="box"/>
+  <text x="90" y="182" class="subtitle">1. Modello fisico</text>
+
+  <line x1="170" y1="285" x2="860" y2="285" class="track"/>
+  <line x1="170" y1="255" x2="860" y2="255" class="rail"/>
+  <line x1="170" y1="270" x2="860" y2="270" class="rail"/>
+  <rect x="250" y="205" width="210" height="38" rx="12" fill="#d4682d"/>
+  <rect x="505" y="205" width="210" height="38" rx="12" fill="#d4682d"/>
+  <circle cx="285" cy="255" r="16" class="steel"/>
+  <circle cx="360" cy="255" r="16" class="steel"/>
+  <circle cx="540" cy="255" r="16" class="steel"/>
+  <circle cx="615" cy="255" r="16" class="steel"/>
+  <line x1="285" y1="255" x2="360" y2="255" stroke="#d4682d" stroke-width="3"/>
+  <line x1="540" y1="255" x2="615" y2="255" stroke="#d4682d" stroke-width="3"/>
+
+  <polygon points="180,345 145,285 215,285" fill="#6c7d87"/>
+  <polygon points="850,345 815,285 885,285" fill="#6c7d87"/>
+  <rect x="210" y="285" width="620" height="18" fill="url(#beam)" rx="8"/>
+
+  <line x1="285" y1="175" x2="360" y2="175" stroke="#174a5a" stroke-width="3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="300" y="165" class="body">d1 = interasse assi</text>
+  <line x1="360" y1="150" x2="615" y2="150" stroke="#174a5a" stroke-width="3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="430" y="138" class="body">d2 = passo ricorrente</text>
+  <line x1="200" y1="330" x2="830" y2="330" stroke="#174a5a" stroke-width="3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="485" y="355" class="body">L = luce del ponte</text>
+  <line x1="690" y1="220" x2="790" y2="220" class="line"/>
+  <text x="720" y="205" class="body">v</text>
+
+  <text x="915" y="205" class="formula">f1 = pi / (2 L^2) * sqrt(EI / m)</text>
+  <text x="915" y="242" class="formula">fp = v / d</text>
+  <text x="915" y="279" class="formula">vcr = f1 * d</text>
+  <text x="915" y="316" class="small">Controllare massa, inerzia, ballast, binario, smorzamento</text>
+
+  <rect x="60" y="405" width="500" height="245" class="box"/>
+  <text x="90" y="447" class="subtitle">2. Sweep di velocita</text>
+  <text x="90" y="485" class="body">Finestre da affinare nell'esempio:</text>
+  <text x="110" y="520" class="formula">45 - 60 km/h</text>
+  <text x="110" y="555" class="formula">280 - 320 km/h</text>
+  <text x="90" y="600" class="small">Per ogni run salvare velocita, sezione critica, istante del picco</text>
+  <text x="90" y="628" class="small">e grandezze concomitanti: freccia, accelerazione, momento, taglio.</text>
+
+  <polyline points="330,595 375,570 420,520 465,470 510,500" fill="none" stroke="#d4682d" stroke-width="6"/>
+  <circle cx="375" cy="570" r="7" fill="#d4682d"/>
+  <circle cx="420" cy="520" r="7" fill="#d4682d"/>
+  <circle cx="465" cy="470" r="7" fill="#d4682d"/>
+  <circle cx="510" cy="500" r="7" fill="#d4682d"/>
+  <line x1="465" y1="470" x2="465" y2="610" stroke="#174a5a" stroke-width="3" class="dashed"/>
+  <text x="425" y="455" class="body">Picco dinamico</text>
+
+  <rect x="610" y="405" width="530" height="245" class="box"/>
+  <text x="640" y="447" class="subtitle">3. Lettura professionale del risultato</text>
+  <text x="640" y="490" class="body">Non basta il massimo assoluto:</text>
+  <text x="660" y="528" class="small">- quale interasse lo genera</text>
+  <text x="660" y="558" class="small">- a quale velocita compare</text>
+  <text x="660" y="588" class="small">- se governa freccia, accelerazione o momento</text>
+  <text x="660" y="618" class="small">- quale verifica normativa o di esercizio resta critica</text>
+
+  <line x1="560" y1="525" x2="610" y2="525" class="line"/>
+</svg>

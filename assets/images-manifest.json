@@ -91,6 +91,13 @@
     "contentType": "image/jpeg"
   },
   {
+    "sourceUrl": "generated://codex/monitorare-lo-spostamento-di-una-schema.svg",
+    "localPath": "assets/images/monitorare-lo-spostamento-di-una-schema.svg",
+    "post": "monitorare-lo-spostamento-di-una.html",
+    "bytes": 6015,
+    "contentType": "image/svg+xml"
+  },
+  {
     "sourceUrl": "https://substackcdn.com/image/fetch/$s_!byHi!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5deddb0a-70e6-4f0e-8eeb-48a06149e646_1024x726.png",
     "localPath": "assets/images/verifica-allo-slu-a-flessione-e-presso-01.jpg",
     "post": "verifica-allo-slu-a-flessione-e-presso.html",

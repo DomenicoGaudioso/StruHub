@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Ricostruzione della deformata di una trave tramite inclinometri</title>
+  <desc id="desc">Schema con campata appoggiata, posizioni dei sensori, sistema polinomiale e confronto finale tra misura e benchmark elastico.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f5f0e6"/>
+      <stop offset="100%" stop-color="#d9e8ef"/>
+    </linearGradient>
+    <linearGradient id="beam" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#4f5b64"/>
+      <stop offset="100%" stop-color="#29353d"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#eef4f6"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#184553"/>
+    </marker>
+    <style>
+      .title { font: 700 34px 'Segoe UI', Arial, sans-serif; fill: #203139; }
+      .subtitle { font: 600 20px 'Segoe UI', Arial, sans-serif; fill: #355461; }
+      .body { font: 18px 'Segoe UI', Arial, sans-serif; fill: #2a434c; }
+      .small { font: 16px 'Segoe UI', Arial, sans-serif; fill: #48616c; }
+      .formula { font: 600 21px 'Segoe UI', Arial, sans-serif; fill: #173540; }
+      .box { fill: url(#panel); stroke: #98adb7; stroke-width: 2; rx: 20; }
+      .beam { fill: url(#beam); }
+      .sensor { fill: #d4672c; stroke: #8a3a15; stroke-width: 2; }
+      .line { stroke: #184553; stroke-width: 4; fill: none; marker-end: url(#arrow); }
+      .dash { stroke-dasharray: 10 8; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="760" fill="url(#bg)"/>
+
+  <text x="70" y="72" class="title">Ricostruzione della deformata da misure inclinometriche</text>
+  <text x="70" y="106" class="subtitle">Dal segnale di rotazione al controllo di collaudo e monitoraggio</text>
+
+  <rect x="60" y="140" width="1080" height="260" class="box"/>
+  <text x="90" y="182" class="subtitle">1. Campata strumentata</text>
+
+  <polygon points="190,340 155,280 225,280" fill="#6d7b83"/>
+  <polygon points="850,340 815,280 885,280" fill="#6d7b83"/>
+  <rect x="205" y="280" width="630" height="20" rx="8" class="beam"/>
+
+  <path d="M205,290 C310,295 390,315 520,320 C650,325 725,295 835,290" fill="none" stroke="#d4672c" stroke-width="5"/>
+
+  <g transform="translate(205,280)">
+    <g transform="translate(0,0)">
+      <rect x="-10" y="-48" width="20" height="44" rx="6" class="sensor"/>
+      <line x1="0" y1="-4" x2="0" y2="-38" stroke="#8a3a15" stroke-width="2"/>
+      <text x="-18" y="-62" class="small">S1</text>
+    </g>
+    <g transform="translate(158,0)">
+      <rect x="-10" y="-48" width="20" height="44" rx="6" class="sensor"/>
+      <line x1="0" y1="-4" x2="0" y2="-38" stroke="#8a3a15" stroke-width="2"/>
+      <text x="-18" y="-62" class="small">S2</text>
+    </g>
+    <g transform="translate(315,0)">
+      <rect x="-10" y="-48" width="20" height="44" rx="6" class="sensor"/>
+      <line x1="0" y1="-4" x2="0" y2="-38" stroke="#8a3a15" stroke-width="2"/>
+      <text x="-18" y="-62" class="small">S3</text>
+    </g>
+    <g transform="translate(473,0)">
+      <rect x="-10" y="-48" width="20" height="44" rx="6" class="sensor"/>
+      <line x1="0" y1="-4" x2="0" y2="-38" stroke="#8a3a15" stroke-width="2"/>
+      <text x="-18" y="-62" class="small">S4</text>
+    </g>
+    <g transform="translate(630,0)">
+      <rect x="-10" y="-48" width="20" height="44" rx="6" class="sensor"/>
+      <line x1="0" y1="-4" x2="0" y2="-38" stroke="#8a3a15" stroke-width="2"/>
+      <text x="-18" y="-62" class="small">S5</text>
+    </g>
+  </g>
+
+  <line x1="225" y1="355" x2="815" y2="355" stroke="#184553" stroke-width="3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="486" y="382" class="body">L = luce della campata</text>
+
+  <text x="930" y="220" class="formula">v(x) = c0 + c1 x + ... + c6 x^6</text>
+  <text x="930" y="258" class="formula">theta(x) = dv / dx</text>
+  <text x="930" y="296" class="formula">v(0) = 0, v(L) = 0</text>
+  <text x="930" y="334" class="formula">theta(xi) = thetai</text>
+  <text x="930" y="372" class="small">Correggere offset, segni e deriva termica prima del fit</text>
+
+  <rect x="60" y="435" width="500" height="265" class="box"/>
+  <text x="90" y="477" class="subtitle">2. Dati e sistema lineare</text>
+  <text x="90" y="520" class="body">Input minimi:</text>
+  <text x="110" y="555" class="small">- ascissa reale di ogni sensore</text>
+  <text x="110" y="585" class="small">- rotazione filtrata in rad o mrad</text>
+  <text x="110" y="615" class="small">- condizioni al contorno dichiarate</text>
+  <text x="110" y="645" class="small">- benchmark elastico o FEM</text>
+
+  <text x="300" y="555" class="formula">A a = b</text>
+  <text x="300" y="590" class="small">7 condizioni  ->  polinomio di grado 6</text>
+  <text x="300" y="625" class="small">oppure fit regolarizzato se mancano sensori</text>
+
+  <rect x="610" y="435" width="530" height="265" class="box"/>
+  <text x="640" y="477" class="subtitle">3. Lettura professionale</text>
+  <text x="640" y="520" class="body">Controlli finali:</text>
+  <text x="660" y="555" class="small">- freccia massima e deformata residua</text>
+  <text x="660" y="585" class="small">- simmetria della linea elastica</text>
+  <text x="660" y="615" class="small">- scarto misura / modello di riferimento</text>
+  <text x="660" y="645" class="small">- coerenza tra campagne successive</text>
+
+  <path d="M880,610 C930,540 980,530 1030,570" fill="none" stroke="#d4672c" stroke-width="6"/>
+  <path d="M880,618 C930,585 980,575 1030,590" fill="none" stroke="#4d7b8a" stroke-width="5"/>
+  <text x="844" y="538" class="small">teorica</text>
+  <text x="1005" y="608" class="small">ricostruita</text>
+
+  <line x1="560" y1="565" x2="610" y2="565" class="line"/>
+</svg>

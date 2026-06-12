@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Confronto tra plinto rigido e modello FEM a graticcio</title>
+  <desc id="desc">Schema con pianta del gruppo di pali, carico eccentrico, distribuzione rigida e maglia FEM con molle verticali.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f4ee; }
+      .card { fill: #fffdf8; stroke: #3d352c; stroke-width: 2; rx: 18; ry: 18; }
+      .title { font: 700 28px 'Segoe UI', Arial, sans-serif; fill: #1f1b16; }
+      .subtitle { font: 700 20px 'Segoe UI', Arial, sans-serif; fill: #1f1b16; }
+      .body { font: 16px 'Segoe UI', Arial, sans-serif; fill: #2b241d; }
+      .small { font: 14px 'Segoe UI', Arial, sans-serif; fill: #3d352c; }
+      .muted { font: 14px 'Segoe UI', Arial, sans-serif; fill: #6f6255; }
+      .slab { fill: #dfe8f2; stroke: #365b73; stroke-width: 2; }
+      .pile { fill: #547a95; stroke: #264355; stroke-width: 2; }
+      .beam { stroke: #2c6a57; stroke-width: 7; stroke-linecap: round; }
+      .spring { stroke: #996d2a; stroke-width: 3.5; fill: none; }
+      .arrow { stroke: #a63b2d; stroke-width: 4; marker-end: url(#arrow); }
+      .axis { stroke: #7d7368; stroke-width: 2; stroke-dasharray: 7 7; }
+      .callout { fill: #f3ede2; stroke: #c1af96; stroke-width: 1.5; rx: 10; ry: 10; }
+      .good { fill: #d8ead8; }
+      .warn { fill: #f6e2c7; }
+      .bad { fill: #f4d2cf; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#a63b2d" />
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1200" height="720" />
+  <text class="title" x="60" y="58">Plinto rigido vs FEM a graticcio</text>
+  <text class="body" x="60" y="92">Il modello rigido distribuisce per equilibrio globale. Il FEM mostra dove la deformabilita concentra davvero le reazioni.</text>
+
+  <rect class="card" x="52" y="126" width="500" height="520" />
+  <text class="subtitle" x="78" y="168">1. Ipotesi di plinto rigido</text>
+  <text class="small" x="78" y="195">Teste dei pali complanari, reazioni ottenute con Navier.</text>
+
+  <rect class="slab" x="140" y="250" width="260" height="190" />
+  <line class="axis" x1="270" y1="220" x2="270" y2="475" />
+  <line class="axis" x1="105" y1="345" x2="435" y2="345" />
+
+  <circle class="pile" cx="175" cy="285" r="18" />
+  <circle class="pile" cx="365" cy="285" r="18" />
+  <circle class="pile" cx="175" cy="405" r="18" />
+  <circle class="pile" cx="365" cy="405" r="18" />
+
+  <line class="arrow" x1="338" y1="208" x2="315" y2="248" />
+  <text class="small" x="322" y="202">N, Mx, My</text>
+
+  <rect class="callout good" x="84" y="478" width="430" height="56" />
+  <text class="body" x="102" y="512">Caso regolare: reazioni ordinate e controllo manuale immediato.</text>
+
+  <rect class="callout warn" x="84" y="548" width="430" height="74" />
+  <text class="body" x="102" y="580">Quando i margini sono piccoli, il rigido puo sottostimare il palo critico.</text>
+  <text class="muted" x="102" y="604">Segnali: plinto sottile, carico eccentrico, layout irregolare.</text>
+
+  <text class="small" x="151" y="283">P1</text>
+  <text class="small" x="341" y="283">P2</text>
+  <text class="small" x="151" y="403">P3</text>
+  <text class="small" x="341" y="403">P4</text>
+  <text class="muted" x="412" y="351">x</text>
+  <text class="muted" x="276" y="232">y</text>
+
+  <rect class="card" x="620" y="126" width="528" height="520" />
+  <text class="subtitle" x="646" y="168">2. Modello FEM a graticcio</text>
+  <text class="small" x="646" y="195">Il plinto flette, i pali diventano molle verticali, emergono cedimenti e concentrazioni locali.</text>
+
+  <circle cx="884" cy="338" r="18" fill="#2c6a57" stroke="#174438" stroke-width="2" />
+  <circle cx="730" cy="250" r="16" fill="#2c6a57" stroke="#174438" stroke-width="2" />
+  <circle cx="1035" cy="250" r="16" fill="#2c6a57" stroke="#174438" stroke-width="2" />
+  <circle cx="730" cy="425" r="16" fill="#2c6a57" stroke="#174438" stroke-width="2" />
+  <circle cx="1035" cy="425" r="16" fill="#2c6a57" stroke="#174438" stroke-width="2" />
+
+  <line class="beam" x1="730" y1="250" x2="884" y2="338" />
+  <line class="beam" x1="1035" y1="250" x2="884" y2="338" />
+  <line class="beam" x1="730" y1="425" x2="884" y2="338" />
+  <line class="beam" x1="1035" y1="425" x2="884" y2="338" />
+  <line class="beam" x1="730" y1="250" x2="1035" y2="250" />
+  <line class="beam" x1="730" y1="425" x2="1035" y2="425" />
+  <line class="beam" x1="730" y1="250" x2="730" y2="425" />
+  <line class="beam" x1="1035" y1="250" x2="1035" y2="425" />
+
+  <path class="spring" d="M730 266 l0 14 l-10 8 l20 8 l-20 8 l20 8 l-20 8 l10 8 l0 16" />
+  <path class="spring" d="M1035 266 l0 14 l-10 8 l20 8 l-20 8 l20 8 l-20 8 l10 8 l0 16" />
+  <path class="spring" d="M730 441 l0 14 l-10 8 l20 8 l-20 8 l20 8 l-20 8 l10 8 l0 16" />
+  <path class="spring" d="M1035 441 l0 14 l-10 8 l20 8 l-20 8 l20 8 l-20 8 l10 8 l0 16" />
+
+  <line class="arrow" x1="900" y1="220" x2="894" y2="320" />
+  <text class="small" x="910" y="217">Carico eccentrico</text>
+
+  <rect class="callout bad" x="656" y="492" width="456" height="58" />
+  <text class="body" x="674" y="526">Il FEM evidenzia il palo piu caricato, i pali scaricati e i momenti nel plinto.</text>
+
+  <rect class="callout good" x="656" y="564" width="456" height="58" />
+  <text class="body" x="674" y="598">Output utili: Rmax, Rmin, cedimenti differenziali, M nel plinto, Delta rigido/FEM.</text>
+
+  <text class="small" x="707" y="244">P1</text>
+  <text class="small" x="1012" y="244">P2</text>
+  <text class="small" x="707" y="419">P3</text>
+  <text class="small" x="1012" y="419">P4</text>
+</svg>

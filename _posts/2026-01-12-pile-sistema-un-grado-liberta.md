@@ -1,167 +1,273 @@
 ---
 layout: post
 title: "Modellazione semplificata di pile da ponte come sistemi a un grado di liberta"
-description: "Riferimento tecnico StruHub con formule, ipotesi di modello e riferimenti normativi."
+description: "Riferimento tecnico StruHub con schema meccanico, caso numerico realistico e riferimenti normativi tracciabili."
 date: 2026-01-12
 order: 12
 permalink: /posts/pile-sistema-un-grado-liberta.html
-meta: "Quaderno tecnico · 1506 parole circa"
+meta: "Quaderno tecnico - 1810 parole circa"
 ---
 
-**Perché ridurre una pila a un oscillatore**
+![Schema di una pila da ponte ricondotta a oscillatore equivalente con massa concentrata in testa]({{ site.baseurl }}/assets/images/pile-sistema-un-grado-liberta-schema.svg)
 
-Una pila snella può essere letta in prima approssimazione come una mensola con massa concentrata in sommità. Il modello equivalente consente di stimare periodo, rigidezza laterale e azione sismica prima del FEM.
+**Perche un modello SDOF resta utile anche quando il FEM e gia disponibile**
 
-$$
-m\ddot{u}(t)+c\dot{u}(t)+ku(t)=F(t)
-$$
-
-Rigidezza laterale.
-
-Per una mensola prismatica:
-
-$$
-u=\frac{FH^3}{3EI}, \qquad k=\frac{3EI}{H^3}
-$$
-
-Periodo e forza equivalente.
-
-$$
-T=2\pi\sqrt{\frac{m}{k}}=2\pi\sqrt{\frac{mH^3}{3EI}}
-$$
-
-Se lo spettro fornisce $S_a(T)$ in multipli di $g$:
-
-$$
-F=mgS_a(T)
-$$
-
-Esempio. Con $H=12\,\mathrm{m}$, $E=32\cdot10^9\,\mathrm{N/m^2}$, $I=1.20\,\mathrm{m^4}$, $m=450000\,\mathrm{kg}$:
-
-$$
-k\approx66.7\cdot10^6\,\mathrm{N/m}, \qquad T\approx0.52\,\mathrm{s}
-$$
-
-Con $S_a=0.25g$: $F\approx1.10\cdot10^6\,\mathrm{N}$, $M_b=FH\approx13.2\,\mathrm{MN m}$.
+Ridurre una pila da ponte a un sistema a un grado di liberta non significa banalizzare il problema. Significa costruire un controllo indipendente e leggibile di tre grandezze che governano quasi tutto il resto: rigidezza laterale, massa efficace e periodo fondamentale. Se queste tre quantita non hanno ordini di grandezza plausibili, anche un modello FEM molto dettagliato rischia di diventare una scatola nera.
 
 Riferimenti tecnici utilizzati:
 
-- D.M. 17 gennaio 2018, *Aggiornamento delle Norme Tecniche per le Costruzioni* (NTC 2018).
-- Circolare C.S.LL.PP. 21 gennaio 2019, n. 7, *Istruzioni per l'applicazione dell'Aggiornamento delle Norme Tecniche per le Costruzioni*.
+- D.M. 17 gennaio 2018, *Aggiornamento delle Norme tecniche per le costruzioni*, con richiamo ai Capitoli 3, 5 e 7.
+- Circolare C.S.LL.PP. 21 gennaio 2019, n. 7, istruzioni applicative delle NTC 2018.
+- UNI EN 1998-2:2011, *Eurocodice 8 - Progettazione delle strutture per la resistenza sismica - Parte 2: Ponti*.
+- UNI EN 1991-2:2005, *Eurocodice 1 - Azioni sulle strutture - Parte 2: Carichi da traffico sui ponti*.
 
 Nota StruHub.
 
-Il modello a un grado di libertà resta un controllo preliminare; StruHub lo collega poi ad analisi modali e time-history distribuite.
+In un workflow serio il modello SDOF non sostituisce analisi modale, spettro di risposta o time-history: serve a controllarle. E la stessa logica che torna utile in una pipeline StruHub o in un benchmark rapido con `beamfeapy`, che gestisce analisi statiche e modali di telai 3D e permette di confrontare in pochi minuti periodo, massa partecipante e forma deformata con il controllo manuale.
 
-**Massa efficace e forma modale**
+**Dal continuo al modello equivalente**
 
-Il valore della massa nel modello a un grado di libertà non è una scelta puramente geometrica. Se una quota di massa è distribuita lungo la pila, la sua partecipazione dipende dalla deformata assunta. Per una forma modale $\phi(z)$, la massa generalizzata è:
-
-$$
-M^*=\int_0^H m(z)\phi^2(z)\,dz
-$$
-
-Il fattore di partecipazione nella direzione orizzontale è:
+La pila reale e un elemento continuo con massa distribuita, sezione eventualmente fessurata, vincolo al piede non perfettamente incastrato e interazione con impalcato, appoggi e fondazione. Il modello SDOF concentra invece il problema in una coordinata generalizzata $u(t)$:
 
 $$
-\Gamma=\frac{\int_0^H m(z)\phi(z)\,dz}{\int_0^H m(z)\phi^2(z)\,dz}
+M^* \ddot{u}(t) + C^* \dot{u}(t) + K^* u(t) = F^*(t)
 $$
 
-Questa distinzione evita di assegnare al sistema una massa troppo alta o troppo bassa.
+dove:
 
-**Uso del modello come controllo di ordine di grandezza**
+- $M^*$ e la massa generalizzata;
+- $C^*$ rappresenta lo smorzamento equivalente;
+- $K^*$ e la rigidezza laterale equivalente;
+- $F^*(t)$ e la forza generalizzata associata alla forma modale assunta.
 
-Il modello SDOF è utile se viene usato come controllo: periodo, taglio alla base e momento devono avere ordini di grandezza compatibili con il FEM. Se il FEM restituisce un periodo molto diverso, la causa può essere in una massa distribuita male, in vincoli non coerenti o in una rigidezza sezionale non fessurata assunta senza criterio.
-
-Per trasformare la riduzione di una pila a oscillatore equivalente in un riferimento tecnico è utile separare tre livelli: il modello fisico, il modello numerico e la lettura dei risultati. Il modello fisico identifica masse, rigidezze, smorzamento e azioni. Il modello numerico stabilisce come queste grandezze entrano nell'equazione del moto. La lettura dei risultati decide quali effetti sono davvero utili al progetto.
-
-$$
-M\ddot{u}(t)+C\dot{u}(t)+Ku(t)=F(t)
-$$
-
-Nel caso di pila da ponte, la matrice di massa non è un dettaglio secondario. Una massa assegnata al nodo sbagliato modifica frequenze proprie e partecipazione modale; una rigidezza non coerente con la sezione resistente sposta il periodo e altera la domanda dinamica. Prima di discutere il risultato, il modello deve produrre modi plausibili.
-
-**Passaggio modale e significato dei modi**
-
-Il problema agli autovalori consente di estrarre frequenze e deformate. La forma modale non è solo un disegno: indica quali parti della struttura partecipano a un certo tipo di moto. Se la deformata è locale, il modo può essere poco rilevante per la risposta globale ma importante per una sollecitazione locale.
+Se la pila e assimilabile in prima approssimazione a una mensola prevalente nel primo modo, la rigidezza elastica laterale si puo scrivere come:
 
 $$
-K\phi_n=\omega_n^2M\phi_n
+k = \frac{3EI_{eff}}{H^3}
+$$
+
+con $H$ altezza libera della pila ed $EI_{eff}$ rigidezza flessionale efficace nella direzione considerata. Il termine chiave non e $EI$ teorico a sezione integra, ma $EI_{eff}$, cioe la rigidezza che descrive la risposta realmente mobilitata nel livello di analisi che si sta svolgendo.
+
+**La rigidezza efficace non e un dettaglio**
+
+L'errore piu frequente nei controlli preliminari sta qui: usare l'inerzia lorda senza chiedersi se la pila lavorera in campo fessurato gia per livelli modesti di domanda. Per una pila in c.a. il controllo manuale e utile solo se la rigidezza e coerente con:
+
+- direzione di sisma o di spinta considerata;
+- geometria reale della sezione;
+- presenza di fessurazione o confinamento;
+- eventuale cedevolezza di appoggi, fondazione o plinto.
+
+In pratica conviene distinguere tre livelli:
+
+1. $EI_g$, rigidezza geometrica lorda, utile solo per un primissimo screening.
+2. $EI_{eff}$, rigidezza efficace di esercizio o di predimensionamento, adatta al confronto con il FEM lineare.
+3. $EI_{sec}$, rigidezza secante legata a un certo livello di domanda, utile quando si entra in ambito non lineare.
+
+Se il periodo ottenuto con $EI_g$ e vicino a quello del FEM ma il modello numerico usa una sezione gia fessurata, la coincidenza e solo apparente.
+
+**Massa efficace: non tutta la massa pesa allo stesso modo**
+
+Per una pila con impalcato tributario concentrato in testa e massa distribuita lungo il fusto, una stima pratica della massa equivalente del primo modo e:
+
+$$
+m_{eq} \approx m_{testa} + 0.236 \, m_{fusto}
+$$
+
+dove il coefficiente $0.236$ deriva dalla partecipazione del primo modo di una mensola uniforme. Questa scrittura e molto piu utile del semplice "metto tutta la massa in testa", perche evita sia sovrastime sia sottostime del periodo.
+
+Il periodo fondamentale diventa quindi:
+
+$$
+T_1 = 2 \pi \sqrt{\frac{m_{eq}}{k}}
+= 2 \pi \sqrt{\frac{m_{eq} H^3}{3EI_{eff}}}
+$$
+
+Se si vuole passare a una forma modale piu rigorosa, il quadro generale e:
+
+$$
+M^* = \int_0^H m(z)\phi^2(z)\,dz + \sum_i m_i \phi^2(z_i)
 $$
 
 $$
-T_n=\frac{2\pi}{\omega_n}
+\Gamma = \frac{\int_0^H m(z)\phi(z)\,dz + \sum_i m_i \phi(z_i)}{M^*}
 $$
 
-La massa partecipante permette di passare da una lista di frequenze a una gerarchia ingegneristica. Un modo con alta partecipazione nella direzione dell'azione è un modo che può governare spostamenti e tagli globali. Modi con partecipazione inferiore possono comunque influenzare accelerazioni o curvature.
+Il tecnico non ha sempre bisogno di calcolare integralmente $\Gamma$, ma deve sapere se sta assumendo una massa nodale, una massa distribuita o una combinazione delle due.
 
-**Procedura di calcolo consigliata**
+**Caso numerico: pila di viadotto stradale in c.a.**
 
-Una procedura robusta per la riduzione di una pila a oscillatore equivalente parte da un controllo statico o quasi-statico, prosegue con l'analisi modale, quindi entra nel dominio del tempo solo dopo aver verificato che frequenze e deformate siano coerenti. In questo ordine, l'analisi dinamica diventa un approfondimento controllato, non una scatola nera.
+Si consideri una pila singola di un viadotto con impalcato prefabbricato a travi affiancate. L'obiettivo non e sostituire il modello globale del ponte, ma verificare se il primo ordine di grandezza di periodo e taglio sismico e compatibile con il modello completo.
 
-- definizione di geometria, masse e rigidezze;
-- estrazione di periodi e forme modali;
-- scelta dello smorzamento e del passo temporale;
-- applicazione della storia di carico o del segnale;
-- estrazione di periodo, massa efficace e rigidezza;
-- confronto con un controllo semplificato.
+Dati geometrici e meccanici assunti per la direzione trasversale:
 
-**Esempio di controllo numerico**
+- altezza libera della pila tra plinto e pulvino: $H = 10.50\,\mathrm{m}$;
+- rigidezza flessionale efficace della sezione fessurata nella direzione trasversale: $EI_{eff} = 27.5 \cdot 10^9\,\mathrm{N\,m^2}$;
+- massa tributaria di impalcato, traverso e apparecchi di appoggio concentrata in testa: $m_{testa} = 970\,\mathrm{t}$;
+- massa del solo fusto della pila: $m_{fusto} = 176\,\mathrm{t}$;
+- smorzamento viscoso equivalente per controllo lineare: $\xi = 5\%$.
 
-Supponiamo che il primo controllo restituisca un periodo teorico di (0.55\,\mathrm{s}) e il modello FEM un periodo di (0.92\,\mathrm{s}). La differenza relativa è:
-
-$$
-\Delta_T=\frac{0.92-0.55}{0.55}=0.67
-$$
-
-Uno scarto del 67% non va ignorato. Può derivare da vincoli troppo flessibili, massa eccessiva, inerzia ridotta o unità non coerenti. Questo tipo di controllo è ciò che distingue un calcolo numerico da un uso passivo del software.
-
-Lettura progettuale. Il modello equivalente è particolarmente utile come controllo indipendente del FEM. Se periodo stimato e periodo numerico differiscono molto, prima di discutere il sisma conviene controllare masse, vincoli e inerzie. Un riferimento tecnico deve quindi mostrare non solo la formula, ma il motivo per cui quella formula è stata usata e il modo in cui il risultato viene interpretato. La parte finale del calcolo dovrebbe sempre riportare domanda, capacità, margine e ipotesi principali.
-
-Impostazione del modello. Per usare questo tema come riferimento tecnico, conviene separare la modellazione in fasi verificabili. La prima fase è la definizione dello schema resistente: geometria, vincoli, masse, rigidezze e grandezze da estrarre. La seconda fase è la scelta del tipo di analisi: controllo statico, analisi modale, analisi nel tempo o confronto tra più livelli di modello. La terza fase è la lettura critica dei risultati, che non deve limitarsi al valore massimo ma deve includere posizione, segno, combinazione o istante di occorrenza.
-
-Un controllo utile consiste nel confrontare sempre un risultato numerico con una stima semplificata. Per esempio, un periodo ottenuto con FEM dovrebbe essere compatibile con una valutazione manuale basata su massa e rigidezza. Se l'ordine di grandezza non torna, il problema non è nel solutore ma nella rappresentazione fisica del sistema.
-
-La catena minima di controllo può essere scritta così: definizione del modello, verifica delle unità, estrazione delle frequenze, scelta dello smorzamento, applicazione dell'azione, inviluppo degli effetti, interpretazione del margine. Ogni passaggio deve lasciare una traccia riproducibile.
-
-Unità, segni e grandezze da archiviare. Le analisi dinamiche sono molto sensibili alla coerenza delle unità. Massa in chilogrammi, forze in Newton, rigidezze in Newton per metro e accelerazioni in metri al secondo quadrato devono essere trattate nello stesso sistema. Un errore tra massa e peso può spostare il periodo di un fattore significativo.
-
-Per ogni analisi è utile archiviare almeno: periodo fondamentale, masse partecipanti, smorzamento, passo temporale, massimo spostamento, massimo taglio, massimo momento e istante di occorrenza. Se il modello lavora per inviluppi, va salvata anche la sezione in cui ciascun effetto governa.
-
-La grandezza di progetto non è sempre il massimo assoluto. Nelle verifiche accoppiate può essere necessario leggere valori concomitanti. Se il massimo momento si verifica a un certo istante, lo sforzo normale da usare nel dominio di verifica deve essere quello dello stesso istante, non il massimo normale indipendente.
-
-Esempio di controllo incrociato. Supponiamo che un modello dinamico restituisca un taglio massimo alla base pari a (2.80\,\mathrm{MN}), mentre il controllo statico equivalente fornisce (2.35\,\mathrm{MN}). Il rapporto è:
+La massa equivalente del primo modo vale:
 
 $$
-r_V=\frac{2.80}{2.35}=1.19
+m_{eq} = 970 + 0.236 \cdot 176 = 1011.5\,\mathrm{t}
 $$
 
-Il dato indica una amplificazione del 19%. Questo non significa automaticamente che il modello dinamico sia più corretto, ma segnala che l'effetto dinamico non è trascurabile. A questo punto il tecnico deve controllare se la velocità, il contenuto in frequenza o il segnale sismico sono coerenti con la condizione più gravosa.
-
-Se invece il rapporto fosse inferiore a 1, non si dovrebbe concludere in modo automatico che la dinamica è meno gravosa: potrebbe essere cambiata la grandezza controllata, oppure la massima risposta dinamica potrebbe verificarsi in un'altra sezione.
-
-Come trasformare il risultato in testo tecnico. Un post di riferimento deve chiudere il cerchio: non basta presentare formule e grafici. Bisogna spiegare quale grandezza governa, quale ipotesi è più sensibile e quale controllo manuale consente di validare il risultato. Questa impostazione rende il contenuto utile anche a chi non usa lo stesso software, perché il metodo rimane trasferibile.
-
-Controllo dimensionale. Un riferimento tecnico deve permettere al lettore di controllare gli ordini di grandezza. Ogni risultato numerico dovrebbe essere accompagnato da un controllo dimensionale, da una interpretazione fisica e da una indicazione del parametro dominante. Se una formula restituisce un valore in $\mathrm{kN}$, $\mathrm{kNm}$, $\mathrm{kPa}$ o $\mathrm{mm}$, l'unita deve essere esplicita e coerente con le grandezze inserite.
-
-La forma generale di una verifica puo essere letta come:
+cioe:
 
 $$
-\eta=\frac{E_d}{R_d} \le 1
+m_{eq} = 1.0115 \cdot 10^6\,\mathrm{kg}
 $$
 
-dove $E_d$ e l'effetto dell'azione di progetto e $R_d$ la resistenza di progetto. Questa scrittura, comune a molti problemi strutturali e geotecnici, aiuta a separare domanda, capacita e margine.
+La rigidezza laterale equivalente della mensola e:
 
-Dal calcolo alla decisione. Il valore finale non basta. Bisogna chiedersi da quale ipotesi dipende, quanto e sensibile ai parametri e quale meccanismo fisico rappresenta. Un margine ottenuto con parametri poco tracciabili ha meno valore di un margine piu modesto ma ben documentato. Per questo, quando si cita una norma o un criterio di combinazione, il riferimento deve essere scritto in modo esplicito e verificabile.
+$$
+k = \frac{3EI_{eff}}{H^3}
+= \frac{3 \cdot 27.5 \cdot 10^9}{10.5^3}
+= 71.3 \cdot 10^6\,\mathrm{N/m}
+$$
+
+Il periodo fondamentale stimato risulta:
+
+$$
+T_1 = 2 \pi \sqrt{\frac{1.0115 \cdot 10^6}{71.3 \cdot 10^6}}
+= 0.75\,\mathrm{s}
+$$
+
+Supponendo che dall'analisi spettrale preliminare del sito risulti, alla stessa percentuale di smorzamento, un'ordinata di progetto:
+
+$$
+S_d(T_1) = 0.32 g
+$$
+
+la forza orizzontale equivalente alla testa della pila e:
+
+$$
+F_h = m_{eq} \, S_d(T_1)\, g
+= 1.0115 \cdot 10^6 \cdot 0.32 \cdot 9.81
+= 3.17 \cdot 10^6\,\mathrm{N}
+$$
+
+quindi:
+
+$$
+F_h = 3.17\,\mathrm{MN}
+$$
+
+Il momento al piede associato al modello equivalente e:
+
+$$
+M_b = F_h H = 3.17 \cdot 10.50 = 33.3\,\mathrm{MN\,m}
+$$
+
+Lo spostamento elastico di testa, coerente con il modello lineare, diventa:
+
+$$
+u_{top} = \frac{F_h}{k}
+= \frac{3.17 \cdot 10^6}{71.3 \cdot 10^6}
+= 0.044\,\mathrm{m}
+$$
+
+cioe circa:
+
+$$
+u_{top} = 44\,\mathrm{mm}
+$$
+
+Gia questa catena fornisce un controllo completo: massa, periodo, taglio, momento e spostamento. Se uno di questi valori fosse incompatibile con la geometria dell'opera, il problema andrebbe cercato prima nel modello e poi nel solutore.
+
+**Confronto con il FEM: un vero uso professionale del controllo SDOF**
+
+Supponiamo ora che un modello FEM della stessa pila, costruito con un'asta equivalente e masse distribuite, restituisca:
+
+- primo periodo trasversale $T_{FEM} = 0.79\,\mathrm{s}$;
+- massa partecipante del primo modo nella stessa direzione pari all'88%;
+- taglio alla base da analisi spettrale lineare $V_{b,FEM} = 3.34\,\mathrm{MN}$.
+
+Il confronto sul periodo vale:
+
+$$
+\Delta_T = \frac{0.79 - 0.75}{0.75} = 0.053
+$$
+
+quindi circa il $5.3\%$. Il rapporto tra taglio FEM e controllo semplificato e:
+
+$$
+r_V = \frac{3.34}{3.17} = 1.05
+$$
+
+Uno scarto del 5% sia su periodo sia su taglio e esattamente il tipo di risultato che rende il modello SDOF utile: non "indovina" il FEM al millimetro, ma conferma che la rappresentazione numerica sta descrivendo lo stesso sistema meccanico.
+
+In questa fase il controllo diventa realmente professionale quando si fanno almeno tre domande:
+
+- il FEM usa la stessa rigidezza efficace o una sezione lorda non fessurata?
+- il vincolo al piede e davvero un incastro o include molle di fondazione?
+- la massa tributaria dell'impalcato e stata assegnata in modo coerente alla pila considerata?
+
+Se la differenza sul periodo supera il 15-20%, quasi sempre la causa non e "la complessita del ponte", ma una differenza nelle ipotesi meccaniche di base.
+
+**Dove il modello a un grado di liberta inizia a perdere affidabilita**
+
+Il controllo SDOF funziona bene finche il primo modo domina davvero la risposta e la pila si comporta come una mensola prevalente. Ci sono almeno sei casi in cui conviene passare rapidamente a un modello piu ricco:
+
+- pile molto basse e tozze, dove taglio e deformazione di taglio non sono trascurabili;
+- pile molto alte o telai di pile, in cui piu modi partecipano alla risposta;
+- impalcati continui con forte interazione tra pile adiacenti;
+- presenza di isolamento sismico, dissipatori o appoggi fortemente cedevoli;
+- fondazioni profonde o plinti flessibili che rendono non trascurabile la rotazione al piede;
+- verifiche non lineari in cui rigidezza e smorzamento cambiano con la domanda.
+
+Nel caso di fondazioni cedevoli, la correzione minima consiste nel riconoscere che la deformabilita laterale totale e somma di contributi:
+
+$$
+u_{tot} = u_{pile} + u_{fond} + u_{appoggi}
+$$
+
+e quindi:
+
+$$
+\frac{1}{k_{tot}} = \frac{1}{k_{pile}} + \frac{1}{k_{fond}} + \frac{1}{k_{appoggi}}
+$$
+
+Trascurare questi termini porta quasi sempre a sottostimare il periodo.
+
+**Un caso reale di verifica preliminare che evita un errore di modellazione**
+
+In pratica professionale questo controllo viene spesso usato prima di un'analisi piu spinta. Un caso tipico e il seguente: il modello globale del ponte restituisce un periodo trasversale di circa $1.05\,\mathrm{s}$, mentre il controllo manuale della sola pila porta a $0.72$-$0.78\,\mathrm{s}$. La differenza non va archiviata come "effetto del modello 3D".
+
+Prima di accettarla conviene controllare:
+
+- se le masse di piu campate sono state tributate alla stessa pila;
+- se i link degli apparecchi di appoggio hanno rigidezza troppo bassa;
+- se i vincoli alla base includono rotazioni libere non volute;
+- se l'inerzia della sezione e stata assegnata nelle direzioni giuste;
+- se il peso proprio e stato trasformato in massa con unita coerenti.
+
+In un caso di questo tipo basta spesso correggere la massa o la cedevolezza di un appoggio per riportare il periodo nella fascia attesa. Il valore del modello SDOF non e produrre il numero finale di progetto, ma intercettare queste incoerenze prima che inquinino tutto il resto: spettro, combinazioni, verifiche allo SLV e valutazioni di duttilita.
+
+**Che cosa conviene riportare in una relazione tecnica**
+
+Per rendere tracciabile il controllo non basta scrivere "la pila e stata assimilata a un oscillatore". In relazione conviene dichiarare almeno:
+
+1. geometria della pila e direzione del controllo;
+2. criterio con cui e stato scelto $EI_{eff}$;
+3. massa tributaria di impalcato e coefficiente adottato per la massa del fusto;
+4. valore di smorzamento e tipo di spettro usato;
+5. periodo, taglio, momento e spostamento risultanti;
+6. confronto con il FEM o con il modello globale del ponte.
+
+Questa traccia e coerente con l'impostazione delle NTC 2018 per azioni e ponti, con le istruzioni della Circolare 2019 e con la logica dell'Eurocodice 8 Parte 2: il problema non e soltanto calcolare, ma dimostrare che il modello scelto rappresenta correttamente il comportamento della pila nella direzione studiata.
+
+**Dal numero alla decisione**
+
+Una pila modellata come SDOF non e un esercizio accademico. E un filtro di qualita sul modello complessivo. Se il controllo manuale produce $T_1$, $V_b$ e $u_{top}$ compatibili con il FEM, il progettista puo passare con piu fiducia alle analisi successive. Se invece i numeri divergono, il vantaggio non e aver trovato una formula "alternativa", ma aver scoperto che qualcosa nel modello strutturale va chiarito.
+
+Per questo il modello equivalente resta utile anche in ambienti digitali avanzati: costringe a separare massa, rigidezza, vincoli e domanda sismica. Ed e proprio questa separazione che rende il risultato difendibile davanti a un controllo tecnico serio.
 
 Riferimenti normativi e bibliografici utilizzati:
 
-- D.M. 17 gennaio 2018, "Aggiornamento delle Norme tecniche per le costruzioni", Ministero delle Infrastrutture e dei Trasporti, Supplemento ordinario alla Gazzetta Ufficiale n. 42 del 20 febbraio 2018.
-- Circolare C.S.LL.PP. 21 gennaio 2019, n. 7, "Istruzioni per l'applicazione dell'Aggiornamento delle Norme tecniche per le costruzioni di cui al decreto ministeriale 17 gennaio 2018".
-- UNI EN 1990:2006, Eurocodice - Criteri generali di progettazione strutturale.
-- UNI EN 1991-2:2005, Eurocodice 1 - Azioni sulle strutture - Parte 2: Carichi da traffico sui ponti.
-- UNI EN 1992-1-1:2015, Eurocodice 2 - Progettazione delle strutture di calcestruzzo.
-- UNI EN 1993-1-1:2014, Eurocodice 3 - Progettazione delle strutture di acciaio.
-- UNI EN 1994-2:2006, Eurocodice 4 - Progettazione delle strutture composte acciaio-calcestruzzo - Ponti.
-- UNI EN 1997-1:2013, Eurocodice 7 - Progettazione geotecnica - Parte 1: Regole generali.
-- UNI EN 1998-2:2011, Eurocodice 8 - Progettazione delle strutture per la resistenza sismica - Ponti.
+- D.M. 17 gennaio 2018, *Aggiornamento delle "Norme tecniche per le costruzioni"*, Ministero delle Infrastrutture e dei Trasporti, G.U. n. 42 del 20 febbraio 2018, S.O. n. 8.
+- Circolare C.S.LL.PP. 21 gennaio 2019, n. 7, *Istruzioni per l'applicazione dell'Aggiornamento delle "Norme tecniche per le costruzioni" di cui al decreto ministeriale 17 gennaio 2018*, G.U. n. 35 dell'11 febbraio 2019, S.O. n. 5.
+- UNI EN 1991-2:2005, *Eurocodice 1 - Azioni sulle strutture - Parte 2: Carichi da traffico sui ponti*.
+- UNI EN 1998-2:2011, *Eurocodice 8 - Progettazione delle strutture per la resistenza sismica - Parte 2: Ponti*.
+- Priestley, M. J. N., Seible, F., Calvi, G. M., *Seismic Design and Retrofit of Bridges*, John Wiley and Sons.
+- Chopra, A. K., *Dynamics of Structures: Theory and Applications to Earthquake Engineering*, Pearson.

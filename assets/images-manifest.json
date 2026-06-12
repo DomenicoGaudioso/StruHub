@@ -131,5 +131,12 @@
     "post": "verifica-allo-slu-a-flessione-e-presso.html",
     "bytes": 51091,
     "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "generated://codex/pile-sistema-un-grado-liberta-schema.svg",
+    "localPath": "assets/images/pile-sistema-un-grado-liberta-schema.svg",
+    "post": "pile-sistema-un-grado-liberta.html",
+    "bytes": 4925,
+    "contentType": "image/svg+xml"
   }
 ]

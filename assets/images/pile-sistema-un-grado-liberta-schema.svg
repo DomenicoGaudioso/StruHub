@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Pila da ponte modellata come sistema a un grado di liberta</title>
+  <desc id="desc">Schema con pila a mensola, massa equivalente in testa, rigidezza laterale, formule del periodo e workflow di confronto tra controllo manuale e FEM.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f4efe7"/>
+      <stop offset="100%" stop-color="#dfe9ef"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#eef4f7"/>
+    </linearGradient>
+    <linearGradient id="deck" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#56646d"/>
+      <stop offset="100%" stop-color="#2c3941"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#184553"/>
+    </marker>
+    <style>
+      .title { font: 700 34px 'Segoe UI', Arial, sans-serif; fill: #20313a; }
+      .subtitle { font: 600 21px 'Segoe UI', Arial, sans-serif; fill: #345462; }
+      .body { font: 18px 'Segoe UI', Arial, sans-serif; fill: #2d434d; }
+      .small { font: 16px 'Segoe UI', Arial, sans-serif; fill: #536a74; }
+      .formula { font: 600 22px 'Segoe UI', Arial, sans-serif; fill: #173540; }
+      .box { fill: url(#panel); stroke: #9aaeb7; stroke-width: 2; rx: 22; }
+      .line { stroke: #184553; stroke-width: 4; fill: none; marker-end: url(#arrow); }
+      .dash { stroke-dasharray: 10 8; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="760" fill="url(#bg)"/>
+
+  <text x="70" y="74" class="title">Pila da ponte come oscillatore equivalente</text>
+  <text x="70" y="108" class="subtitle">Controllo preliminare di rigidezza, massa efficace e periodo prima del FEM completo</text>
+
+  <rect x="60" y="140" width="520" height="560" class="box"/>
+  <text x="92" y="182" class="subtitle">1. Sistema reale semplificato</text>
+
+  <rect x="170" y="230" width="300" height="28" rx="8" fill="url(#deck)"/>
+  <rect x="285" y="258" width="70" height="245" rx="18" fill="#6f7f88"/>
+  <rect x="250" y="503" width="140" height="18" fill="#7b6755"/>
+  <rect x="220" y="521" width="200" height="32" fill="#8f7c6b"/>
+
+  <circle cx="320" cy="205" r="42" fill="#d46c32" stroke="#8f3a14" stroke-width="3"/>
+  <text x="302" y="212" class="body" fill="#ffffff">m*</text>
+
+  <path d="M350,348 C410,360 438,408 435,470" fill="none" stroke="#d46c32" stroke-width="6"/>
+  <path d="M320,258 L320,205" stroke="#8f3a14" stroke-width="4"/>
+
+  <line x1="200" y1="560" x2="440" y2="560" stroke="#184553" stroke-width="3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="298" y="590" class="body">H</text>
+
+  <line x1="468" y1="205" x2="540" y2="205" class="line"/>
+  <text x="486" y="188" class="small">F(t)</text>
+
+  <text x="120" y="628" class="body">Ipotesi base:</text>
+  <text x="140" y="660" class="small">- primo modo prevalente</text>
+  <text x="140" y="688" class="small">- pila assimilata a mensola</text>
+  <text x="320" y="660" class="small">- massa impalcato in testa</text>
+  <text x="320" y="688" class="small">- sezione con EI_eff coerente</text>
+
+  <rect x="620" y="140" width="520" height="260" class="box"/>
+  <text x="652" y="182" class="subtitle">2. Equazioni di controllo</text>
+  <text x="652" y="232" class="formula">k = 3 EI_eff / H^3</text>
+  <text x="652" y="278" class="formula">m_eq = m_testa + 0.236 m_fusto</text>
+  <text x="652" y="324" class="formula">T_1 = 2 pi sqrt(m_eq / k)</text>
+  <text x="652" y="370" class="formula">u_top = F_h / k</text>
+  <text x="934" y="232" class="small">rigidezza laterale</text>
+  <text x="934" y="278" class="small">massa efficace primo modo</text>
+  <text x="934" y="324" class="small">periodo fondamentale</text>
+  <text x="934" y="370" class="small">spostamento elastico di testa</text>
+
+  <rect x="620" y="435" width="520" height="265" class="box"/>
+  <text x="652" y="477" class="subtitle">3. Confronto con il modello numerico</text>
+  <text x="652" y="522" class="body">Verifiche minime:</text>
+  <text x="672" y="557" class="small">- T_SDOF vs T_FEM</text>
+  <text x="672" y="587" class="small">- massa partecipante del primo modo</text>
+  <text x="672" y="617" class="small">- taglio alla base e momento al piede</text>
+  <text x="672" y="647" class="small">- coerenza di vincoli, masse e rigidezze</text>
+
+  <path d="M940,600 C980,565 1030,550 1080,560" fill="none" stroke="#d46c32" stroke-width="6"/>
+  <path d="M940,610 C980,590 1030,580 1080,585" fill="none" stroke="#4f7d8d" stroke-width="5"/>
+  <text x="922" y="548" class="small">SDOF</text>
+  <text x="1070" y="598" class="small">FEM</text>
+
+  <line x1="580" y1="575" x2="620" y2="575" class="line"/>
+</svg>

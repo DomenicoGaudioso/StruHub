@@ -145,5 +145,12 @@
     "post": "ripartizione-azioni-gruppi-pali.html",
     "bytes": 6663,
     "contentType": "image/svg+xml"
+  },
+  {
+    "sourceUrl": "generated://codex/isolamento-sismico-impalcati-schema.svg",
+    "localPath": "assets/images/isolamento-sismico-impalcati-schema.svg",
+    "post": "isolamento-sismico-impalcati.html",
+    "bytes": 5563,
+    "contentType": "image/svg+xml"
   }
 ]

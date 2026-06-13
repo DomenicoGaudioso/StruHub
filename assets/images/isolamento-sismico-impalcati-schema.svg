@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Isolamento sismico degli impalcati da ponte</title>
+  <desc id="desc">Schema con impalcato isolato su pile, legge bilineare del dispositivo, confronto tra sistema fisso e isolato e controlli di progetto sui giunti.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f5efe6"/>
+      <stop offset="100%" stop-color="#e1eef3"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#fffdf9"/>
+      <stop offset="100%" stop-color="#eef5f7"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8e352a"/>
+    </marker>
+    <style>
+      .title { font: 700 34px 'Segoe UI', Arial, sans-serif; fill: #213039; }
+      .subtitle { font: 700 22px 'Segoe UI', Arial, sans-serif; fill: #2e4b58; }
+      .body { font: 18px 'Segoe UI', Arial, sans-serif; fill: #314853; }
+      .small { font: 16px 'Segoe UI', Arial, sans-serif; fill: #566a74; }
+      .formula { font: 600 20px 'Segoe UI', Arial, sans-serif; fill: #173540; }
+      .panel { fill: url(#card); stroke: #9aaeb7; stroke-width: 2; rx: 20; ry: 20; }
+      .deck { fill: #4d5e69; }
+      .pier { fill: #71848f; }
+      .base { fill: #867261; }
+      .isolator { fill: #d46c32; stroke: #8b3f18; stroke-width: 2; }
+      .axis { stroke: #7f8e95; stroke-width: 2; stroke-dasharray: 8 8; }
+      .arrow { stroke: #8e352a; stroke-width: 4; fill: none; marker-end: url(#arrow); }
+      .curveFix { stroke: #557f90; stroke-width: 5; fill: none; }
+      .curveIso { stroke: #d46c32; stroke-width: 6; fill: none; }
+      .frame { stroke: #294250; stroke-width: 3; fill: none; }
+      .calloutGood { fill: #ddebd7; stroke: #6f9a69; stroke-width: 1.5; rx: 12; ry: 12; }
+      .calloutWarn { fill: #f5e3c7; stroke: #be8e42; stroke-width: 1.5; rx: 12; ry: 12; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="760" fill="url(#bg)"/>
+  <text x="60" y="68" class="title">Isolamento sismico degli impalcati</text>
+  <text x="60" y="102" class="body">Il beneficio strutturale nasce dal cambio di periodo e dalla dissipazione, ma il progetto e governato dagli spostamenti disponibili.</text>
+
+  <rect x="50" y="138" width="500" height="560" class="panel"/>
+  <text x="80" y="178" class="subtitle">1. Modello equivalente del ponte isolato</text>
+  <text x="80" y="205" class="small">Impalcato rigido in pianta, pile elastiche, dispositivi concentrati alle selle.</text>
+
+  <rect x="130" y="255" width="340" height="24" rx="8" class="deck"/>
+  <rect x="195" y="279" width="42" height="170" rx="15" class="pier"/>
+  <rect x="363" y="279" width="42" height="170" rx="15" class="pier"/>
+  <rect x="172" y="449" width="88" height="24" rx="6" class="base"/>
+  <rect x="340" y="449" width="88" height="24" rx="6" class="base"/>
+  <rect x="193" y="238" width="48" height="18" rx="5" class="isolator"/>
+  <rect x="361" y="238" width="48" height="18" rx="5" class="isolator"/>
+
+  <line x1="300" y1="228" x2="300" y2="492" class="axis"/>
+  <path d="M470,248 C505,260 520,300 516,345" class="curveIso"/>
+  <path d="M468,252 C493,258 507,280 506,310" class="curveFix"/>
+  <text x="465" y="238" class="small">spostamento</text>
+
+  <line x1="440" y1="150" x2="440" y2="228" class="arrow"/>
+  <text x="448" y="180" class="small">azione sismica</text>
+
+  <text x="112" y="525" class="formula">Teff = 2 pi sqrt(M / Keff)</text>
+  <text x="112" y="560" class="formula">Vb = Keff d_d</text>
+  <text x="112" y="595" class="formula">F(d) = Qd + Kd d</text>
+
+  <rect x="92" y="620" width="416" height="48" class="calloutGood"/>
+  <text x="112" y="649" class="body">Con periodo piu alto il taglio scende, ma i dispositivi e i giunti devono correre di piu.</text>
+
+  <rect x="590" y="138" width="560" height="260" class="panel"/>
+  <text x="620" y="178" class="subtitle">2. Legge bilineare e smorzamento equivalente</text>
+
+  <line x1="680" y1="335" x2="1050" y2="335" class="frame"/>
+  <line x1="740" y1="355" x2="740" y2="180" class="frame"/>
+  <text x="1058" y="340" class="small">d</text>
+  <text x="726" y="172" class="small">F</text>
+
+  <path d="M740,335 L780,290 L1020,215" class="curveIso"/>
+  <line x1="740" y1="335" x2="1015" y2="245" class="curveFix"/>
+  <line x1="780" y1="290" x2="780" y2="335" class="axis"/>
+  <line x1="930" y1="215" x2="930" y2="335" class="axis"/>
+  <text x="768" y="284" class="small">Qd</text>
+  <text x="916" y="354" class="small">d_d</text>
+  <text x="828" y="235" class="small">Kd post-elastico</text>
+  <text x="850" y="268" class="small">Keff secante</text>
+
+  <text x="620" y="372" class="formula">Keff = (Qd + Kd d_d) / d_d</text>
+
+  <rect x="590" y="430" width="560" height="268" class="panel"/>
+  <text x="620" y="470" class="subtitle">3. Cosa confrontare nel report di progetto</text>
+
+  <rect x="640" y="505" width="480" height="56" class="calloutGood"/>
+  <text x="660" y="540" class="body">Sistema fisso: periodo piu corto, taglio piu alto, spostamento piu contenuto.</text>
+
+  <rect x="640" y="575" width="480" height="86" class="calloutWarn"/>
+  <text x="660" y="607" class="body">Sistema isolato: riduzione del taglio, ma controllo stringente su giunti, ritegni, corsa utile e torsione.</text>
+  <text x="660" y="637" class="small">Checklist minima: Tfix vs Teff, Vb, d_d, pressione verticale, spazio disponibile.</text>
+</svg>

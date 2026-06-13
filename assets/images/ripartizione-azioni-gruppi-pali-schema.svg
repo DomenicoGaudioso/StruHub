@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">Schema di ripartizione delle azioni verticali in gruppi di pali</title>
+  <desc id="desc">Confronto tra gruppo regolare 2x2 e layout irregolare con palo in trazione, con formule di equilibrio e reazioni principali.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f6f3ec; }
+      .panel { fill: #fffdf8; stroke: #d6cfc2; stroke-width: 2; }
+      .pile { fill: #d7b38a; stroke: #805f3f; stroke-width: 2; }
+      .cap { fill: #c8d6e5; stroke: #59718a; stroke-width: 2; }
+      .axis { stroke: #4a5560; stroke-width: 2; stroke-dasharray: 7 7; }
+      .load { stroke: #ab3b3b; stroke-width: 4; fill: none; marker-end: url(#arrow-red); }
+      .react { stroke: #206a52; stroke-width: 5; marker-end: url(#arrow-green); }
+      .react-soft { stroke: #4f8f77; stroke-width: 4; marker-end: url(#arrow-green); }
+      .tension { stroke: #8f4c9b; stroke-width: 5; marker-end: url(#arrow-purple); }
+      .title { font: 700 28px 'Segoe UI', Arial, sans-serif; fill: #21313f; }
+      .subtitle { font: 700 20px 'Segoe UI', Arial, sans-serif; fill: #21313f; }
+      .body { font: 18px 'Segoe UI', Arial, sans-serif; fill: #2d3741; }
+      .small { font: 16px 'Segoe UI', Arial, sans-serif; fill: #43505b; }
+      .formula { font: italic 21px 'Cambria Math', 'Times New Roman', serif; fill: #21313f; }
+      .badge { fill: #f2e4cf; stroke: #cba97a; stroke-width: 1.5; }
+      .warn { fill: #f8d9d9; stroke: #d07a7a; stroke-width: 1.5; }
+      .ok { fill: #dcefe7; stroke: #7aac97; stroke-width: 1.5; }
+    </style>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#ab3b3b"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#206a52"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8f4c9b"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1200" height="680"/>
+  <text class="title" x="56" y="54">Ripartizione delle azioni verticali nei gruppi di pali</text>
+  <text class="body" x="56" y="87">Due letture utili per il progettista: benchmark regolare 2x2 e layout irregolare con trazione.</text>
+
+  <rect class="panel" x="48" y="118" width="525" height="500" rx="20"/>
+  <rect class="panel" x="625" y="118" width="525" height="500" rx="20"/>
+
+  <text class="subtitle" x="74" y="154">Caso regolare: plinto rigido 2x2</text>
+  <text class="small" x="74" y="180">Benchmark `caso_base.json` di PlintoPali: N = 1200 kN, Mx = 120 kNm, My = 80 kNm</text>
+
+  <rect class="cap" x="150" y="246" width="310" height="190" rx="16"/>
+  <line class="axis" x1="305" y1="215" x2="305" y2="468"/>
+  <line class="axis" x1="115" y1="341" x2="495" y2="341"/>
+  <circle class="pile" cx="210" cy="286" r="24"/>
+  <circle class="pile" cx="400" cy="286" r="24"/>
+  <circle class="pile" cx="210" cy="396" r="24"/>
+  <circle class="pile" cx="400" cy="396" r="24"/>
+  <text class="small" x="198" y="291">P1</text>
+  <text class="small" x="388" y="291">P2</text>
+  <text class="small" x="198" y="401">P3</text>
+  <text class="small" x="388" y="401">P4</text>
+
+  <path class="load" d="M305 190 L305 242"/>
+  <path class="load" d="M335 214 C360 194, 382 194, 402 214"/>
+  <path class="load" d="M206 214 C226 194, 250 194, 274 214"/>
+  <text class="body" x="314" y="200">N</text>
+  <text class="small" x="405" y="214">My</text>
+  <text class="small" x="162" y="214">Mx</text>
+
+  <path class="react-soft" d="M210 456 L210 502"/>
+  <path class="react-soft" d="M400 456 L400 512"/>
+  <path class="react" d="M210 456 L210 520"/>
+  <path class="react" d="M400 456 L400 538"/>
+  <text class="small" x="160" y="527">306.7 kN</text>
+  <text class="small" x="358" y="545">333.3 kN</text>
+  <text class="small" x="162" y="507">266.7 kN</text>
+  <text class="small" x="358" y="517">293.3 kN</text>
+
+  <rect class="ok" x="74" y="525" width="458" height="72" rx="12"/>
+  <text class="body" x="94" y="553">Rmax = 333.3 kN, Qamm,eff = 499.4 kN, FSmin = 1.50</text>
+  <text class="small" x="94" y="580">La formula rigida chiude bene il caso base e resta rifacibile a mano.</text>
+
+  <text class="formula" x="84" y="472">Ri = N/n + My xi / sum xj^2 + Mx yi / sum yj^2</text>
+
+  <text class="subtitle" x="651" y="154">Caso irregolare: palo in trazione</text>
+  <text class="small" x="651" y="180">Benchmark `gruppo_pali_irregolare_trazione.json`: N = 900 kN, Mx = 1450 kNm, My = 100 kNm</text>
+
+  <rect class="cap" x="725" y="246" width="310" height="190" rx="16"/>
+  <line class="axis" x1="880" y1="215" x2="880" y2="468"/>
+  <line class="axis" x1="690" y1="341" x2="1070" y2="341"/>
+  <circle class="pile" cx="760" cy="388" r="22"/>
+  <circle class="pile" cx="965" cy="378" r="22"/>
+  <circle class="pile" cx="785" cy="256" r="22"/>
+  <circle class="pile" cx="952" cy="268" r="22"/>
+  <circle class="pile" cx="888" cy="336" r="20"/>
+  <text class="small" x="748" y="393">P1</text>
+  <text class="small" x="953" y="383">P2</text>
+  <text class="small" x="773" y="261">P3</text>
+  <text class="small" x="940" y="273">P4</text>
+  <text class="small" x="876" y="341">P5</text>
+
+  <path class="load" d="M880 190 L880 242"/>
+  <path class="load" d="M820 214 C850 190, 906 190, 936 214"/>
+  <text class="body" x="890" y="200">N</text>
+  <text class="small" x="939" y="214">Mx dominante</text>
+
+  <path class="tension" d="M760 462 L760 414"/>
+  <path class="react-soft" d="M965 456 L965 505"/>
+  <path class="react" d="M785 456 L785 572"/>
+  <path class="react" d="M952 456 L952 562"/>
+  <path class="react-soft" d="M888 456 L888 496"/>
+  <text class="small" x="713" y="408">-164.7 kN</text>
+  <text class="small" x="925" y="512">473.8 kN</text>
+  <text class="small" x="742" y="587">502.0 kN</text>
+  <text class="small" x="845" y="502">183.4 kN</text>
+
+  <rect class="warn" x="651" y="525" width="470" height="72" rx="12"/>
+  <text class="body" x="671" y="553">Rmin &lt; 0 e Rmax &gt; Qamm,eff = 384.1 kN</text>
+  <text class="small" x="671" y="580">La verifica non si chiude: servono controllo a trazione e revisione del layout.</text>
+
+  <text class="formula" x="662" y="472">R = A (A^T A)^-1 F</text>
+
+  <rect class="badge" x="344" y="32" width="258" height="40" rx="10"/>
+  <text class="body" x="360" y="58">Equilibrio globale prima, verifica geotecnica poi</text>
+</svg>

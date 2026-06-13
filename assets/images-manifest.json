@@ -138,5 +138,12 @@
     "post": "pile-sistema-un-grado-liberta.html",
     "bytes": 4925,
     "contentType": "image/svg+xml"
+  },
+  {
+    "sourceUrl": "generated://codex/ripartizione-azioni-gruppi-pali-schema.svg",
+    "localPath": "assets/images/ripartizione-azioni-gruppi-pali-schema.svg",
+    "post": "ripartizione-azioni-gruppi-pali.html",
+    "bytes": 6663,
+    "contentType": "image/svg+xml"
   }
 ]

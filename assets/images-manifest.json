@@ -152,5 +152,12 @@
     "post": "isolamento-sismico-impalcati.html",
     "bytes": 5563,
     "contentType": "image/svg+xml"
+  },
+  {
+    "sourceUrl": "generated://codex/verifica-tensionale-sezioni-composte-schema.svg",
+    "localPath": "assets/images/verifica-tensionale-sezioni-composte-schema.svg",
+    "post": "verifica-tensionale-sezioni-composte.html",
+    "bytes": 5357,
+    "contentType": "image/svg+xml"
   }
 ]

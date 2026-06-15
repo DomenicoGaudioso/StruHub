@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="860" viewBox="0 0 1280 860" role="img" aria-labelledby="title desc">
+  <title id="title">Schema di verifica tensionale di una sezione composta acciaio-calcestruzzo</title>
+  <desc id="desc">Schema tecnico con trave saldata in acciaio, soletta collaborante, asse neutro della sezione trasformata e risultati principali del caso numerico di verifica.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f5f1e8; }
+      .panel { fill: #ffffff; stroke: #d4cdc0; stroke-width: 2; }
+      .slab { fill: #d9e6d8; stroke: #55735a; stroke-width: 3; }
+      .steel { fill: #d8e1ea; stroke: #35536f; stroke-width: 3; }
+      .axis { stroke: #5e6f7b; stroke-width: 2.5; stroke-dasharray: 10 8; }
+      .neutral { stroke: #b44534; stroke-width: 4; stroke-dasharray: 12 10; }
+      .stress-c { fill: #f2cdbf; stroke: #b44534; stroke-width: 3; }
+      .stress-s { fill: #cfe0ee; stroke: #35536f; stroke-width: 3; }
+      .guide { stroke: #9a9a9a; stroke-width: 2; stroke-dasharray: 6 6; }
+      .label { font-family: 'Segoe UI', Arial, sans-serif; font-size: 30px; fill: #24333d; }
+      .small { font-family: 'Segoe UI', Arial, sans-serif; font-size: 24px; fill: #24333d; }
+      .tiny { font-family: 'Segoe UI', Arial, sans-serif; font-size: 21px; fill: #24333d; }
+      .note { fill: #35536f; font-weight: 600; }
+      .accent { fill: #b44534; font-weight: 600; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1280" height="860" />
+
+  <text class="label" x="62" y="68">Verifica tensionale di una sezione composta acciaio-calcestruzzo</text>
+  <text class="tiny" x="62" y="102">Campata positiva: soletta efficace, trasformazione elastica e tabella delle fibre di controllo</text>
+
+  <rect class="panel" x="56" y="130" width="420" height="658" rx="14" />
+  <rect class="panel" x="500" y="130" width="320" height="658" rx="14" />
+  <rect class="panel" x="844" y="130" width="378" height="658" rx="14" />
+
+  <text class="small note" x="88" y="176">1. Geometria della sezione</text>
+  <text class="small note" x="532" y="176">2. Sezione trasformata e tensioni</text>
+  <text class="small note" x="876" y="176">3. Risultati del caso numerico</text>
+
+  <rect class="slab" x="126" y="216" width="280" height="72" />
+  <rect class="steel" x="210" y="288" width="112" height="50" />
+  <rect class="steel" x="248" y="338" width="36" height="404" />
+  <rect class="steel" x="110" y="742" width="312" height="46" />
+
+  <line class="axis" x1="266" y1="198" x2="266" y2="790" />
+  <line class="axis" x1="92" y1="508" x2="438" y2="508" />
+  <line class="neutral" x1="110" y1="434" x2="422" y2="434" />
+
+  <text class="small accent" x="126" y="420">asse neutro yG = 1401 mm</text>
+  <text class="small" x="274" y="196">y</text>
+  <text class="small" x="444" y="515">z</text>
+
+  <line class="guide" x1="96" y1="216" x2="126" y2="216" />
+  <line class="guide" x1="96" y1="288" x2="126" y2="288" />
+  <line class="guide" x1="96" y1="788" x2="126" y2="788" />
+  <text class="tiny" x="84" y="254">soletta 3200 x 250 mm</text>
+  <text class="tiny" x="84" y="316">piattabanda sup. 600 x 50</text>
+  <text class="tiny" x="84" y="370">anima 25 x 1760</text>
+  <text class="tiny" x="84" y="724">piattabanda inf. 800 x 70</text>
+  <text class="tiny" x="84" y="810">acciaio S355, cls C40/50, h_tot = 2130 mm</text>
+
+  <rect class="slab" x="572" y="222" width="176" height="62" />
+  <rect class="steel" x="618" y="284" width="84" height="42" />
+  <rect class="steel" x="647" y="326" width="26" height="328" />
+  <rect class="steel" x="550" y="654" width="220" height="38" />
+  <line class="neutral" x1="550" y1="430" x2="770" y2="430" />
+  <line class="guide" x1="770" y1="430" x2="804" y2="430" />
+  <text class="tiny accent" x="808" y="438">yG</text>
+
+  <rect class="stress-c" x="714" y="250" width="58" height="34" />
+  <rect class="stress-c" x="690" y="302" width="82" height="24" />
+  <rect class="stress-s" x="772" y="284" width="72" height="42" />
+  <rect class="stress-s" x="440" y="654" width="110" height="38" />
+
+  <text class="tiny" x="532" y="734">n0 = Es / Ec = 5.83</text>
+  <text class="tiny" x="532" y="764">A* = 267143 mm2</text>
+  <text class="tiny" x="532" y="794">I* = 1.82 x 10^11 mm4</text>
+
+  <text class="tiny" x="856" y="238">Azioni di esercizio</text>
+  <text class="tiny" x="856" y="272">Ned = -1200 kN</text>
+  <text class="tiny" x="856" y="304">Med = 22500 kNm</text>
+  <text class="tiny" x="856" y="336">Ved = 1450 kN</text>
+
+  <text class="tiny" x="856" y="396">Fibre di controllo</text>
+  <text class="tiny" x="856" y="430">Soletta estradosso: +14.7 MPa</text>
+  <text class="tiny" x="856" y="462">Soletta intradosso: +9.4 MPa</text>
+  <text class="tiny" x="856" y="494">Acciaio superiore: +54.8 MPa</text>
+  <text class="tiny" x="856" y="526">Acciaio inferiore: -178.0 MPa</text>
+
+  <text class="tiny" x="856" y="586">Lungo termine con phi = 2.2</text>
+  <text class="tiny" x="856" y="620">Ec,eff = 11250 MPa</text>
+  <text class="tiny" x="856" y="652">sigma acciaio inf. = -195.1 MPa</text>
+  <text class="tiny" x="856" y="684">sigma soletta sup. = +9.6 MPa</text>
+
+  <text class="tiny" x="856" y="744">Interfaccia</text>
+  <text class="tiny" x="856" y="778">q = VQ / I = 660 N/mm</text>
+  <text class="tiny" x="856" y="810">due file di pioli da 95 kN -> s teorico max = 288 mm</text>
+</svg>

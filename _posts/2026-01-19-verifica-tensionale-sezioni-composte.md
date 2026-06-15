@@ -1,192 +1,322 @@
 ---
 layout: post
 title: "Verifica tensionale di sezioni composte acciaio-calcestruzzo"
-description: "Riferimento tecnico StruHub con formule, ipotesi di modello e riferimenti normativi."
+description: "Riferimento tecnico StruHub con esempio numerico completo, schema della sezione composta e riferimenti normativi tracciabili."
 date: 2026-01-19
 order: 19
 permalink: /posts/verifica-tensionale-sezioni-composte.html
-meta: "Quaderno tecnico · 1402 parole circa"
+meta: "Quaderno tecnico - 1910 parole circa"
 ---
 
-**Due materiali nella stessa sezione**
+![Schema della sezione composta, della trasformazione elastica e della tabella tensionale di controllo]({{ site.baseurl }}/assets/images/verifica-tensionale-sezioni-composte-schema.svg)
 
-La verifica tensionale richiede di considerare moduli elastici diversi e collaborazione tra acciaio e calcestruzzo.
+**La tensione finale non nasce da una sola sezione**
 
-$$
-n=\frac{E_s}{E_c}
-$$
+Nelle travi composte acciaio-calcestruzzo l'errore piu comune non e nella formula di Navier, ma nell'oggetto a cui la formula viene applicata. Sezione metallica in varo, sezione composta in esercizio, soletta efficace in campata positiva, soletta fessurata o parzialmente esclusa in zona di momento negativo: ogni fase cambia baricentro, inerzia e fibre governanti.
 
-Una possibile trasformazione è:
+Per un professionista il punto non e riempire una tabella di $\sigma$, ma poter ricostruire questa catena:
 
-$$
-A_{c,eq}=\frac{A_c}{n}
-$$
-
-Asse neutro e tensioni.
-
-$$
-y_G=\frac{sum A_iy_i}{sum A_i}, qquad I=sum(I_i+A_i(y_i-y_G)^2)
-$$
-
-$$
-sigma(y)=\frac{N}{A}pm\frac{M}{I}y
-$$
-
-Esempio.
-
-Con (E_s=210000,mathrm{MPa}), (E_c=35000,mathrm{MPa}): (n=6). Un'area (A_c=0.90,mathrm{m^2}) diventa (A_{c,eq}=0.15,mathrm{m^2}).
+- quale porzione di sezione sta collaborando davvero;
+- con quale modulo elastico del calcestruzzo la si sta omogeneizzando;
+- quale combinazione genera la tensione governante;
+- se il punto critico e in calcestruzzo, nell'acciaio o all'interfaccia.
 
 Riferimenti tecnici utilizzati:
 
-- UNI EN 1994-2, Eurocodice 4: Ponti composti acciaio-calcestruzzo.
-- D.M. 17 gennaio 2018, NTC 2018.
+- D.M. 17 gennaio 2018, *Aggiornamento delle Norme tecniche per le costruzioni*, con richiamo al Capitolo 4 per le costruzioni composte acciaio-calcestruzzo e al Capitolo 5 per i ponti.
+- Circolare C.S.LL.PP. 21 gennaio 2019, n. 7, istruzioni applicative delle NTC 2018 per modellazione, combinazioni e lettura delle verifiche di esercizio.
+- UNI EN 1994-2:2006, Eurocodice 4 - Progettazione delle strutture composte acciaio-calcestruzzo - Parte 2: Regole generali e regole per i ponti.
+- UNI EN 1993-1-1:2014, Eurocodice 3 - Progettazione delle strutture di acciaio.
+- UNI EN 1992-1-1:2015, Eurocodice 2 - Progettazione delle strutture di calcestruzzo.
+- UNI EN 1991-2:2005, Eurocodice 1 - Azioni sulle strutture - Parte 2: Carichi da traffico sui ponti.
 
 Nota StruHub.
 
-StruHub organizza il calcolo fibra per fibra e caso per caso.
+Nel lavoro quotidiano conviene tenere distinti tre livelli: proprieta geometriche della sola carpenteria, trasformazione elastica della sezione composta e tabella tensionale delle fibre critiche. E' la stessa logica utile quando si parte da un archivio sezionale come `Profilario` per leggere area e inerzie della trave metallica e si chiude il controllo con una routine nello spirito di `SteelSectionCheck`, che ha senso solo se rende rifacibili asse neutro, moduli resistenti, segni delle tensioni e input della relazione.
 
-**Fibre critiche e segno delle tensioni**
+**Quale sezione stai verificando davvero**
 
-Nelle sezioni composte è essenziale conservare il segno delle tensioni. La fibra superiore della soletta, la fibra inferiore dell'acciaio e l'interfaccia possono governare combinazioni diverse. Una tabella tensionale dovrebbe quindi riportare almeno:
+Prima di scrivere una sola formula conviene dichiarare almeno questi dati:
 
-- quota della fibra;
-- materiale;
-- tensione da sforzo normale;
-- tensione da momento;
-- tensione totale.
+- geometria della carpenteria metallica con quote e spessori reali;
+- larghezza efficace della soletta $b_{eff}$ adottata nella combinazione considerata;
+- fase di calcolo: varo, getto, esercizio a breve termine, esercizio a lungo termine;
+- modulo del calcestruzzo usato nella trasformazione, cioe $E_{cm}$ oppure $E_{c,eff}=E_{cm}/(1+\phi)$ se si stanno leggendo gli effetti viscosi;
+- ipotesi di collaborazione: piena, parziale oppure sezione fessurata in zona tesa;
+- convenzione dei segni per $N$, $M_y$ e coordinate delle fibre.
 
-**Effetto della connessione**
+Se uno di questi punti manca, il valore finale di tensione puo essere numericamente ordinato ma tecnicamente debole.
 
-La teoria della sezione composta presuppone una collaborazione efficace tra acciaio e calcestruzzo. In termini pratici, questo richiede che la connessione trasferisca lo scorrimento longitudinale. Se la connessione è parziale, la rigidezza equivalente e le tensioni non coincidono con quelle della piena collaborazione.
+Per le campate ordinarie da ponte, con momento positivo, la soletta lavora in compressione e la trasformazione elastica della sezione composta e un ottimo controllo di primo livello. Sopra la pila, invece, il quadro cambia: il calcestruzzo in zona tesa puo fessurarsi, la collaborazione non e piu la stessa e spesso governa la fibra superiore dell'acciaio o l'armatura della soletta. Usare la stessa sezione omogeneizzata in entrambe le zone e una scorciatoia che porta facilmente a tensioni fuorvianti.
 
-Lo scorrimento all'interfaccia può essere concettualmente legato al flusso di taglio:
+**Il modello elastico che serve davvero**
 
-$$
-q=\frac{VQ}{I}
-$$
-
-Per la verifica tensionale composta, la sezione non può essere letta come un oggetto unico e immutabile. Materiali diversi, fasi costruttive, deformazioni imposte e limiti tensionali obbligano a ragionare per fibre, per tempo e per caso di carico.
-
-**Dal modello geometrico al modello resistente**
-
-La prima operazione è definire quali parti della sezione partecipano alla resistenza in una certa fase. In una sezione composta, ad esempio, il calcestruzzo può non essere collaborante durante il getto o può collaborare con modulo efficace ridotto a lungo termine.
+Per la verifica tensionale in campo elastico si usa una sezione omogeneizzata. Se si trasformano le aree di calcestruzzo in aree equivalenti di acciaio, il coefficiente modulare vale:
 
 $$
-n=\frac{E_s}{E_c}
+n = \frac{E_s}{E_c}
+$$
+
+Per gli effetti a lungo termine, una scrittura pratica e:
+
+$$
+E_{c,eff} = \frac{E_{cm}}{1+\phi}
+\qquad
+\Longrightarrow
+\qquad
+n_{LT} = \frac{E_s}{E_{c,eff}}
+$$
+
+L'area equivalente della soletta diventa:
+
+$$
+A_c^{*} = \frac{A_c}{n}
+$$
+
+e il baricentro della sezione omogeneizzata:
+
+$$
+y_G = \frac{\sum_i A_i^{*} y_i}{\sum_i A_i^{*}}
+$$
+
+Il momento di inerzia si ricostruisce con Steiner:
+
+$$
+I^{*} = \sum_i \left( I_i^{*} + A_i^{*}(y_i-y_G)^2 \right)
+$$
+
+Una volta ottenuti $A^{*}$, $y_G$ e $I^{*}$, la tensione equivalente in una fibra di quota $y$ si legge con:
+
+$$
+\sigma^{*}(y)=\frac{N_{Ed}}{A^{*}}+\frac{M_{Ed}}{I^{*}}(y-y_G)
+$$
+
+Per l'acciaio:
+
+$$
+\sigma_s(y)=\sigma^{*}(y)
+$$
+
+Per il calcestruzzo:
+
+$$
+\sigma_c(y)=\frac{\sigma^{*}(y)}{n}
+$$
+
+Questa catena e semplice da scrivere ma molto utile da auditare, perche obbliga a mostrare in chiaro dove nasce ogni numero. Quando la verifica e quasi al limite, conviene sempre allegare almeno le quattro fibre che davvero orientano il progetto:
+
+- estradosso soletta;
+- intradosso soletta in prossimita dell'interfaccia;
+- lembo superiore della trave metallica;
+- lembo inferiore della trave metallica.
+
+Un controllo spesso dimenticato e il flusso di taglio all'interfaccia, indispensabile per capire se la tabella tensionale e coerente con la progettazione dei connettori:
+
+$$
+q = \frac{V_{Ed} Q^{*}}{I^{*}}
+$$
+
+dove $Q^{*}$ e il momento statico della parte di sezione al di sopra dell'interfaccia, calcolato nella stessa trasformazione elastica usata per le tensioni.
+
+**Caso numerico: trave saldata da ponte con soletta collaborante**
+
+Si consideri una sezione di campata positiva coerente con un workflow reale: trave metallica saldata tipo doppio T, cioe la stessa famiglia geometrica che si puo preimpostare in `SteelSectionCheck`, abbinata a una soletta efficace da ponte la cui larghezza e tracciata in relazione.
+
+Dati geometrici della sola carpenteria metallica:
+
+- piattabanda inferiore $800 \times 70 \, \mathrm{mm}$;
+- anima $25 \times 1760 \, \mathrm{mm}$;
+- piattabanda superiore $600 \times 50 \, \mathrm{mm}$;
+- altezza totale trave acciaio $h_s = 1880 \, \mathrm{mm}$.
+
+Dati della soletta collaborante:
+
+- larghezza efficace assunta $b_{eff}=3200 \, \mathrm{mm}$;
+- spessore soletta $t_c=250 \, \mathrm{mm}$;
+- calcestruzzo C40/50;
+- acciaio S355.
+
+Le proprieta geometriche di base sono:
+
+$$
+A_s = 130000 \, \mathrm{mm^2}
 $$
 
 $$
-\sigma(y)=\frac{N}{A}\pm\frac{M}{I}y
+A_c = 800000 \, \mathrm{mm^2}
 $$
 
-Queste formule sono semplici solo se (A), (I) e (y) sono quelli della sezione corretta. Usare proprietà sezionali finali per carichi applicati in una fase precedente è un errore concettuale, non un'approssimazione innocua.
-
-**Fibre di controllo**
-
-La verifica deve scegliere fibre significative: estradosso soletta, intradosso acciaio, interfaccia, lembi estremi e punti in cui cambiano materiale o armatura. Per ogni fibra conviene separare i contributi:
+Per il controllo elastico a breve termine assumiamo:
 
 $$
-\sigma_{tot}=\sigma_N+\sigma_M+\sigma_{imp}+\sigma_{fase}
+E_s = 210000 \, \mathrm{MPa},
+\qquad
+E_c = 36000 \, \mathrm{MPa}
 $$
 
-Questa scomposizione rende comprensibile il risultato. Se la tensione finale supera un limite, si può capire se il problema nasce da un permanente, da una fase costruttiva, da temperatura o da ritiro.
-
-**Esempio di lettura**
-
-Si consideri una fibra inferiore con tre contributi: (+32\,\mathrm{MPa}) da peso proprio, (+18\,\mathrm{MPa}) da carichi permanenti successivi e (-6\,\mathrm{MPa}) da effetto imposto. La tensione finale è:
+quindi:
 
 $$
-\sigma_{tot}=32+18-6=44\,\mathrm{MPa}
+n_0 = \frac{210000}{36000} = 5.83
 $$
 
-Il dato finale da solo non spiega nulla; la scomposizione mostra invece che il peso proprio è il contributo dominante. Questo orienta il progettista verso la fase costruttiva corretta.
-
-Impostazione da riferimento. La verifica tensionale è una storia di fibre. La fibra superiore della soletta, l’intradosso dell’acciaio e l’interfaccia non sono equivalenti e possono governare casi di carico diversi. Un post tecnico dovrebbe quindi fornire metodo, non solo teoria: definizione delle fibre, tabella dei contributi, limiti, segno delle tensioni e interpretazione finale.
-
-Dal modello globale alla verifica locale. Nei temi di impalcato, sezioni composte e azioni di progetto, il passaggio più importante è collegare una grandezza globale a un controllo locale. Un momento globale lungo l'impalcato non è ancora una verifica di fibra; un carico da traffico non è ancora una tensione; un coefficiente di ripartizione non è ancora una domanda resistente. Il calcolo diventa affidabile quando ogni trasformazione è esplicita.
-
-La sequenza tipica è: definizione dell'azione, scelta dello schema resistente, calcolo dell'effetto globale, ripartizione o trasformazione sezionale, verifica della fibra o dell'elemento. Saltare uno di questi passaggi produce risultati difficili da revisionare.
-
-Tracciabilità delle combinazioni. Ogni valore dovrebbe conservare l'origine. Se una sezione ha (M_{max}=950\,\mathrm{kNm}), la relazione deve indicare se deriva da traffico, temperatura, fase costruttiva, ritiro o combinazione sismica. In assenza di questa informazione il dato è numericamente utile ma tecnicamente debole.
-
-Una forma pratica di archiviazione è associare a ogni effetto tre campi: valore, combinazione governante e posizione. Per gli inviluppi:
+L'area equivalente della soletta vale:
 
 $$
-E_{max}(x_j)=E_{d,k}(x_j) \quad con \quad k=k_{gov}(x_j)
+A_c^{*} = \frac{800000}{5.83} = 137143 \, \mathrm{mm^2}
 $$
 
-Questa scrittura chiarisce che il massimo non è astratto: è prodotto da una combinazione precisa.
-
-Controllo delle rigidezze. Quando si lavora con ripartizioni, sezioni composte o fasi costruttive, la rigidezza è il parametro più influente. Una rigidezza sbagliata può produrre una distribuzione apparentemente equilibrata ma fisicamente non corretta. Per questo, prima della verifica, conviene riportare le proprietà principali: area, inerzia, modulo elastico, coefficiente di omogeneizzazione e fase resistente.
-
-Per una sezione composta, ad esempio, una stessa azione può produrre tensioni diverse se applicata prima o dopo la maturazione della soletta. Il valore finale è la somma di contributi nati in tempi diversi:
+e l'area totale omogeneizzata:
 
 $$
-\sigma_{finale}=\sum_i \sigma_i(A_i,I_i,E_i,t_i)
+A^{*} = A_s + A_c^{*} = 267143 \, \mathrm{mm^2}
 $$
 
-La notazione evidenzia che ogni contributo ha proprietà resistenti proprie.
-
-Esempio di lettura critica. Si consideri un impalcato con quattro travi. Un modello semplificato fornisce coefficienti (0.18,0.32,0.32,0.18), mentre un modello più rigido trasversalmente fornisce (0.22,0.28,0.28,0.22). Entrambi rispettano l'equilibrio, ma il secondo distribuisce maggiormente verso le travi laterali. Se la verifica locale di una trave laterale è vicina al limite, questa differenza non è accademica.
-
-Scrittura da riferimento tecnico. Il testo deve accompagnare il lettore dalla causa all'effetto: quale azione entra, come viene distribuita, quale proprietà resistente la trasforma in tensione o sollecitazione, quale limite viene controllato. Questa catena rende l'articolo consultabile anche a distanza di tempo.
-
-Omogeneizzazione e asse neutro. La verifica tensionale di una sezione composta acciaio-calcestruzzo richiede prima di tutto una scelta di modello: sezione interamente reagente, calcestruzzo fessurato, collaborazione parziale o completa, fase di getto e fase di esercizio. Nel caso elastico lineare, il metodo classico consiste nell'omogeneizzare i materiali tramite il coefficiente modulare:
+Ricostruendo il baricentro rispetto al lembo inferiore dell'acciaio si ottiene:
 
 $$
-n=\frac{E_s}{E_c}
+y_G = 1401 \, \mathrm{mm}
 $$
 
-Le aree di calcestruzzo possono essere trasformate in aree equivalenti di acciaio, o viceversa. L'asse neutro si ottiene imponendo l'annullamento del momento statico della sezione omogeneizzata:
+mentre il momento di inerzia omogeneizzato risulta:
 
 $$
-\bar y=\frac{\sum_i A_i^* y_i}{\sum_i A_i^*}
+I^{*} = 1.82 \cdot 10^{11} \, \mathrm{mm^4}
 $$
 
-Il momento d'inerzia omogeneizzato e poi:
+Assumiamo ora, per una combinazione di esercizio governante in campata:
 
 $$
-I^*=\sum_i \left(I_i^*+A_i^*(y_i-\bar y)^2\right)
+N_{Ed} = -1200 \, \mathrm{kN}
 $$
 
-Le tensioni elastiche si leggono con la formula di Navier, ma tenendo conto del materiale a cui appartiene il punto considerato. Per l'acciaio:
-
 $$
-\sigma_s(y)=\frac{N}{A^*}+\frac{M(y-\bar y)}{I^*}
+M_{Ed} = 22500 \, \mathrm{kNm}
 $$
 
-Per il calcestruzzo, la tensione equivalente va ritrasformata secondo il coefficiente modulare. Questa distinzione e essenziale: una sezione composta non e una sezione monomateriale mascherata.
-
-Fasi e tensioni residue. La vera complessita delle sezioni composte e che la sezione efficace cambia nel tempo. Prima del getto collaborante, il peso della soletta fresca puo gravare sulla sola carpenteria metallica; dopo la maturazione, i sovraccarichi agiscono sulla sezione composta. La tensione finale e quindi somma di contributi calcolati su sezioni diverse:
-
 $$
-\sigma_{tot}=\sigma_{fase1}+\sigma_{fase2}+\sigma_{ritiro}+\sigma_{termica}
+V_{Ed} = 1450 \, \mathrm{kN}
 $$
 
-Un controllo tecnico deve dichiarare quale sezione resiste a quale azione. In caso contrario, la verifica puo risultare numericamente ordinata ma fisicamente sbagliata. Per le sezioni composte da ponte i riferimenti principali sono D.M. 17 gennaio 2018, Capitoli 4 e 5, UNI EN 1994-2:2006, UNI EN 1993-1-1:2014 e UNI EN 1992-1-1:2015.
+con convenzione dei segni tale che la compressione all'estradosso della soletta risulti positiva e la trazione al lembo inferiore dell'acciaio negativa.
 
-La conclusione operativa e semplice: la verifica tensionale non e una tabella di limiti, ma una ricostruzione della storia resistente della sezione.
+Applicando la formula elastica alle fibre principali si ottiene:
 
-Controllo dimensionale. Un riferimento tecnico deve permettere al lettore di controllare gli ordini di grandezza. Ogni risultato numerico dovrebbe essere accompagnato da un controllo dimensionale, da una interpretazione fisica e da una indicazione del parametro dominante. Se una formula restituisce un valore in $\mathrm{kN}$, $\mathrm{kNm}$, $\mathrm{kPa}$ o $\mathrm{mm}$, l'unita deve essere esplicita e coerente con le grandezze inserite.
+| Fibra di controllo | Quota letta | Tensione |
+| --- | --- | ---: |
+| Estradosso soletta | $y = 2130 \, \mathrm{mm}$ | $+14.7 \, \mathrm{MPa}$ |
+| Intradosso soletta / interfaccia | $y = 1880 \, \mathrm{mm}$ | $+9.4 \, \mathrm{MPa}$ |
+| Lembo superiore acciaio | $y = 1880 \, \mathrm{mm}$ | $+54.8 \, \mathrm{MPa}$ |
+| Lembo inferiore acciaio | $y = 0$ | $-178.0 \, \mathrm{MPa}$ |
 
-La forma generale di una verifica puo essere letta come:
+La lettura progettuale utile non e soltanto "la sezione passa". E' questa:
+
+- il calcestruzzo superiore lavora in compressione moderata;
+- la fibra superiore dell'acciaio e ancora lontana da livelli critici;
+- il punto che merita attenzione e il lembo inferiore della trave metallica, che porta la trazione massima di campata;
+- la differenza di circa $45 \, \mathrm{MPa}$ tra lembo superiore e inferiore dell'acciaio rende evidente che l'azione e dominata dal momento flettente, non dallo sforzo normale.
+
+Se si vuole tradurre il risultato in un indicatore di screening immediato, il rapporto con le resistenze caratteristiche vale:
 
 $$
-\eta=\frac{E_d}{R_d} \le 1
+\eta_{s,bot}=\frac{178}{355}=0.50
 $$
 
-dove $E_d$ e l'effetto dell'azione di progetto e $R_d$ la resistenza di progetto. Questa scrittura, comune a molti problemi strutturali e geotecnici, aiuta a separare domanda, capacita e margine.
+$$
+\eta_{c,top}=\frac{14.7}{40}=0.37
+$$
 
-Dal calcolo alla decisione. Il valore finale non basta. Bisogna chiedersi da quale ipotesi dipende, quanto e sensibile ai parametri e quale meccanismo fisico rappresenta. Un margine ottenuto con parametri poco tracciabili ha meno valore di un margine piu modesto ma ben documentato. Per questo, quando si cita una norma o un criterio di combinazione, il riferimento deve essere scritto in modo esplicito e verificabile.
+Non e ancora una verifica normativa completa di per se, perche il progetto deve usare la combinazione e il limite esatti della propria procedura, ma e gia un controllo molto piu utile del solo "massimo momento in campata".
 
-Riferimenti normativi e bibliografici utilizzati:
+**Lo stesso caso cambia se introduci il lungo termine**
 
-- D.M. 17 gennaio 2018, "Aggiornamento delle Norme tecniche per le costruzioni", Ministero delle Infrastrutture e dei Trasporti, Supplemento ordinario alla Gazzetta Ufficiale n. 42 del 20 febbraio 2018.
-- Circolare C.S.LL.PP. 21 gennaio 2019, n. 7, "Istruzioni per l'applicazione dell'Aggiornamento delle Norme tecniche per le costruzioni di cui al decreto ministeriale 17 gennaio 2018".
-- UNI EN 1990:2006, Eurocodice - Criteri generali di progettazione strutturale.
-- UNI EN 1991-2:2005, Eurocodice 1 - Azioni sulle strutture - Parte 2: Carichi da traffico sui ponti.
-- UNI EN 1992-1-1:2015, Eurocodice 2 - Progettazione delle strutture di calcestruzzo.
-- UNI EN 1993-1-1:2014, Eurocodice 3 - Progettazione delle strutture di acciaio.
-- UNI EN 1994-2:2006, Eurocodice 4 - Progettazione delle strutture composte acciaio-calcestruzzo - Ponti.
-- UNI EN 1997-1:2013, Eurocodice 7 - Progettazione geotecnica - Parte 1: Regole generali.
-- UNI EN 1998-2:2011, Eurocodice 8 - Progettazione delle strutture per la resistenza sismica - Ponti.
+Nel post sulle fasi costruttive e sugli effetti lenti il punto chiave e che il calcestruzzo non resta rigido come nel breve termine. Se, per esempio, si assume un coefficiente viscoso $\phi = 2.2$, allora:
+
+$$
+E_{c,eff}=\frac{36000}{1+2.2}=11250 \, \mathrm{MPa}
+$$
+
+e il coefficiente modulare cresce a:
+
+$$
+n_{LT}=\frac{210000}{11250}=18.67
+$$
+
+Ricalcolando la sezione omogeneizzata sul lungo termine, la tensione di estradosso della soletta scende a circa:
+
+$$
+\sigma_{c,top,LT} \approx +9.6 \, \mathrm{MPa}
+$$
+
+ma le tensioni nell'acciaio crescono:
+
+$$
+\sigma_{s,top,LT} \approx +134.8 \, \mathrm{MPa}
+$$
+
+$$
+\sigma_{s,bot,LT} \approx -195.1 \, \mathrm{MPa}
+$$
+
+Questa e una lezione pratica importante: se la soletta perde rigidezza efficace per creep, una quota maggiore di flessione ritorna sulla carpenteria metallica. In ufficio il controllo da fare non e soltanto "quanto vale $\phi$?", ma "quali fibre cambiano di piu quando aggiorno $E_c$?".
+
+**Il flusso di taglio che collega tensioni e connettori**
+
+Sul medesimo caso, il momento statico equivalente della soletta rispetto all'interfaccia vale:
+
+$$
+Q^{*} = 8.28 \cdot 10^{7} \, \mathrm{mm^3}
+$$
+
+Da cui:
+
+$$
+q = \frac{1450 \cdot 10^3 \cdot 8.28 \cdot 10^7}{1.82 \cdot 10^{11}}
+= 660 \, \mathrm{N/mm}
+$$
+
+Il dato e molto utile per una prima lettura dei connettori. Se il progetto prevede due file di pioli con resistenza di progetto pari a $95 \, \mathrm{kN}$ ciascuno, la capacita disponibile per sezione trasversale e:
+
+$$
+P_{Rd,tot}=2 \cdot 95 = 190 \, \mathrm{kN}
+$$
+
+e il passo teorico massimo compatibile con il picco di flusso vale:
+
+$$
+s_{max}=\frac{190000}{660}=288 \, \mathrm{mm}
+$$
+
+Naturalmente la disposizione finale dei connettori dipende anche dalle prescrizioni geometriche e costruttive, ma questo controllo dice subito se la tabella tensionale che stai leggendo e coerente con un ordine di grandezza realistico del dettaglio.
+
+**Dove si sbaglia piu spesso**
+
+Nella pratica di progetto gli errori ricorrenti sono quasi sempre questi:
+
+- usare la sezione composta finale anche per le azioni di varo o di getto;
+- non distinguere campata positiva e zona di appoggio con soletta fessurata;
+- cambiare $b_{eff}$ senza aggiornare baricentro e inerzia;
+- confondere tensione equivalente $\sigma^{*}$ e tensione reale del calcestruzzo $\sigma_c$;
+- riportare solo il massimo valore assoluto senza combinazione governante, quota della fibra e segno.
+
+Il quarto punto e il piu insidioso: se nella relazione compare la tensione del calcestruzzo senza esplicitare se e gia stata divisa per $n$, il rischio di un errore silenzioso e concreto.
+
+**Che cosa dovrebbe comparire in una relazione seria**
+
+Per trasformare il calcolo in un elaborato davvero controllabile conviene riportare almeno:
+
+- schema della sezione con quote della carpenteria e $b_{eff}$ adottato;
+- tabella materiali con $E_s$, $E_c$, classe dell'acciaio, classe del calcestruzzo e, se serve, $\phi$;
+- proprieta della sezione omogeneizzata: $A^{*}$, $y_G$, $I^{*}$, moduli resistenti;
+- combinazione che governa ciascuna fibra;
+- tabella tensionale con segno, unita di misura e quota della fibra;
+- controllo del flusso di taglio all'interfaccia se i connettori sono parte del medesimo modello;
+- nota esplicita sulle zone escluse dalla stessa modellazione, per esempio la campata negativa con soletta fessurata.
+
+Questa e la differenza tra un foglio che fornisce un numero e una verifica che puo essere riletta sei mesi dopo, magari da un altro progettista dello stesso studio.
+
+**Lettura finale da progettista**
+
+La verifica tensionale di una sezione composta non e una formalita di chiusura. E' il punto in cui si vede se geometria, fase costruttiva, larghezza efficace, modulo del calcestruzzo e schema globale stanno davvero raccontando la stessa struttura. Se anche solo uno di questi pezzi e incoerente, la tensione finale smette di essere una misura del comportamento e diventa un numero fragile.
+
+Per questo gli strumenti digitali servono solo quando lasciano una traccia tecnica completa. Un archivio di profili come `Profilario`, una utility di controllo come `SteelSectionCheck` o un modello piu specifico di impalcato composto hanno valore non perche automatizzano la formula di Navier, ma perche costringono a conservare input, ipotesi, segni, combinazioni e fibre critiche. E' questa tracciabilita, piu del singolo valore di $\sigma$, che rende il risultato professionale.

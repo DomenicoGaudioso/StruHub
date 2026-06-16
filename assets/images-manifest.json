@@ -159,5 +159,12 @@
     "post": "verifica-tensionale-sezioni-composte.html",
     "bytes": 5357,
     "contentType": "image/svg+xml"
+  },
+  {
+    "sourceUrl": "generated://codex/la-ripartizione-trasversale-dei-carichi-schema.svg",
+    "localPath": "assets/images/la-ripartizione-trasversale-dei-carichi-schema.svg",
+    "post": "la-ripartizione-trasversale-dei-carichi.html",
+    "bytes": 6869,
+    "contentType": "image/svg+xml"
   }
 ]

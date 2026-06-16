@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="820" viewBox="0 0 1280 820" role="img" aria-labelledby="title desc">
+  <title id="title">Ripartizione trasversale dei carichi in un impalcato a cinque travi</title>
+  <desc id="desc">Schema tecnico con sezione trasversale di impalcato pluritrave, eccentricita del carico e confronto tra media uniforme, Courbon e benchmark di graticcio.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f6f1e8"/>
+      <stop offset="100%" stop-color="#dbe8ec"/>
+    </linearGradient>
+    <linearGradient id="deck" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#dfe8cf"/>
+      <stop offset="100%" stop-color="#cad9bd"/>
+    </linearGradient>
+    <linearGradient id="girder" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5c6c78"/>
+      <stop offset="100%" stop-color="#33424d"/>
+    </linearGradient>
+    <style>
+      .title { font: 700 34px 'Segoe UI', Arial, sans-serif; fill: #21333a; }
+      .subtitle { font: 600 22px 'Segoe UI', Arial, sans-serif; fill: #355460; }
+      .body { font: 19px 'Segoe UI', Arial, sans-serif; fill: #2a434b; }
+      .small { font: 17px 'Segoe UI', Arial, sans-serif; fill: #47616b; }
+      .formula { font: 600 21px 'Segoe UI', Arial, sans-serif; fill: #183742; }
+      .panel { fill: #ffffff; stroke: #c9d3d7; stroke-width: 2; rx: 18; }
+      .deck { fill: url(#deck); stroke: #66755c; stroke-width: 3; }
+      .girder { fill: url(#girder); stroke: #26343c; stroke-width: 2; }
+      .axis { stroke: #6e7f86; stroke-width: 2.5; stroke-dasharray: 10 8; }
+      .load { fill: #d96b2b; stroke: #8b3f16; stroke-width: 2; }
+      .guide { stroke: #7e929c; stroke-width: 2; stroke-dasharray: 8 8; }
+      .accent { fill: #b64c38; font-weight: 700; }
+      .leftgirder { fill: #355d7a; font-weight: 700; }
+      .marker { fill: #184553; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" class="marker"/>
+    </marker>
+  </defs>
+
+  <rect width="1280" height="820" fill="url(#bg)"/>
+
+  <text x="62" y="70" class="title">Ripartizione trasversale dei carichi negli impalcati a cinque travi</text>
+  <text x="62" y="104" class="subtitle">Dal momento globale del modello longitudinale al momento della singola trave</text>
+
+  <rect x="50" y="140" width="560" height="620" class="panel"/>
+  <rect x="640" y="140" width="590" height="300" class="panel"/>
+  <rect x="640" y="462" width="590" height="298" class="panel"/>
+
+  <text x="82" y="182" class="subtitle">1. Sezione trasversale e posizione del carico</text>
+  <text x="672" y="182" class="subtitle">2. Formula rapida e controlli minimi</text>
+  <text x="672" y="504" class="subtitle">3. Confronto tra tre letture del caso numerico</text>
+
+  <rect x="120" y="248" width="420" height="64" rx="12" class="deck"/>
+  <g transform="translate(0,0)">
+    <rect x="136" y="360" width="48" height="270" rx="8" class="girder"/>
+    <rect x="223" y="360" width="48" height="270" rx="8" class="girder"/>
+    <rect x="310" y="360" width="48" height="270" rx="8" class="girder"/>
+    <rect x="397" y="360" width="48" height="270" rx="8" class="girder"/>
+    <rect x="484" y="360" width="48" height="270" rx="8" class="girder"/>
+  </g>
+
+  <line x1="330" y1="220" x2="330" y2="676" class="axis"/>
+  <text x="342" y="222" class="small">asse impalcato</text>
+
+  <text x="138" y="346" class="small leftgirder">G1</text>
+  <text x="225" y="346" class="small">G2</text>
+  <text x="312" y="346" class="small">G3</text>
+  <text x="399" y="346" class="small">G4</text>
+  <text x="486" y="346" class="small">G5</text>
+
+  <text x="116" y="690" class="small">y = -5.40 m</text>
+  <text x="204" y="690" class="small">-2.70 m</text>
+  <text x="320" y="690" class="small">0.00 m</text>
+  <text x="409" y="690" class="small">+2.70 m</text>
+  <text x="493" y="690" class="small">+5.40 m</text>
+
+  <g>
+    <rect x="144" y="180" width="110" height="38" rx="10" class="load"/>
+    <text x="164" y="205" class="body" fill="#ffffff">corsia 1</text>
+    <line x1="198" y1="218" x2="198" y2="248" stroke="#8b3f16" stroke-width="4" marker-end="url(#arrow)"/>
+  </g>
+
+  <line x1="198" y1="136" x2="198" y2="728" class="guide"/>
+  <line x1="198" y1="724" x2="330" y2="724" stroke="#184553" stroke-width="3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="216" y="752" class="body">e = -2.60 m</text>
+
+  <line x1="136" y1="330" x2="532" y2="330" stroke="#184553" stroke-width="3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="260" y="324" class="body">5 travi, interasse s = 2.70 m</text>
+  <text x="120" y="280" class="small">soletta collaborante e traversi diffondono il carico</text>
+  <text x="120" y="304" class="small">il problema longitudinale e gia risolto: qui si distribuisce Mtot</text>
+
+  <text x="672" y="236" class="formula">Mmedio = Mtot / n = 5100 / 5 = 1020 kNm</text>
+  <text x="672" y="280" class="formula">Mj = etaj * Mmedio</text>
+  <text x="672" y="324" class="formula">somma(etaj) = n</text>
+  <text x="672" y="368" class="formula">etaj = 1 + n e yj / sum(yi^2)</text>
+
+  <text x="672" y="414" class="small">Controllo 1: equilibrio dei coefficienti</text>
+  <text x="672" y="440" class="small">Controllo 2: simmetria con carico centrato</text>
+  <text x="950" y="414" class="small">Courbon = check manuale rapido</text>
+  <text x="950" y="440" class="small">graticcio = benchmark piu rappresentativo</text>
+
+  <text x="672" y="556" class="body accent">media uniforme</text>
+  <text x="882" y="556" class="body accent">Courbon</text>
+  <text x="1064" y="556" class="body accent">benchmark</text>
+
+  <text x="672" y="596" class="small">G1: eta = 1.00</text>
+  <text x="882" y="596" class="small">G1: eta = 1.963</text>
+  <text x="1064" y="596" class="small">G1: eta = 1.72</text>
+  <text x="672" y="626" class="small">G2: eta = 1.00</text>
+  <text x="882" y="626" class="small">G2: eta = 1.481</text>
+  <text x="1064" y="626" class="small">G2: eta = 1.37</text>
+  <text x="672" y="656" class="small">G3: eta = 1.00</text>
+  <text x="882" y="656" class="small">G3: eta = 1.000</text>
+  <text x="1064" y="656" class="small">G3: eta = 1.02</text>
+  <text x="672" y="686" class="small">G4: eta = 1.00</text>
+  <text x="882" y="686" class="small">G4: eta = 0.519</text>
+  <text x="1064" y="686" class="small">G4: eta = 0.63</text>
+  <text x="672" y="716" class="small">G5: eta = 1.00</text>
+  <text x="882" y="716" class="small">G5: eta = 0.037</text>
+  <text x="1064" y="716" class="small">G5: eta = 0.26</text>
+
+  <text x="672" y="748" class="body">G1 passa da 1020 kNm a circa 1754 kNm nel benchmark.</text>
+  <text x="672" y="776" class="small">Messaggio pratico: la media per trave puo sottostimare pesantemente la trave di bordo.</text>
+</svg>

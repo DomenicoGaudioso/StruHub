@@ -210,11 +210,19 @@ Nel caso di default dell'app i dati principali sono:
 - smorzamento equivalente $\xi=1\%$;
 - convoglio con 7 assi da $170\,\mathrm{kN}$ e interassi progressivi $0.0$, $4.8$, $7.4$, $19.8$, $22.4$, $27.2$, $29.8\,\mathrm{m}$.
 
+La tabella degli assi e il grafico dei carichi sono il primo controllo visivo: se interassi e carichi sono sbagliati, la curva dinamica successiva puo essere numericamente elegante ma fisicamente inutile.
+
+![Tabella degli assi e diagramma dei carichi in OPSTrainLoad]({{ site.baseurl }}/assets/images/analisi-dinamica-del-passaggio-del-opstrainload-carichi.png)
+
 La frequenza fondamentale stimata dall'app e:
 
 $$
 f_1=6.98\,\mathrm{Hz}
 $$
+
+Prima del `Run`, l'app mostra anche lo schema FEM con trave, vincoli e posizione degli assi. Questo passaggio e importante per leggere se il convoglio entra nel modello come sequenza di carichi mobili coerente con la luce.
+
+![Schema FEM e assi mobili nel modello OPSTrainLoad]({{ site.baseurl }}/assets/images/analisi-dinamica-del-passaggio-del-opstrainload-modello-fem.png)
 
 Il controllo automatico su piu velocita produce una curva di amplificazione dinamica. Per il modello `Moving force`, il confronto tra spostamento dinamico massimo e spostamento statico massimo fornisce:
 
@@ -227,14 +235,28 @@ Il controllo automatico su piu velocita produce una curva di amplificazione dina
 
 ![Curva di amplificazione dinamica prodotta da OPSTrainLoad]({{ site.baseurl }}/assets/images/analisi-dinamica-del-passaggio-del-opstrainload-daf.png)
 
+Nel run dimostrativo dell'app e stato usato uno sweep breve tra $120$ e $320\,\mathrm{km/h}$, con passo $40\,\mathrm{km/h}$. La vista seguente mostra come il picco non venga letto da una sola velocita, ma dalla curva accelerazione/spostamento sull'intervallo di controllo.
+
+![Sweep di velocita e risultati dinamici in OPSTrainLoad]({{ site.baseurl }}/assets/images/analisi-dinamica-del-passaggio-del-opstrainload-sweep-risultati.png)
+
+Per una lettura tecnica piu fine, le storie temporali permettono di distinguere picchi isolati, oscillazione libera dopo il transito e decadimento legato allo smorzamento.
+
+![Storie temporali di accelerazione e spostamento in OPSTrainLoad]({{ site.baseurl }}/assets/images/analisi-dinamica-del-passaggio-del-opstrainload-storie-temporali.png)
+
+Lo stesso repository genera anche figure di benchmark piu dense, utili quando si vuole documentare la risposta completa a una velocita campione.
+
+![Time-history generata dagli script benchmark di OPSTrainLoad]({{ site.baseurl }}/assets/images/analisi-dinamica-del-passaggio-del-opstrainload-timehistory.png)
+
 Per riprodurre il controllo nel software:
 
 1. Avviare `OPSTrainLoad` con `streamlit run runApp.py`.
 2. Inserire luce, discretizzazione, area, inerzia, modulo elastico, massa lineare e smorzamento nella sezione dei parametri del modello.
 3. Controllare la tabella degli assi: la prima colonna contiene gli interassi progressivi, la seconda i carichi verticali.
 4. Impostare intervallo e passo di velocita, ad esempio $20\div350\,\mathrm{km/h}$ con passo $10\,\mathrm{km/h}$.
-5. Eseguire `Run` e leggere tre grandezze insieme: accelerazione massima, spostamento massimo e rapporto dinamico rispetto allo statico.
-6. Esportare Word/PDF solo dopo aver verificato che frequenza propria, interassi e velocita del picco siano coerenti.
+5. Controllare lo schema FEM, verificando che vincoli, discretizzazione e assi mobili siano coerenti con il ponte.
+6. Eseguire `Run` e leggere tre grandezze insieme: accelerazione massima, spostamento massimo e rapporto dinamico rispetto allo statico.
+7. Aprire le storie temporali delle velocita piu significative, non solo la tabella dei massimi.
+8. Esportare Word/PDF solo dopo aver verificato che frequenza propria, interassi e velocita del picco siano coerenti.
 
 Questo e il punto in cui il calcolo diventa comunicabile: il lettore vede la formula, il numero e il modo in cui lo stesso caso viene controllato in un applicativo ripetibile. `OPSTrainLoad` resta sullo sfondo, ma rende tracciabile il passaggio da teoria, assi del treno e sweep numerico.
 

@@ -138,6 +138,26 @@ La schermata seguente proviene dal repository `GuyonMassonnetBares`, eseguito lo
 
 ![Schermata dell'app GuyonMassonnetBares con parametri e vista in pianta]({{ site.baseurl }}/assets/images/guyon-massonnet-bares-piastre-ortotrope-app.png)
 
+Il secondo passaggio e definire il caso di carico. Nel tab dedicato si vede se il carico distribuito e applicato nella fascia corretta e se gli assi concentrati sono posizionati sulla corsia prevista.
+
+![Tab dei casi di carico nell'app GuyonMassonnetBares]({{ site.baseurl }}/assets/images/guyon-massonnet-bares-piastre-ortotrope-casi-carico.png)
+
+Il modulo veicolo rapido consente di generare due assi concentrati e controllare subito la loro posizione in pianta. Questa immagine e utile perche collega i $300\,\mathrm{kN}$ dell'esempio alla geometria dell'impalcato, evitando che il carico resti una riga astratta.
+
+![Tabella carichi e veicolo rapido nell'app GuyonMassonnetBares]({{ site.baseurl }}/assets/images/guyon-massonnet-bares-piastre-ortotrope-veicolo-carichi.png)
+
+Nel tab risultati, la prima lettura e la curva del momento per trave. La trave vicina al carico mostra il valore massimo, mentre le travi laterali ricevono quote inferiori secondo i pesi $W_j$ calcolati dal metodo.
+
+![Momenti per trave calcolati con GuyonMassonnetBares]({{ site.baseurl }}/assets/images/guyon-massonnet-bares-piastre-ortotrope-risultati-momento.png)
+
+La vista del taglio permette di controllare la stessa ripartizione su una grandezza diversa. Questo passaggio e utile per non trasformare il metodo in una sola tabella di momenti: la verifica locale della trave richiede una lettura completa delle sollecitazioni.
+
+![Tagli per trave calcolati con GuyonMassonnetBares]({{ site.baseurl }}/assets/images/guyon-massonnet-bares-piastre-ortotrope-risultati-taglio.png)
+
+La superficie 3D della deformata rende visibile il comportamento trasversale della piastra equivalente. Non sostituisce la verifica di esercizio, ma aiuta a capire se la distribuzione e compatibile con posizione del carico, rigidezza trasversale e torsione.
+
+![Superficie 3D della deformata nell'app GuyonMassonnetBares]({{ site.baseurl }}/assets/images/guyon-massonnet-bares-piastre-ortotrope-superficie-3d.png)
+
 Per riprodurre il caso:
 
 1. Avviare l'app con `streamlit run streamlit_app.py`.
@@ -145,9 +165,10 @@ Per riprodurre il caso:
 3. Inserire le proprieta di materiale e sezioni: $E$, $\nu$, $I_l$, $J_l$, $I_t$ e $J_{lt}$.
 4. Controllare subito $\theta$ e $\alpha$: sono il primo indicatore di comportamento trasversale.
 5. Nel tab `Casi di carico`, creare o usare il caso demo con carichi distribuiti e assi concentrati.
-6. Nel tab `Risultati`, leggere deformata, superficie dei momenti e curve per trave.
-7. Usare la tabella dei pesi $W_j$ per capire quale trave riceve la quota governante.
-8. Esportare il report solo dopo aver controllato equilibrio, posizione del carico e rigidezze equivalenti.
+6. Controllare graficamente la posizione del veicolo rapido e la tabella dei carichi prima di leggere gli output.
+7. Nel tab `Risultati`, leggere momento, taglio e deformata per trave, non soltanto il massimo globale.
+8. Usare la tabella dei pesi $W_j$ per capire quale trave riceve la quota governante.
+9. Esportare il report solo dopo aver controllato equilibrio, posizione del carico e rigidezze equivalenti.
 
 Il valore tecnico dell'app non e sostituire la teoria, ma renderla ispezionabile. Il progettista vede come cambiano $\theta$, $\alpha$ e la distribuzione quando modifica interasse, rigidezza trasversale, torsione o posizione del carico. Questo e il modo corretto di usare Guyon-Massonnet-Bares: non come tabella da copiare, ma come ponte tra modello semianalitico e verifica locale.
 

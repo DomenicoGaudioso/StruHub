@@ -194,5 +194,103 @@
     "post": "guyon-massonnet-bares-piastre-ortotrope.html",
     "bytes": 59899,
     "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/Muro/streamlit-input-carichi",
+    "localPath": "assets/images/verifiche-ribaltamento-scorrimento-portanza-muri-muro-input-carichi.png",
+    "post": "verifiche-ribaltamento-scorrimento-portanza-muri.html",
+    "bytes": 221171,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/Muro/streamlit-modello",
+    "localPath": "assets/images/verifiche-ribaltamento-scorrimento-portanza-muri-muro-modello.png",
+    "post": "verifiche-ribaltamento-scorrimento-portanza-muri.html",
+    "bytes": 76529,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/Muro/streamlit-pressioni-sollecitazioni",
+    "localPath": "assets/images/verifiche-ribaltamento-scorrimento-portanza-muri-muro-pressioni.png",
+    "post": "verifiche-ribaltamento-scorrimento-portanza-muri.html",
+    "bytes": 91136,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/Muro/streamlit-controlli-pendio",
+    "localPath": "assets/images/verifiche-ribaltamento-scorrimento-portanza-muri-muro-controlli.png",
+    "post": "verifiche-ribaltamento-scorrimento-portanza-muri.html",
+    "bytes": 85201,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/OPSTrainLoad/streamlit-carichi",
+    "localPath": "assets/images/analisi-dinamica-del-passaggio-del-opstrainload-carichi.png",
+    "post": "analisi-dinamica-del-passaggio-del.html",
+    "bytes": 16616,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/OPSTrainLoad/streamlit-modello-fem",
+    "localPath": "assets/images/analisi-dinamica-del-passaggio-del-opstrainload-modello-fem.png",
+    "post": "analisi-dinamica-del-passaggio-del.html",
+    "bytes": 27845,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/OPSTrainLoad/streamlit-sweep-risultati",
+    "localPath": "assets/images/analisi-dinamica-del-passaggio-del-opstrainload-sweep-risultati.png",
+    "post": "analisi-dinamica-del-passaggio-del.html",
+    "bytes": 23994,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/OPSTrainLoad/streamlit-storie-temporali",
+    "localPath": "assets/images/analisi-dinamica-del-passaggio-del-opstrainload-storie-temporali.png",
+    "post": "analisi-dinamica-del-passaggio-del.html",
+    "bytes": 160089,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-output://DomenicoGaudioso/OPSTrainLoad/paper/figures/fig_7_time_history_200kmh.png",
+    "localPath": "assets/images/analisi-dinamica-del-passaggio-del-opstrainload-timehistory.png",
+    "post": "analisi-dinamica-del-passaggio-del.html",
+    "bytes": 223788,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/GuyonMassonnetBares/streamlit-casi-carico",
+    "localPath": "assets/images/guyon-massonnet-bares-piastre-ortotrope-casi-carico.png",
+    "post": "guyon-massonnet-bares-piastre-ortotrope.html",
+    "bytes": 93823,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/GuyonMassonnetBares/streamlit-veicolo-carichi",
+    "localPath": "assets/images/guyon-massonnet-bares-piastre-ortotrope-veicolo-carichi.png",
+    "post": "guyon-massonnet-bares-piastre-ortotrope.html",
+    "bytes": 49710,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/GuyonMassonnetBares/streamlit-risultati-momento",
+    "localPath": "assets/images/guyon-massonnet-bares-piastre-ortotrope-risultati-momento.png",
+    "post": "guyon-massonnet-bares-piastre-ortotrope.html",
+    "bytes": 108947,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/GuyonMassonnetBares/streamlit-risultati-taglio",
+    "localPath": "assets/images/guyon-massonnet-bares-piastre-ortotrope-risultati-taglio.png",
+    "post": "guyon-massonnet-bares-piastre-ortotrope.html",
+    "bytes": 84532,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/GuyonMassonnetBares/streamlit-superficie-3d",
+    "localPath": "assets/images/guyon-massonnet-bares-piastre-ortotrope-superficie-3d.png",
+    "post": "guyon-massonnet-bares-piastre-ortotrope.html",
+    "bytes": 107841,
+    "contentType": "image/png"
   }
 ]

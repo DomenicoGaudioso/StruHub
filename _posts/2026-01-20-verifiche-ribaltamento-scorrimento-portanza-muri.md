@@ -188,6 +188,22 @@ La schermata seguente e stata acquisita dal repository `Muro`, eseguendo l'app S
 
 L'aspetto utile non e il colore della dashboard, ma la sequenza dei controlli. In un unico flusso si vede se il muro e governato da ribaltamento, scorrimento, portanza, pressione di contatto o stabilita globale. Questo riduce il rischio di fermarsi al primo fattore di sicurezza favorevole.
 
+Il primo passaggio operativo e compilare insieme geometria, sovraccarico, attrito alla base, attrito terra-muro e pressione ammissibile. In questo modo il rapporto $q_{max}/q_{amm}$ non nasce come numero isolato, ma come conseguenza diretta degli input appena dichiarati.
+
+![Input dei carichi e dei parametri geotecnici nell'app Muro]({{ site.baseurl }}/assets/images/verifiche-ribaltamento-scorrimento-portanza-muri-muro-input-carichi.png)
+
+La vista del modello fisico consente poi di verificare se base, punta, tallone, fusto e stratigrafia corrispondono davvero al caso descritto. Prima di discutere un fattore di sicurezza, questa immagine deve essere coerente con la sezione che il progettista ha in mente.
+
+![Modello geometrico e stratigrafico del muro nell'app Muro]({{ site.baseurl }}/assets/images/verifiche-ribaltamento-scorrimento-portanza-muri-muro-modello.png)
+
+La sezione delle pressioni chiude il collegamento tra formule e output: si leggono diagrammi di pressione, combinazioni statiche/sismiche e valori utili per il dimensionamento allo spiccato. Qui il controllo $q_{max}\le q_{amm}$ diventa verificabile a vista, non soltanto riportato in una tabella.
+
+![Pressioni sul terreno e sollecitazioni allo spiccato nell'app Muro]({{ site.baseurl }}/assets/images/verifiche-ribaltamento-scorrimento-portanza-muri-muro-pressioni.png)
+
+Infine, i controlli di progetto raccolgono esito di portanza, tirante, stabilita globale e warning. Il punto e mantenere visibile il salto tra verifica locale del muro e verifica globale del sistema opera-terreno.
+
+![Controlli finali e stabilita del pendio nell'app Muro]({{ site.baseurl }}/assets/images/verifiche-ribaltamento-scorrimento-portanza-muri-muro-controlli.png)
+
 **Come riprodurre il caso nel software**
 
 Nel repository `Muro`, il caso si riproduce in questo modo:

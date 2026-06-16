@@ -166,5 +166,12 @@
     "post": "la-ripartizione-trasversale-dei-carichi.html",
     "bytes": 6869,
     "contentType": "image/svg+xml"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/Muro/streamlit-dashboard",
+    "localPath": "assets/images/verifiche-ribaltamento-scorrimento-portanza-muri-muro-app.png",
+    "post": "verifiche-ribaltamento-scorrimento-portanza-muri.html",
+    "bytes": 72409,
+    "contentType": "image/png"
   }
 ]

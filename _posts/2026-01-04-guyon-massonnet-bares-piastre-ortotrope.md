@@ -1,148 +1,159 @@
 ---
 layout: post
-title: "Applicazione del metodo Guyon-Massonnet-Bareš per piastre ortotrope equivalenti"
-description: "Riferimento tecnico StruHub con formule, ipotesi di modello e riferimenti normativi."
+title: "Applicazione del metodo Guyon-Massonnet-Bares per piastre ortotrope equivalenti"
+description: "Metodo tecnico per la ripartizione trasversale dei carichi negli impalcati, con formule, esempio numerico e controllo software."
 date: 2026-01-04
 order: 4
 permalink: /posts/guyon-massonnet-bares-piastre-ortotrope.html
-meta: "Quaderno tecnico · 1352 parole circa"
+meta: "Quaderno tecnico - ripartizione trasversale con piastra ortotropa"
 ---
 
-**Piastra ortotropa equivalente**
+**Dall'impalcato reale alla piastra equivalente**
 
-Il metodo sostituisce il sistema reale di travi e soletta con una piastra equivalente capace di rappresentare rigidezze longitudinali, trasversali e torsionali.
+Il metodo Guyon-Massonnet-Bares nasce per leggere la ripartizione trasversale dei carichi negli impalcati a travi e soletta. L'idea e sostituire il sistema discreto di travi longitudinali, traversi e soletta con una piastra ortotropa equivalente, cioe una piastra che non ha la stessa rigidezza in tutte le direzioni.
 
-$$
-ho=fleft(\frac{D_y}{D_x}\right), qquad alpha=fleft(\frac{D_{xy}}{sqrt{D_xD_y}}\right)
-$$
+Il modello non serve a "fare sparire" le travi. Serve a capire come un carico applicato in una certa posizione trasversale si distribuisce tra le travi principali. In un impalcato molto rigido trasversalmente, la domanda tende a diffondersi. In un impalcato piu debole trasversalmente, il carico resta concentrato vicino alla trave caricata.
 
-Coefficienti di effetto.
+La piastra equivalente e descritta da rigidezze longitudinali, trasversali e torsionali. In forma sintetica:
 
 $$
-M_{x,j}=k_{M,j}M_x, qquad V_{x,j}=k_{V,j}V_x
+\rho_P=\frac{E I_l}{s}
 $$
 
-Esempio.
+$$
+\rho_E=\frac{E I_t}{s_t}
+$$
 
-Se (k_M=0.32) e (M_x=900,mathrm{kNm}):
+dove $I_l$ e l'inerzia longitudinale equivalente, $I_t$ e l'inerzia trasversale equivalente, $s$ e l'interasse tra le travi principali e $s_t$ e il passo caratteristico dei traversi o della ripartizione trasversale.
+
+Il parametro di intreccio del metodo puo essere scritto come:
 
 $$
-M_{x,j}=288,mathrm{kNm}
+\theta=\frac{b}{L}\sqrt[4]{\frac{\rho_P}{\rho_E}}
 $$
+
+dove $2b$ e la larghezza efficace dell'impalcato e $L$ e la luce. Il parametro di torsione e:
+
+$$
+\alpha=\frac{\gamma_P+\gamma_E}{2\sqrt{\rho_P\rho_E}}
+$$
+
+con $\gamma_P$ e $\gamma_E$ legati alla rigidezza torsionale longitudinale e trasversale. Valori bassi di $\alpha$ indicano una struttura poco efficace a torsione; valori piu alti indicano maggiore capacita di redistribuzione.
+
+**Coefficiente di ripartizione**
+
+Per un carico applicato con eccentricita trasversale $e$, il coefficiente di ripartizione sulla trave in posizione $y$ e indicato come:
+
+$$
+K_\alpha(y,e,\theta,\alpha)
+$$
+
+Nella formulazione operativa usata nell'app `GuyonMassonnetBares`, il coefficiente viene interpolato tra due casi limite:
+
+$$
+K_\alpha \simeq K_0+(K_1-K_0)\alpha^n
+$$
+
+dove $K_0$ e $K_1$ rappresentano i comportamenti limite e l'esponente $n$ dipende dal campo di $\theta$. Il passaggio e importante perche rende esplicita la dipendenza del risultato dai rapporti di rigidezza, non solo dalla posizione geometrica del carico.
+
+Il carico longitudinale $p(x)$ viene sviluppato in serie di Fourier:
+
+$$
+p(x)=\sum_{m=1}^{N} A_m\sin\left(\frac{m\pi x}{L}\right)
+$$
+
+Per una forza concentrata $P$ applicata in $x_c$:
+
+$$
+A_m=\frac{2P}{L}\sin\left(\frac{m\pi x_c}{L}\right)
+$$
+
+Per ogni armonica si calcola l'effetto lungo la trave e lo si pesa trasversalmente con $K_\alpha$. Il momento sulla trave $j$ puo essere letto come:
+
+$$
+M_j(x)=W_j M_{medio}(x)
+$$
+
+dove $W_j$ e il peso trasversale associato alla posizione della trave. Il controllo di equilibrio resta essenziale: la ripartizione deve essere compatibile con il carico globale e con la rigidezza dell'impalcato.
+
+**Esempio numerico**
+
+Si considera un impalcato con:
+
+- luce $L=22.30\,\mathrm{m}$;
+- larghezza $L_y=11.50\,\mathrm{m}$, quindi $b=5.75\,\mathrm{m}$;
+- $11$ travi longitudinali con interasse $s=1.00\,\mathrm{m}$;
+- modulo elastico $E=32.308\,\mathrm{GPa}$;
+- inerzia longitudinale $I_l=11375171\,\mathrm{cm^4}$;
+- inerzia torsionale longitudinale $J_l=510383\,\mathrm{cm^4}$;
+- inerzia trasversale $I_t=10382507\,\mathrm{cm^4}$;
+- inerzia torsionale trasversale $J_{lt}=1228304\,\mathrm{cm^4}$.
+
+Con questi dati l'app calcola:
+
+$$
+\rho_P=3.675\cdot10^9\,\mathrm{N\,m}
+$$
+
+$$
+\rho_E=3.008\cdot10^8\,\mathrm{N\,m}
+$$
+
+$$
+\theta=0.482
+$$
+
+$$
+\alpha=0.0397
+$$
+
+Il valore di $\theta$ descrive una piastra equivalente con forte differenza tra direzione longitudinale e trasversale; il valore basso di $\alpha$ segnala una torsione non dominante. In termini pratici, ci si aspetta una ripartizione non uniforme e sensibile alla posizione trasversale del carico.
+
+Il caso di carico usato nell'esempio e composto da:
+
+- carico distribuito $q_1=9.5\,\mathrm{kN/m^2}$ su fascia larga $3.0\,\mathrm{m}$ a $y=+2.5\,\mathrm{m}$;
+- carico distribuito $q_2=2.5\,\mathrm{kN/m^2}$ su fascia larga $3.0\,\mathrm{m}$ a $y=-0.5\,\mathrm{m}$;
+- due assi concentrati da $300\,\mathrm{kN}$ a $x=0.47L$ e $x=0.53L$, entrambi a $y=+2.5\,\mathrm{m}$.
+
+I risultati sulle travi principali mostrano la concentrazione della domanda verso il lato caricato:
+
+| Trave | Coordinata $y$ | Peso $W_j$ | $M_{max}$ | $V_{max}$ |
+| --- | ---: | ---: | ---: | ---: |
+| bordo sinistro | $-5.0\,\mathrm{m}$ | $0.351$ | $171.9\,\mathrm{kNm}$ | $22.2\,\mathrm{kN}$ |
+| centrale | $0.0\,\mathrm{m}$ | $0.864$ | $422.5\,\mathrm{kNm}$ | $54.7\,\mathrm{kN}$ |
+| vicino al carico | $+2.0\,\mathrm{m}$ | $0.975$ | $476.8\,\mathrm{kNm}$ | $61.7\,\mathrm{kN}$ |
+| bordo destro | $+5.0\,\mathrm{m}$ | $0.806$ | $394.5\,\mathrm{kNm}$ | $51.0\,\mathrm{kN}$ |
+
+Lo spostamento massimo della superficie equivalente, nel caso dimostrativo, e:
+
+$$
+w_{max}=67.8\,\mathrm{mm}
+$$
+
+Questo valore non va usato da solo come verifica di esercizio: serve a leggere la forma deformata e la distribuzione trasversale. La verifica locale della singola trave richiede poi le sezioni resistenti, le combinazioni e i limiti di progetto.
+
+**Uso dell'app GuyonMassonnetBares**
+
+La schermata seguente proviene dal repository `GuyonMassonnetBares`, eseguito localmente come app Streamlit. Si vedono i parametri $\theta$, $\alpha$, $\rho$ e $\gamma$ e la vista in pianta dell'impalcato a graticcio.
+
+![Schermata dell'app GuyonMassonnetBares con parametri e vista in pianta]({{ site.baseurl }}/assets/images/guyon-massonnet-bares-piastre-ortotrope-app.png)
+
+Per riprodurre il caso:
+
+1. Avviare l'app con `streamlit run streamlit_app.py`.
+2. Nella sidebar impostare luce, larghezza, numero di travi e interasse.
+3. Inserire le proprieta di materiale e sezioni: $E$, $\nu$, $I_l$, $J_l$, $I_t$ e $J_{lt}$.
+4. Controllare subito $\theta$ e $\alpha$: sono il primo indicatore di comportamento trasversale.
+5. Nel tab `Casi di carico`, creare o usare il caso demo con carichi distribuiti e assi concentrati.
+6. Nel tab `Risultati`, leggere deformata, superficie dei momenti e curve per trave.
+7. Usare la tabella dei pesi $W_j$ per capire quale trave riceve la quota governante.
+8. Esportare il report solo dopo aver controllato equilibrio, posizione del carico e rigidezze equivalenti.
+
+Il valore tecnico dell'app non e sostituire la teoria, ma renderla ispezionabile. Il progettista vede come cambiano $\theta$, $\alpha$ e la distribuzione quando modifica interasse, rigidezza trasversale, torsione o posizione del carico. Questo e il modo corretto di usare Guyon-Massonnet-Bares: non come tabella da copiare, ma come ponte tra modello semianalitico e verifica locale.
 
 Riferimenti tecnici utilizzati:
 
-- D.M. 17 gennaio 2018, NTC 2018, Capitolo 5.
-- UNI EN 1991-2, Eurocodice 1: Azioni da traffico sui ponti.
-
-Nota StruHub.
-
-Il metodo è utile come controllo semianalitico prima o a fianco di un modello FEM.
-
-**Lettura ingegneristica dei parametri**
-
-I parametri del metodo Guyon-Massonnet-Bareš non vanno letti come coefficienti astratti. Essi rappresentano il rapporto tra rigidezza longitudinale, rigidezza trasversale e torsione. Variando questi parametri si passa da un impalcato che lavora quasi per travi indipendenti a uno che si comporta più come piastra.
-
-**Controllo contro un modello graticcio**
-
-Una buona pratica è confrontare l'ordine di grandezza dei coefficienti ottenuti con un semplice modello a graticcio. Se una trave laterale riceve un coefficiente molto alto, bisogna chiedersi se il carico è effettivamente vicino al bordo o se la rigidezza trasversale è stata sottostimata.
-
-Il metodo semianalitico è utile proprio perché rende visibili le dipendenze parametriche, che in un FEM possono restare nascoste dietro la discretizzazione.
-
-Nel tema di il metodo Guyon-Massonnet-Bares, il punto non è ottenere un coefficiente isolato, ma costruire una catena coerente tra modello globale e verifica locale. Il carico applicato al piastra ortotropa equivalente attraversa una gerarchia resistente: soletta, traversi, travi principali, appoggi e infine sottostrutture.
-
-Il primo controllo è l'equilibrio. Se gli effetti ripartiti non ricostruiscono l'azione globale, il modello non è accettabile. Il secondo controllo è la compatibilità: gli elementi connessi non possono deformarsi come sistemi indipendenti se la soletta o i collegamenti impongono continuità.
-
-$$
-\sum_j E_j \simeq E_{tot}
-$$
-
-**Rigidezze equivalenti e sensibilità**
-
-La ripartizione dipende dai rapporti di rigidezza, non dai soli interassi geometrici. Un elemento molto rigido attira più domanda, mentre un elemento flessibile tende a scaricare verso gli elementi vicini. Questo vale per travi, piastre equivalenti e modelli a graticcio.
-
-$$
-D_x \propto EI_x, \qquad D_y \propto EI_y, \qquad D_{xy} \propto GJ
-$$
-
-Una variazione del 20% nella rigidezza trasversale può modificare in modo significativo il coefficiente di ripartizione. Per questo l'articolo tecnico non deve limitarsi a presentare il risultato: deve spiegare quali parametri lo muovono.
-
-Esempio di confronto. Si consideri un effetto globale (E_{tot}=1000\,\mathrm{kNm}). Un primo modello fornisce coefficienti (0.20,0.35,0.35,0.10); un secondo modello, con maggiore rigidezza trasversale, fornisce (0.24,0.29,0.29,0.18). I due risultati sono entrambi equilibrati, ma raccontano impalcati diversi.
-
-$$
-E_{j}=\eta_j E_{tot}
-$$
-
-Nel primo caso la domanda è concentrata sulle travi interne; nel secondo la distribuzione è più uniforme. La scelta progettuale deve leggere questa differenza, non solo copiare il massimo valore.
-
-**Uso nella relazione tecnica**
-
-Una relazione ben costruita dovrebbe riportare schema dell'impalcato, rigidezze equivalenti, posizione dei carichi, coefficienti ottenuti e controllo di equilibrio. Se il metodo è semianalitico, è utile affiancare un confronto con un modello graticcio o FEM semplificato.
-
-Il pregio del metodo è rendere esplicite le dipendenze parametriche. Un FEM dà un numero; il metodo semianalitico aiuta a capire perché quel numero cambia quando varia la rigidezza trasversale. In questo modo il post diventa un riferimento tecnico: non propone soltanto un numero, ma insegna a giudicarlo.
-
-**Dal modello globale alla verifica locale**
-
-Nei temi di impalcato, sezioni composte e azioni di progetto, il passaggio più importante è collegare una grandezza globale a un controllo locale. Un momento globale lungo l'impalcato non è ancora una verifica di fibra; un carico da traffico non è ancora una tensione; un coefficiente di ripartizione non è ancora una domanda resistente. Il calcolo diventa affidabile quando ogni trasformazione è esplicita.
-
-La sequenza tipica è: definizione dell'azione, scelta dello schema resistente, calcolo dell'effetto globale, ripartizione o trasformazione sezionale, verifica della fibra o dell'elemento. Saltare uno di questi passaggi produce risultati difficili da revisionare.
-
-Tracciabilità delle combinazioni. Ogni valore dovrebbe conservare l'origine. Se una sezione ha (M_{max}=950\,\mathrm{kNm}), la relazione deve indicare se deriva da traffico, temperatura, fase costruttiva, ritiro o combinazione sismica. In assenza di questa informazione il dato è numericamente utile ma tecnicamente debole.
-
-Una forma pratica di archiviazione è associare a ogni effetto tre campi: valore, combinazione governante e posizione. Per gli inviluppi:
-
-$$
-E_{max}(x_j)=E_{d,k}(x_j) \quad con \quad k=k_{gov}(x_j)
-$$
-
-Questa scrittura chiarisce che il massimo non è astratto: è prodotto da una combinazione precisa.
-
-Controllo delle rigidezze. Quando si lavora con ripartizioni, sezioni composte o fasi costruttive, la rigidezza è il parametro più influente. Una rigidezza sbagliata può produrre una distribuzione apparentemente equilibrata ma fisicamente non corretta. Per questo, prima della verifica, conviene riportare le proprietà principali: area, inerzia, modulo elastico, coefficiente di omogeneizzazione e fase resistente.
-
-Per una sezione composta, ad esempio, una stessa azione può produrre tensioni diverse se applicata prima o dopo la maturazione della soletta. Il valore finale è la somma di contributi nati in tempi diversi:
-
-$$
-\sigma_{finale}=\sum_i \sigma_i(A_i,I_i,E_i,t_i)
-$$
-
-La notazione evidenzia che ogni contributo ha proprietà resistenti proprie.
-
-Esempio di lettura critica. Si consideri un impalcato con quattro travi. Un modello semplificato fornisce coefficienti (0.18,0.32,0.32,0.18), mentre un modello più rigido trasversalmente fornisce (0.22,0.28,0.28,0.22). Entrambi rispettano l'equilibrio, ma il secondo distribuisce maggiormente verso le travi laterali. Se la verifica locale di una trave laterale è vicina al limite, questa differenza non è accademica.
-
-Scrittura da riferimento tecnico. Il testo deve accompagnare il lettore dalla causa all'effetto: quale azione entra, come viene distribuita, quale proprietà resistente la trasforma in tensione o sollecitazione, quale limite viene controllato. Questa catena rende l'articolo consultabile anche a distanza di tempo.
-
-Piastra ortotropa equivalente.
-
-Il metodo Guyon-Massonnet-Bares nasce per trattare impalcati a travi e soletta come piastre ortotrope equivalenti. L'idea e sostituire il sistema discreto di travi longitudinali e collegamenti trasversali con un continuo dotato di rigidezze diverse nelle due direzioni principali. In questa rappresentazione, la rigidezza flessionale longitudinale $D_x$, quella trasversale $D_y$ e la rigidezza torsionale $D_{xy}$ governano la diffusione del carico.
-
-Per una piastra isotropa, la rigidezza flessionale e:
-
-$$
-D=\frac{E h^3}{12(1-\nu^2)}
-$$
-
-In una piastra ortotropa, invece, non basta un unico $D$. La struttura ha una direzione piu rigida, in genere quella delle travi principali, e una direzione piu debole, governata da soletta e traversi. Il rapporto tra rigidezze modifica la forma della superficie di influenza e quindi la quota di carico attribuita a ciascuna trave.
-
-Il parametro tecnico piu importante non e il nome del metodo, ma la coerenza tra impalcato reale e piastra equivalente. Travi molto ravvicinate, soletta collaborante e traversi efficaci giustificano una diffusione piu continua. Travi molto distanziate, collegamenti trasversali deboli o dettagli costruttivi discontinui richiedono cautela.
-
-Dal coefficiente alla sollecitazione. Il coefficiente di ripartizione ottenuto dal metodo deve essere trasformato in azioni interne. Se $m_x(x,y)$ e il momento longitudinale per unita di larghezza della piastra, la sollecitazione nella trave puo essere ricavata integrando sulla fascia tributaria equivalente:
-
-$$
-M_i(x)=\int_{b_i} m_x(x,y)\\,dy
-$$
-
-Questa scrittura ricorda che il coefficiente non e un numero isolato: e il risultato di una distribuzione spaziale. Nei casi pratici, tabelle e coefficienti rendono il metodo operativo, ma la verifica ingegneristica resta la stessa: confrontare la diffusione teorica con una modellazione a graticcio o FEM quando geometria, sbalzi, curvature o eccentricita rendono il comportamento meno regolare.
-
-Un esempio semplice: se una trave di bordo riceve $\alpha=0.34$ di un asse da $Q=300\,\mathrm{kN}$, la quota verticale e $Q_i=102\,\mathrm{kN}$. Se lo stesso carico genera anche torsione globale, il massimo momento nella trave di bordo puo non coincidere con la sola quota verticale. Per i carichi mobili e la progettazione degli impalcati, i riferimenti da citare sono D.M. 17 gennaio 2018, Capitolo 5, e UNI EN 1991-2:2005.
-
-Riferimenti normativi e bibliografici utilizzati:
-
-- D.M. 17 gennaio 2018, "Aggiornamento delle Norme tecniche per le costruzioni", Ministero delle Infrastrutture e dei Trasporti, Supplemento ordinario alla Gazzetta Ufficiale n. 42 del 20 febbraio 2018.
-- Circolare C.S.LL.PP. 21 gennaio 2019, n. 7, "Istruzioni per l'applicazione dell'Aggiornamento delle Norme tecniche per le costruzioni di cui al decreto ministeriale 17 gennaio 2018".
-- UNI EN 1990:2006, Eurocodice - Criteri generali di progettazione strutturale.
+- D.M. 17 gennaio 2018, "Aggiornamento delle Norme tecniche per le costruzioni", Capitolo 5, per il quadro nazionale delle azioni sui ponti.
+- Circolare C.S.LL.PP. 21 gennaio 2019, n. 7, per l'applicazione delle NTC 2018.
 - UNI EN 1991-2:2005, Eurocodice 1 - Azioni sulle strutture - Parte 2: Carichi da traffico sui ponti.
-- UNI EN 1992-1-1:2015, Eurocodice 2 - Progettazione delle strutture di calcestruzzo.
-- UNI EN 1993-1-1:2014, Eurocodice 3 - Progettazione delle strutture di acciaio.
-- UNI EN 1994-2:2006, Eurocodice 4 - Progettazione delle strutture composte acciaio-calcestruzzo - Ponti.
-- UNI EN 1997-1:2013, Eurocodice 7 - Progettazione geotecnica - Parte 1: Regole generali.
-- UNI EN 1998-2:2011, Eurocodice 8 - Progettazione delle strutture per la resistenza sismica - Ponti.
+- Guyon, Y., Massonnet, C. e Bares, R., riferimenti classici sulla ripartizione trasversale degli impalcati a piastra ortotropa equivalente.

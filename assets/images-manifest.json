@@ -173,5 +173,26 @@
     "post": "verifiche-ribaltamento-scorrimento-portanza-muri.html",
     "bytes": 72409,
     "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/OPSTrainLoad/streamlit-inputs",
+    "localPath": "assets/images/analisi-dinamica-del-passaggio-del-opstrainload-app.png",
+    "post": "analisi-dinamica-del-passaggio-del.html",
+    "bytes": 59733,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-output://DomenicoGaudioso/OPSTrainLoad/paper/figures/fig_8_dynamic_amplification_dense.png",
+    "localPath": "assets/images/analisi-dinamica-del-passaggio-del-opstrainload-daf.png",
+    "post": "analisi-dinamica-del-passaggio-del.html",
+    "bytes": 195947,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/GuyonMassonnetBares/streamlit-model",
+    "localPath": "assets/images/guyon-massonnet-bares-piastre-ortotrope-app.png",
+    "post": "guyon-massonnet-bares-piastre-ortotrope.html",
+    "bytes": 59899,
+    "contentType": "image/png"
   }
 ]

@@ -195,6 +195,49 @@ Nel lavoro quotidiano, il post-processing ha valore solo se lascia una traccia t
 
 Se invece il software restituisce un solo semaforo finale, il progettista perde la possibilita di ricostruire perche il picco cade proprio a quella velocita e non a un'altra.
 
+**Uso operativo con OPSTrainLoad**
+
+Il caso precedente e stato riprodotto anche con il repository `OPSTrainLoad`, che lavora sullo stesso problema: treno modellato come sequenza di assi mobili, trave semplicemente appoggiata, sweep di velocita, risposta in accelerazione e spostamento in mezzeria.
+
+![Schermata dell'app OPSTrainLoad con input del modello ferroviario]({{ site.baseurl }}/assets/images/analisi-dinamica-del-passaggio-del-opstrainload-app.png)
+
+Nel caso di default dell'app i dati principali sono:
+
+- luce del ponte $L=33.25\,\mathrm{m}$;
+- discretizzazione $0.50\,\mathrm{m}$;
+- massa lineare $m=6602\,\mathrm{kg/m}$;
+- rigidezza $EI=167000\cdot10^6\cdot9529\cdot10^{-4}\,\mathrm{N\,m^2}$;
+- smorzamento equivalente $\xi=1\%$;
+- convoglio con 7 assi da $170\,\mathrm{kN}$ e interassi progressivi $0.0$, $4.8$, $7.4$, $19.8$, $22.4$, $27.2$, $29.8\,\mathrm{m}$.
+
+La frequenza fondamentale stimata dall'app e:
+
+$$
+f_1=6.98\,\mathrm{Hz}
+$$
+
+Il controllo automatico su piu velocita produce una curva di amplificazione dinamica. Per il modello `Moving force`, il confronto tra spostamento dinamico massimo e spostamento statico massimo fornisce:
+
+| Velocita | Accelerazione max | Spostamento max | DAF su spostamento |
+| --- | ---: | ---: | ---: |
+| $120\,\mathrm{km/h}$ | $0.272\,\mathrm{m/s^2}$ | $3.19\,\mathrm{mm}$ | $1.028$ |
+| $200\,\mathrm{km/h}$ | $0.677\,\mathrm{m/s^2}$ | $3.24\,\mathrm{mm}$ | $1.043$ |
+| $260\,\mathrm{km/h}$ | $0.930\,\mathrm{m/s^2}$ | $3.35\,\mathrm{mm}$ | $1.077$ |
+| $300\,\mathrm{km/h}$ | $0.814\,\mathrm{m/s^2}$ | $3.28\,\mathrm{mm}$ | $1.054$ |
+
+![Curva di amplificazione dinamica prodotta da OPSTrainLoad]({{ site.baseurl }}/assets/images/analisi-dinamica-del-passaggio-del-opstrainload-daf.png)
+
+Per riprodurre il controllo nel software:
+
+1. Avviare `OPSTrainLoad` con `streamlit run runApp.py`.
+2. Inserire luce, discretizzazione, area, inerzia, modulo elastico, massa lineare e smorzamento nella sezione dei parametri del modello.
+3. Controllare la tabella degli assi: la prima colonna contiene gli interassi progressivi, la seconda i carichi verticali.
+4. Impostare intervallo e passo di velocita, ad esempio $20\div350\,\mathrm{km/h}$ con passo $10\,\mathrm{km/h}$.
+5. Eseguire `Run` e leggere tre grandezze insieme: accelerazione massima, spostamento massimo e rapporto dinamico rispetto allo statico.
+6. Esportare Word/PDF solo dopo aver verificato che frequenza propria, interassi e velocita del picco siano coerenti.
+
+Questo e il punto in cui il calcolo diventa comunicabile: il lettore vede la formula, il numero e il modo in cui lo stesso caso viene controllato in un applicativo ripetibile. `OPSTrainLoad` resta sullo sfondo, ma rende tracciabile il passaggio da teoria, assi del treno e sweep numerico.
+
 **Riferimenti normativi da citare in modo esplicito**
 
 Per rendere il calcolo tracciabile, in un report o in un post tecnico conviene richiamare almeno questi riferimenti, in forma completa:

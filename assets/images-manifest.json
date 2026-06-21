@@ -292,5 +292,40 @@
     "post": "guyon-massonnet-bares-piastre-ortotrope.html",
     "bytes": 107841,
     "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/Palo/streamlit-input-sintesi",
+    "localPath": "assets/images/capacita-portante-assiale-pali-palo-input-sintesi.png",
+    "post": "capacita-portante-assiale-pali.html",
+    "bytes": 123407,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/Palo/streamlit-contributi-assiali",
+    "localPath": "assets/images/capacita-portante-assiale-pali-palo-contributi-assiali.png",
+    "post": "capacita-portante-assiale-pali.html",
+    "bytes": 118506,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/Palo/streamlit-risposta-laterale",
+    "localPath": "assets/images/capacita-portante-assiale-pali-palo-risposta-laterale.png",
+    "post": "capacita-portante-assiale-pali.html",
+    "bytes": 151437,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/Palo/streamlit-confronto-fem",
+    "localPath": "assets/images/capacita-portante-assiale-pali-palo-confronto-fem.png",
+    "post": "capacita-portante-assiale-pali.html",
+    "bytes": 154450,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/Palo/streamlit-report-controlli",
+    "localPath": "assets/images/capacita-portante-assiale-pali-palo-report-controlli.png",
+    "post": "capacita-portante-assiale-pali.html",
+    "bytes": 147929,
+    "contentType": "image/png"
   }
 ]

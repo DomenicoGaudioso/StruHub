@@ -1,235 +1,319 @@
 ---
 layout: post
 title: "Analisi di muri di sostegno a mensola in campo statico e sismico"
-description: "Riferimento tecnico StruHub con formule, ipotesi di modello e riferimenti normativi."
+description: "Metodo di calcolo, benchmark pseudo-statico completo e workflow reale con Muro per leggere spinte, verifiche GEO/EQU e stabilita del pendio."
 date: 2026-01-01
 order: 1
 permalink: /posts/muri-sostegno-statico-sismico.html
-meta: "Quaderno tecnico · 1286 parole circa"
+meta: "Quaderno tecnico - muro a mensola, pseudo-statica e controllo con Muro"
 ---
 
-**Spinte, pesi e stabilità**
+Per questo tema il collegamento tecnico corretto e il repository `Muro`, applicativo CivilBox dedicato ai muri di sostegno a mensola con verifiche GEO/EQU, spinta pseudo-statica, pressione di contatto, portanza e stabilita globale del pendio. Nel seguito non e citato come vetrina: viene usato come controllo ripetibile dello stesso caso numerico riportato nel post.
 
-Un muro a mensola equilibra spinte del terreno, sovraccarichi, falda e azioni sismiche pseudo-statiche.
+![Schermata reale dell'app Muro con benchmark pseudo-statico, stratigrafia a due strati e campi principali per geometria, sovraccarico e coefficienti sismici]({{ site.baseurl }}/assets/images/muri-sostegno-statico-sismico-muro-input-overview.png)
 
-Per Rankine:
+Il caso di riferimento e il benchmark `test/benchmark/asdip_cantilever_surcharge_seismic.json` del repo `Muro`. E' interessante per un motivo pratico: il muro resta verificato nelle letture locali piu immediate, ma la combinazione sismica riduce il margine di portanza e la verifica globale del pendio resta critica. E' esattamente il tipo di situazione in cui un progettista non puo fermarsi al solo `FS` di scorrimento o ribaltamento.
 
-$$
-K_a=\frac{1-sinphi}{1+sinphi}
-$$
+## 1. Teoria e metodo di calcolo
 
-$$
-sigma'_h(z)=K_asigma'_v(z)
-$$
+Un muro a mensola va letto come un sistema opera-terreno, non come un semplice setto in c.a. Il percorso corretto e:
 
-Risultante.
+1. definire le pressioni laterali efficaci e idrauliche;
+2. ricavare risultanti e bracci delle spinte;
+3. costruire le azioni stabilizzanti del muro e del terreno sul tallone;
+4. verificare ribaltamento, scorrimento e pressione di contatto;
+5. controllare la portanza del piano di posa;
+6. se il rilevato o il pendio di monte lo richiedono, chiudere il problema con una verifica di stabilita globale.
 
-Per diagramma triangolare:
-
-$$
-P_a=\frac{1}{2}K_agamma H^2
-$$
-
-Esempio.
-
-Con (phi=30^circ), (gamma=18,mathrm{kN/m^3}), (H=5,mathrm{m}):
+Nel caso statico, con attrito muro-terreno $\delta$ e terreno non saturo, il motore di `Muro` usa una formulazione di tipo Rankine/Coulomb semplificata per ricavare il coefficiente attivo:
 
 $$
-K_a=0.333, qquad P_aapprox75,mathrm{kN/m}
+K_a = \frac{\cos^2 \phi}{\cos \delta \left(1 + \sqrt{\frac{\sin(\phi + \delta)\sin \phi}{\cos \delta}}\right)^2}
 $$
 
-Riferimenti tecnici utilizzati:
+dove:
 
-- D.M. 17 gennaio 2018, NTC 2018, Capitolo 6.
-- Circolare C.S.LL.PP. 21 gennaio 2019, n. 7.
-- UNI EN 1997-1, Eurocodice 7: Progettazione geotecnica.
+- $\phi$ e l'angolo di attrito del terreno $[deg]$;
+- $\delta$ e l'attrito terra-muro $[deg]$.
 
-Nota StruHub.
-
-StruHub separa spinte, verifiche globali e sollecitazioni strutturali, perché sono tre letture diverse dello stesso muro.
-
-**Sovraccarichi e falda**
-
-Alla spinta da peso proprio del terreno si sommano sovraccarichi superficiali e pressione idraulica. Un sovraccarico uniforme $q$ produce una pressione orizzontale:
+Nel caso pseudo-statico il coefficiente viene aggiornato con la forma di Mononobe-Okabe:
 
 $$
-\Delta\sigma_h=K_a q
-$$
-
-La falda introduce invece pressione neutra:
-
-$$
-u(z)=\gamma_w z_w
-$$
-
-che deve essere aggiunta come azione idraulica e sottratta nel calcolo delle tensioni efficaci.
-
-**Sisma pseudo-statico**
-
-L'approccio pseudo-statico introduce coefficienti $k_h$ e $k_v$. La sua utilità sta nella semplicità, ma la scelta dei coefficienti e dello schema di spinta deve essere coerente con il livello di analisi richiesto.
-
-Per il muro di sostegno in campo statico e sismico, la lettura corretta parte dall'equilibrio tra spinta del terreno, peso proprio, eventuali sovraccarichi, acqua e risposta del piano di posa. Il muro non è solo un elemento in calcestruzzo: è il bordo rigido di un volume di terreno che tende a muoversi.
-
-**Spinte e pressione neutra**
-
-In condizioni semplici, la spinta attiva può essere rappresentata con il coefficiente di Rankine:
-
-$$
-K_a=\frac{1-\sin\phi}{1+\sin\phi}
-$$
-
-La pressione efficace orizzontale è:
-
-$$
-\sigma'_h(z)=K_a\sigma'_v(z)
-$$
-
-Se è presente acqua, la pressione neutra deve essere aggiunta come azione idraulica. Separare tensione efficace e pressione neutra evita di confondere resistenza del terreno e spinta dell'acqua.
-
-**Equilibrio alla base**
-
-La risultante verticale (N) e il momento alla base definiscono l'eccentricità:
-
-$$
-e=\frac{M}{N}
-$$
-
-Se la risultante resta nel nucleo centrale, la distribuzione delle pressioni può essere letta con:
-
-$$
-q_{max,min}=\frac{N}{B}\left(1\pm\frac{6e}{B}\right)
-$$
-
-**Esempio di controllo**
-
-Con (B=3.0\,\mathrm{m}), (N=450\,\mathrm{kN/m}) e (M=90\,\mathrm{kNm/m}):
-
-$$
-e=\frac{90}{450}=0.20\,\mathrm{m}
-$$
-
-Poiché (B/6=0.50\,\mathrm{m}), la risultante resta nel nucleo centrale. Le pressioni sono:
-
-$$
-q_{max}=\frac{450}{3}\left(1+\frac{6\cdot0.20}{3}\right)=210\,\mathrm{kPa}
+\theta = \arctan \left(\frac{k_h}{1-k_v}\right)
 $$
 
 $$
-q_{min}=90\,\mathrm{kPa}
+K_{ae} =
+\frac{\cos^2(\phi-\theta)}
+{\cos\theta \cos(\delta+\theta)
+\left[
+1+\sqrt{
+\frac{\sin(\phi+\delta)\sin(\phi-\theta)}
+{\cos(\delta+\theta)}
+}
+\right]^2}
+(1-k_v)
 $$
 
-Lettura tecnica. Un muro è una struttura e un problema geotecnico nello stesso tempo. Le spinte definiscono la domanda; geometria, peso e terreno definiscono l’equilibrio. Un articolo di riferimento deve mostrare come si passa dalla spinta alla risultante, dalla risultante alle pressioni e dalle pressioni alla verifica. Solo così il lettore può ricostruire il ragionamento.
+con:
 
-Dal terreno alla risultante. Nel muro di sostegno il percorso tecnico parte dalla spinta del terreno e arriva alle pressioni di contatto alla base. Ogni passaggio deve essere esplicito: coefficiente di spinta, diagramma delle pressioni, risultante, braccio, momento ribaltante, peso stabilizzante, eccentricità e verifica della fondazione.
+- $k_h$ coefficiente pseudo-statico orizzontale $[-]$;
+- $k_v$ coefficiente pseudo-statico verticale $[-]$.
 
-Separare terreno e acqua. La pressione neutra non è una variante della spinta efficace: è un'azione idraulica distinta. In presenza di falda, la pressione totale orizzontale può essere letta come somma di contributo efficace e contributo idraulico:
-
-$$
-\sigma_h(z)=K_a\sigma'_v(z)+u(z)
-$$
-
-Questa separazione è importante perché il terreno offre resistenza tramite tensioni efficaci, mentre l'acqua aggiunge spinta senza contribuire alla resistenza al taglio.
-
-Eccentricità e distribuzione delle pressioni. Il controllo della base non si esaurisce nella risultante verticale. Il momento sposta la risultante e genera eccentricità:
+La pressione orizzontale totale a tergo vale quindi:
 
 $$
-e=\frac{M}{N}
+\sigma_h(z) = K_{ae}(z)\left[\sigma_v'(z)+q\right]\cos\delta + u(z)
 $$
 
-Se (|e|\le B/6), la distribuzione resta compressa su tutta la base. Se la risultante esce dal nucleo centrale, il modello lineare su tutta la larghezza non è più valido e bisogna usare una distribuzione parziale.
+dove:
 
-Esempio esteso. Con (N=500\,\mathrm{kN/m}), (M=110\,\mathrm{kNm/m}), (B=3.2\,\mathrm{m}), si ha:
+- $\sigma_v'(z)$ e la tensione verticale efficace alla quota $z$ $[kPa]$;
+- $q$ e il sovraccarico uniforme in sommita $[kPa]$;
+- $u(z)$ e la pressione neutra $[kPa]$.
 
-$$
-e=0.22\,\mathrm{m}, \qquad B/6=0.53\,\mathrm{m}
-$$
-
-La risultante resta nel nucleo centrale. Le pressioni sono:
+La risultante della spinta attiva si ottiene per integrazione:
 
 $$
-q_{max}=\frac{500}{3.2}\left(1+\frac{6\cdot0.22}{3.2}\right)=220\,\mathrm{kPa}
+P_a = \int_0^H \sigma_h(z)\,dz
+$$
+
+e il suo braccio rispetto alla base si legge con:
+
+$$
+z_a = \frac{\int_0^H \sigma_h(z)\,z\,dz}{P_a}
+$$
+
+Per il fronte valle, se si considera il contributo passivo sul terreno davanti alla punta:
+
+$$
+P_p = \int_0^{h_f} \sigma_p(z)\,dz
+$$
+
+con $h_f$ altezza del terreno a fronte $[m]$.
+
+Le verifiche principali sono poi:
+
+$$
+FS_{rib} = \frac{M_{stab}}{M_{rib}}
 $$
 
 $$
-q_{min}=92\,\mathrm{kPa}
+FS_{scorr} = \frac{\mu V + c_b B + P_p}{H_h}
 $$
 
-Il valore (q_{max}) va confrontato con la resistenza di progetto del terreno, non con una pressione media generica.
-
-Scrittura da riferimento tecnico. Un testo tecnico sul muro deve far vedere l'intera catena dell'equilibrio. Solo così il lettore capisce se il margine deriva dal peso del muro, dalla larghezza della base, dalla riduzione della spinta o dalla capacità del terreno.
-
-Spinta attiva, acqua e sovraccarichi. Un muro a mensola e un sistema di equilibrio tra terreno e struttura. La prima azione da ricostruire e la spinta attiva del terreno. Nel caso elementare di paramento verticale, terreno orizzontale e attrito muro-terreno trascurato, il coefficiente di Rankine e:
-
 $$
-K_a=\frac{1-\sin\phi}{1+\sin\phi}
+q_{max,min} = \frac{V}{B}\left(1 \pm \frac{6e}{B}\right)
 $$
 
-La pressione efficace orizzontale varia con la profondita:
-
 $$
-\sigma'_h(z)=K_a\gamma' z
+FS_{port} = \frac{q_{lim}}{q_{max}}
 $$
 
-e la risultante del diagramma triangolare vale:
+con:
+
+- $V$ risultante verticale al piano di posa $[kN/m]$;
+- $H_h$ risultante orizzontale destabilizzante $[kN/m]$;
+- $\mu$ coefficiente di attrito alla base $[-]$;
+- $c_b$ coesione efficace di base $[kPa]$;
+- $B$ larghezza di fondazione $[m]$;
+- $e$ eccentricita della risultante $[m]$.
+
+Per il carico limite il repository `Muro` usa una formulazione trinomia di Brinch-Hansen:
 
 $$
-P_a=\frac{1}{2}K_a\gamma' H^2
+q_{lim} = c' N_c i_c + q N_q i_q + \frac{1}{2}\gamma B' N_\gamma i_\gamma
 $$
 
-Questa e solo la parte efficace. Se e presente falda, si aggiunge la pressione neutra $u(z)=\gamma_w z$. Se e presente un sovraccarico uniforme $q$, la pressione orizzontale aggiuntiva e:
+che e la parte decisiva quando il muro resta apparentemente stabile ma la domanda al piano di posa si avvicina troppo alla capacita del terreno.
+
+## 2. Caso numerico reale del repository Muro
+
+Il benchmark usato nel post rappresenta un muro a mensola drenato, con sovraccarico superficiale e controllo pseudo-statico:
+
+- altezza del terreno trattenuto: $H = 5.50 \ \mathrm{m}$;
+- base totale: $B = 3.80 \ \mathrm{m}$;
+- punta: $B_p = 1.00 \ \mathrm{m}$;
+- tallone: $B_t = 2.80 \ \mathrm{m}$;
+- spessore base: $t_b = 0.55 \ \mathrm{m}$;
+- spessore fusto: da $0.30$ a $0.60 \ \mathrm{m}$;
+- calcestruzzo: $\gamma_{cls} = 24 \ \mathrm{kN/m^3}$;
+- sovraccarico di monte: $q = 20 \ \mathrm{kPa}$;
+- attrito alla base: $\mu = 0.52$;
+- attrito terra-muro: $\delta = 18^\circ$;
+- riferimento di pressione ammissibile: $q_{amm} = 280 \ \mathrm{kPa}$;
+- terreno a fronte: $h_f = 0.50 \ \mathrm{m}$;
+- falda assente nel benchmark: `falda_retro = falda_fronte = 99 m`;
+- pseudo-statica: $k_h = 0.12$, $k_v = 0.04$;
+- pendio di monte per il controllo globale: $H_p = 5.50 \ \mathrm{m}$, $\beta = 26^\circ$, berma $= 6.00 \ \mathrm{m}$.
+
+La stratigrafia del benchmark e a due strati:
+
+- strato 1, da $0$ a $3.0 \ \mathrm{m}$: $\gamma = 18 \ \mathrm{kN/m^3}$, $\phi = 30^\circ$;
+- strato 2, da $3.0$ a $9.0 \ \mathrm{m}$: $\gamma = 19 \ \mathrm{kN/m^3}$, $\phi = 34^\circ$.
+
+![Output reale del repo Muro con geometria del muro, terreno a tergo, terreno a fronte e schema fisico del benchmark pseudo-statico]({{ site.baseurl }}/assets/images/muri-sostegno-statico-sismico-muro-geometria.png)
+
+Con questi dati i pesi stabilizzanti principali per metro di muro sono:
 
 $$
-\Delta \sigma_h=K_a q
+W_{base} = B t_b \gamma_{cls} = 3.80 \cdot 0.55 \cdot 24 = 50.2 \ \mathrm{kN/m}
 $$
 
-Separare questi contributi e essenziale: terreno, acqua e sovraccarico hanno origini fisiche diverse e possono avere combinazioni diverse.
-
-Equilibrio globale del muro. Una volta calcolate le spinte, si costruiscono le risultanti verticali e orizzontali. Il momento ribaltante deriva dalle spinte, mentre il momento stabilizzante deriva dai pesi del muro e del terreno sulla mensola di monte. Il fattore di sicurezza al ribaltamento in forma tradizionale e:
-
 $$
-FS_{rib}=\frac{M_{stab}}{M_{rib}}
-$$
-
-Nella progettazione agli stati limite, questa lettura deve essere tradotta secondo coefficienti parziali e combinazioni di progetto, ma resta utile per capire la fisica del problema. Il controllo successivo riguarda l'eccentricita della risultante alla base:
-
-$$
-e=\frac{M}{N}
+W_{fusto} =
+\frac{t_{top}+t_{bot}}{2} H \gamma_{cls}
+= \frac{0.30+0.60}{2}\cdot 5.50 \cdot 24
+= 59.4 \ \mathrm{kN/m}
 $$
 
-Se $|e|\le B/6$, le pressioni di contatto restano compresse su tutta la base:
+La tensione verticale media efficace del terreno sul tallone, nel benchmark, vale circa:
 
 $$
-q_{max,min}=\frac{N}{B}\left(1\pm\frac{6e}{B}\right)
+\gamma_{eq} = \frac{18\cdot 3.0 + 19\cdot 2.5}{5.5} = 18.45 \ \mathrm{kN/m^3}
 $$
 
-Se la risultante esce dal nucleo centrale, una parte della fondazione si decomprime e la distribuzione va ricalcolata su una larghezza efficace.
-
-Effetto sismico pseudo-statico. In campo sismico si puo usare una schematizzazione pseudo-statica con coefficienti $k_h$ e $k_v$. La spinta aumenta e cambia la posizione della risultante. L'uso di Mononobe-Okabe o di metodi equivalenti richiede coerenza tra geometria, parametri geotecnici e livello di duttilita accettato. L'obiettivo non e solo ottenere una spinta piu grande, ma verificare se il muro puo tollerare spostamenti permanenti, rotazioni e variazioni di pressione sul piano di posa.
-
-Un esempio numerico: con $\phi=30^\circ$, $H=5\,\mathrm{m}$, $\gamma'=18\,\mathrm{kN/m^3}$, si ottiene $K_a=0.333$ e $P_a=75\,\mathrm{kN/m}$. Se si aggiunge un sovraccarico $q=10\,\mathrm{kPa}$, la spinta rettangolare aggiuntiva vale $K_a q H=16.7\,\mathrm{kN/m}$. Il momento ribaltante non cresce solo in valore, ma anche in funzione del braccio: il contributo triangolare agisce a $H/3$, quello rettangolare a $H/2$.
-
-Per muri di sostegno, i riferimenti da citare sono D.M. 17 gennaio 2018, Capitolo 6, Circolare C.S.LL.PP. 21 gennaio 2019 n. 7 e UNI EN 1997-1:2013. Per il sisma occorre richiamare anche il Capitolo 7 delle NTC 2018 e, quando pertinente, UNI EN 1998-5:2005.
-
-Controllo dimensionale. Un riferimento tecnico deve permettere al lettore di controllare gli ordini di grandezza. Ogni risultato numerico dovrebbe essere accompagnato da un controllo dimensionale, da una interpretazione fisica e da una indicazione del parametro dominante. Se una formula restituisce un valore in $\mathrm{kN}$, $\mathrm{kNm}$, $\mathrm{kPa}$ o $\mathrm{mm}$, l'unita deve essere esplicita e coerente con le grandezze inserite.
-
-La forma generale di una verifica puo essere letta come:
+da cui:
 
 $$
-\eta=\frac{E_d}{R_d} \le 1
+W_{tallone} = B_t H \gamma_{eq}
+= 2.80 \cdot 5.50 \cdot 18.45
+= 284.2 \ \mathrm{kN/m}
 $$
 
-dove $E_d$ e l'effetto dell'azione di progetto e $R_d$ la resistenza di progetto. Questa scrittura, comune a molti problemi strutturali e geotecnici, aiuta a separare domanda, capacita e margine.
+Nel caso statico GEO il sovraccarico viene amplificato con il coefficiente della combinazione geotecnica del benchmark, per cui il contributo stabilizzante sul tallone vale:
 
-Dal calcolo alla decisione. Il valore finale non basta. Bisogna chiedersi da quale ipotesi dipende, quanto e sensibile ai parametri e quale meccanismo fisico rappresenta. Un margine ottenuto con parametri poco tracciabili ha meno valore di un margine piu modesto ma ben documentato. Per questo, quando si cita una norma o un criterio di combinazione, il riferimento deve essere scritto in modo esplicito e verificabile.
+$$
+W_q = q \, B_t \, \gamma_Q
+= 20 \cdot 2.80 \cdot 1.30
+= 72.8 \ \mathrm{kN/m}
+$$
 
-Riferimenti normativi e bibliografici utilizzati:
+Questi numeri sono utili perche fanno vedere subito che, in un muro del genere, il peso del terreno sul tallone conta spesso piu del solo peso del calcestruzzo.
 
-- D.M. 17 gennaio 2018, "Aggiornamento delle Norme tecniche per le costruzioni", Ministero delle Infrastrutture e dei Trasporti, Supplemento ordinario alla Gazzetta Ufficiale n. 42 del 20 febbraio 2018.
-- Circolare C.S.LL.PP. 21 gennaio 2019, n. 7, "Istruzioni per l'applicazione dell'Aggiornamento delle Norme tecniche per le costruzioni di cui al decreto ministeriale 17 gennaio 2018".
-- UNI EN 1990:2006, Eurocodice - Criteri generali di progettazione strutturale.
-- UNI EN 1991-2:2005, Eurocodice 1 - Azioni sulle strutture - Parte 2: Carichi da traffico sui ponti.
-- UNI EN 1992-1-1:2015, Eurocodice 2 - Progettazione delle strutture di calcestruzzo.
-- UNI EN 1993-1-1:2014, Eurocodice 3 - Progettazione delle strutture di acciaio.
-- UNI EN 1994-2:2006, Eurocodice 4 - Progettazione delle strutture composte acciaio-calcestruzzo - Ponti.
-- UNI EN 1997-1:2013, Eurocodice 7 - Progettazione geotecnica - Parte 1: Regole generali.
-- UNI EN 1998-2:2011, Eurocodice 8 - Progettazione delle strutture per la resistenza sismica - Ponti.
+## 3. Passaggi di calcolo sul benchmark
+
+### 3.1 Coefficienti di spinta
+
+Usando le stesse formule implementate nel repository, si ottengono valori di riferimento molto vicini a questi:
+
+- strato 1 statico: $K_{a,1} \approx 0.299$;
+- strato 2 statico: $K_{a,2} \approx 0.256$;
+- strato 1 sismico governante `kv-`: $K_{ae,1} \approx 0.393$;
+- strato 2 sismico governante `kv-`: $K_{ae,2} \approx 0.341$.
+
+Il significato fisico e immediato: con il sisma pseudo-statico la spinta laterale cresce, soprattutto nello strato piu superficiale, dove il sovraccarico uniforme entra con maggiore peso relativo.
+
+### 3.2 Risultanti a tergo e a fronte
+
+L'integrazione numerica del diagramma delle pressioni, eseguita dal solver `Muro`, porta a:
+
+- combinazione `Statica GEO`: $P_a = 133.1 \ \mathrm{kN/m}$;
+- combinazione `Statica EQU`: $P_a = 148.9 \ \mathrm{kN/m}$;
+- combinazione `Sismica kv+`: $P_a = 150.9 \ \mathrm{kN/m}$;
+- combinazione `Sismica kv-`: $P_a = 160.3 \ \mathrm{kN/m}$.
+
+Il contributo passivo sul fronte resta molto piccolo rispetto alla spinta attiva:
+
+$$
+P_p \approx 5.5 \ \mathrm{kN/m} \quad \text{(statico)}
+$$
+
+$$
+P_p \approx 5.2 \ \mathrm{kN/m} \quad \text{(sismico)}
+$$
+
+Questa e gia una prima lettura professionale: il benchmark non e dominato dal passivo davanti alla punta, quindi un eventuale degrado del terreno di fronte non cambia l'ordine di grandezza del problema.
+
+![Output reale del repo Muro con diagrammi delle pressioni attive e passive, confronto tra caso statico e pseudo-statico sul benchmark]({{ site.baseurl }}/assets/images/muri-sostegno-statico-sismico-muro-pressioni.png)
+
+### 3.3 Verifiche GEO/EQU e combinazione governante
+
+I risultati sintetici piu utili del benchmark sono:
+
+- ribaltamento statico `EQU`: $FS_{rib} = 3.282$;
+- scorrimento statico `GEO`: $FS_{scorr} = 2.033$;
+- portanza statica `GEO`: $FS_{port} = 1.935$;
+- portanza sismica `kv+`: $FS_{port} = 1.094$;
+- portanza sismica `kv-`: $FS_{port} = 1.071$;
+- pressione di contatto governante: $q_{max} = 136.8 \ \mathrm{kPa}$ in `Sismica kv-`.
+
+Il punto importante non e che il muro "passa" il ribaltamento. Quello era prevedibile gia dai pesi stabilizzanti. Il punto importante e che la pseudo-statica riduce il margine di portanza fino a poco piu del 7% sulla combinazione governante `kv-`. Questo e il genere di esito che merita una nota esplicita in relazione, non una riga automatica senza commento.
+
+![Tabella reale generata dal benchmark Muro con spinte, fattori di sicurezza e combinazione governante per la portanza]({{ site.baseurl }}/assets/images/muri-sostegno-statico-sismico-muro-verifiche.png)
+
+### 3.4 Sollecitazioni allo spiccato
+
+Per il dimensionamento strutturale del fusto, il solver restituisce anche le sollecitazioni allo spiccato. Sulla combinazione `Sismica kv-`:
+
+$$
+N = 113.8 \ \mathrm{kN/m}
+$$
+
+$$
+V = 167.4 \ \mathrm{kN/m}
+$$
+
+$$
+M = 366.1 \ \mathrm{kNm/m}
+$$
+
+Questi valori sono la cerniera tra geotecnica e strutture: servono per armare il muro, ma hanno senso solo se la catena delle spinte e delle verifiche geotecniche e stata prima ricostruita bene.
+
+### 3.5 Stabilita globale del pendio
+
+Il benchmark e ancora piu istruttivo sulla stabilita globale. Il controllo del pendio di monte, eseguito dal repo con metodo Bishop semplificato in statico e Fellenius semplificato in sismica, restituisce:
+
+$$
+FS_{pend,stat} = 1.005
+$$
+
+$$
+FS_{pend,sis} = 0.962
+$$
+
+Questo significa che il problema vero non e piu il solo muro, ma il complesso opera-terreno. In pratica:
+
+- il muro locale resta leggibile e quasi "tranquillo" sulle verifiche immediate;
+- la portanza in pseudo-statica si avvicina al limite;
+- la stabilita globale del pendio non ha margine sufficiente.
+
+E' una situazione molto realistica nelle opere di sostegno a valle di riporti o rilevati: il progettista che guarda solo il `FS` di ribaltamento rischia di perdere il meccanismo governante.
+
+![Output reale del repo Muro con superficie critica statica e sismica del pendio associato al benchmark pseudo-statico]({{ site.baseurl }}/assets/images/muri-sostegno-statico-sismico-muro-pendio.png)
+
+## 4. Come usare Muro sullo stesso caso
+
+Per rifare il benchmark in `Muro` conviene seguire questa sequenza operativa:
+
+1. avviare l'app con `streamlit run app.py` nella cartella del repository `Muro`;
+2. importare `test/benchmark/asdip_cantilever_surcharge_seismic.json` oppure copiare a mano geometria, sovraccarico, $\mu$, $\delta$, `kh`, `kv` e stratigrafia;
+3. verificare in sidebar che la base totale resti `B = B_p + B_t = 3.80 m`, che la falda sia esclusa e che il contributo passivo a fronte sia attivo;
+4. leggere nella sezione iniziale la `Sintesi per relazione` e le `Combinazioni governanti`, senza fermarsi al primo `FS` favorevole;
+5. passare al `Modello di calcolo` per controllare geometria, tallone, terreno a fronte e ordine di grandezza delle leve stabilizzanti;
+6. controllare `Pressioni sul terreno` e verificare che la crescita sismica della spinta sia coerente con i coefficienti inseriti;
+7. usare `Verifiche geotecniche` per leggere insieme `FS_rib`, `FS_scorr`, `q_max` e `FS_portanza`, individuando la combinazione governante;
+8. leggere `Sollecitazioni strutturali allo spiccato` per trasferire al progetto del fusto i valori di $N$, $V$ e $M$;
+9. attivare la sezione `Verifica di stabilita del pendio` quando il muro fa parte di un rilevato o di un fronte geotecnico piu ampio;
+10. esportare Word, PDF o JSON solo dopo avere annotato quale verifica governa davvero il progetto.
+
+Questo e il punto in cui `Muro` entra in modo utile dentro StruHub/CivilBox: non per sostituire il giudizio del progettista, ma per lasciare una traccia verificabile tra ipotesi del terreno, combinazioni, diagrammi, superfici critiche e relazione finale.
+
+## 5. Cosa conta davvero nel benchmark
+
+Dal caso numerico emergono tre messaggi professionali:
+
+- un muro apparentemente molto stabile a ribaltamento puo avere un margine di portanza sismica molto piu ridotto di quanto sembri a una prima lettura;
+- il contributo del terreno sul tallone e spesso dominante, quindi errori su stratigrafia, sovraccarico o geometria valgono piu di piccole differenze sul peso del calcestruzzo;
+- quando la verifica globale del pendio va in crisi, non basta "irrobustire il fusto": bisogna ripensare il sistema opera-terreno.
+
+Per questo un archivio tecnico come StruHub ha senso solo se collega teoria, formule, benchmark e output verificabili. E per questo un'app come `Muro` e utile in modo discreto ma concreto: rende leggibile dove nasce il margine e dove invece il progetto comincia a diventare sensibile.
+
+## Riferimenti tecnici e normativi
+
+- D.M. 17 gennaio 2018, NTC 2018, Capitolo 6 e Capitolo 7.
+- Circolare C.S.LL.PP. 21 gennaio 2019 n. 7, paragrafo C6.5.3.
+- UNI EN 1997-1, Sezione 9, opere di sostegno e verifiche geotecniche.
+- UNI EN 1998-5, aspetti geotecnici e opere di sostegno in zona sismica.
+- Mononobe, N. and Okabe, S., metodo pseudo-statico per la spinta sismica dei terreni.
+- Brinch Hansen, J., formulazioni classiche per il carico limite delle fondazioni superficiali.

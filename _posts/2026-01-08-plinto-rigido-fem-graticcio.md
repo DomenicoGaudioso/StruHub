@@ -1,213 +1,364 @@
 ---
 layout: post
 title: "Confronto tra modello di plinto rigido e modello FEM a graticcio"
-description: "Riferimento tecnico StruHub con schema di calcolo, benchmark applicativi e riferimenti NTC/EC tracciabili."
+description: "Metodo di calcolo, esempio numerico svolto e workflow reale in PlintoPali per controllare ripartizione, cedimenti e verifiche del gruppo di pali."
 date: 2026-01-08
 order: 8
 permalink: /posts/plinto-rigido-fem-graticcio.html
-meta: "Quaderno tecnico - 1750 parole circa"
+meta: "Quaderno tecnico - 2900 parole circa"
 ---
 
-![Schema del confronto tra plinto rigido e plinto FEM a graticcio]({{ site.baseurl }}/assets/images/plinto-rigido-fem-graticcio-schema.svg)
+![Schema di principio del confronto tra plinto rigido e plinto FEM a graticcio]({{ site.baseurl }}/assets/images/plinto-rigido-fem-graticcio-schema.svg)
 
-**Quando il plinto smette di essere un vincolo perfetto**
+**Perche questo confronto conta davvero**
 
-Nel progetto di una fondazione su pali, il primo modello che quasi tutti impostano e il plinto rigido. E' rapido, leggibile e spesso sufficiente per capire come si ripartiscono $N$, $M_x$ e $M_y$ tra i pali. Il problema nasce quando questa ipotesi, comoda in predimensionamento, viene trattata come una verita generale: se il plinto e relativamente sottile, se i pali hanno rigidezze diverse oppure se il layout e irregolare, la distribuzione reale delle reazioni puo scostarsi in modo non trascurabile da quella del modello rigido.
+Nel progetto di un plinto su pali il primo modello utile e quasi sempre quello rigido: e veloce, controllabile a mano e dice subito come si ripartiscono $N$, $M_x$ e $M_y$ sui pali. Il punto critico arriva quando il plinto non e piu tanto rigido da potersi considerare un vincolo cinematica perfetto. In quel momento non basta sapere il valore medio della reazione: bisogna capire se il palo governante cambia, se i cedimenti differenziali crescono e se l'armatura del plinto va letta con un modello deformabile.
 
-Un confronto serio tra plinto rigido e modello FEM a graticcio non serve a "complicare il conto". Serve a rispondere a una domanda molto concreta: la semplificazione adottata e ancora conservativa rispetto ai pali piu caricati e ai momenti nel plinto?
+Per un professionista, il confronto rigido/FEM non e un esercizio accademico. E' il passaggio che separa un predimensionamento corretto da una verifica difendibile in relazione.
 
 Riferimenti tecnici utilizzati:
 
-- D.M. 17 gennaio 2018, *Aggiornamento delle "Norme tecniche per le costruzioni"*, con particolare attenzione ai Capitoli 4, 6 e 7.
-- Circolare C.S.LL.PP. 21 gennaio 2019, n. 7, *Istruzioni per l'applicazione dell'Aggiornamento delle "Norme tecniche per le costruzioni"*.
-- UNI EN 1992-1-1:2015, Eurocodice 2 - Progettazione delle strutture di calcestruzzo - Regole generali e regole per gli edifici.
+- D.M. 17 gennaio 2018, *Aggiornamento delle Norme tecniche per le costruzioni*, con richiamo ai Capitoli 4, 6 e 7.
+- Circolare C.S.LL.PP. 21 gennaio 2019, n. 7, *Istruzioni per l'applicazione dell'Aggiornamento delle Norme tecniche per le costruzioni*.
+- UNI EN 1992-1-1:2015, Eurocodice 2 - Progettazione delle strutture di calcestruzzo.
 - UNI EN 1997-1:2013, Eurocodice 7 - Progettazione geotecnica - Parte 1: Regole generali.
-- H. G. Poulos, E. H. Davis, *Pile Foundation Analysis and Design*, John Wiley & Sons, 1980.
+- Poulos, H. G.; Davis, E. H., *Pile Foundation Analysis and Design*, John Wiley & Sons, 1980.
 
 Nota StruHub.
 
-Nel lavoro quotidiano conviene tenere separati tre livelli: ripartizione cinematica delle reazioni, verifica geotecnica dei singoli pali, verifica strutturale del plinto. E' anche la logica adottata in tool come `PlintoPali`, dove il confronto tra solver rigido e graticcio FEM e affiancato da benchmark di regressione e da una reportistica che rende espliciti input, margini e casi critici.
+Su questo tema il collegamento piu naturale e `PlintoPali`, applicativo CivilBox che mette nello stesso flusso tre letture diverse dello stesso caso: portata del palo singolo, ripartizione cinematica delle reazioni e confronto con graticcio FEM del plinto. Usato bene, non sostituisce il controllo a mano: lo rende tracciabile e ripetibile.
 
-**Il modello rigido: rapido, ma con ipotesi forti**
+**1. Teoria e metodo**
 
-Assumendo il plinto infinitamente rigido, le teste dei pali restano complanari. Se tutti i pali hanno uguale rigidezza assiale e si trascura la deformabilita locale del plinto, la reazione del palo $i$ puo essere scritta come:
+Nel modello rigido si assume che le teste dei pali restino complanari e che il plinto distribuisca le azioni con una legge affine nelle coordinate del gruppo. La reazione verticale del palo $i$ vale:
 
 $$
-R_i=\frac{N}{n}+\frac{M_x y_i}{\sum_j y_j^2}+\frac{M_y x_i}{\sum_j x_j^2}
+R_i = \frac{N}{n} + \frac{M_x y_i}{\sum_j y_j^2} + \frac{M_y x_i}{\sum_j x_j^2}
 $$
 
 dove:
 
-- $N$ e il carico verticale risultante;
-- $M_x$ e $M_y$ sono i momenti rispetto agli assi baricentrici del gruppo;
-- $x_i$, $y_i$ sono le coordinate del palo rispetto al baricentro del gruppo.
+- $R_i$ e la reazione verticale sul palo $i$ in $\mathrm{kN}$;
+- $N$ e il carico normale totale in $\mathrm{kN}$;
+- $M_x$, $M_y$ sono i momenti rispetto agli assi baricentrici del gruppo in $\mathrm{kNm}$;
+- $x_i$, $y_i$ sono le coordinate del palo rispetto al baricentro in $\mathrm{m}$;
+- $n$ e il numero totale di pali.
 
-Questa formula ha un pregio enorme: consente un controllo a mano in pochi minuti. Se i pali sono disposti in modo regolare, il progettista capisce subito chi e il palo piu caricato e quanto pesa l'eccentricita del carico.
+Questo modello e molto efficace quando:
 
-Ma l'ipotesi regge solo se:
+- il plinto e massiccio rispetto agli interassi;
+- il layout dei pali e regolare;
+- le rigidezze dei pali sono confrontabili;
+- non si e gia vicini al limite geotecnico.
 
-- il plinto e abbastanza rigido rispetto ai pali;
-- i punti di applicazione delle azioni non inducono concentrazioni locali rilevanti;
-- il layout dei pali e regolare o quasi regolare;
-- la verifica geotecnica non e gia vicina al limite.
-
-Appena uno di questi punti si indebolisce, il modello rigido diventa un ottimo controllo preliminare, non piu il modello definitivo.
-
-**Che cosa aggiunge il graticcio FEM**
-
-Nel modello FEM a graticcio il plinto viene discretizzato con aste o elementi piastra; i pali sono rappresentati da molle verticali, oppure da elementi equivalenti con rigidezza assiale:
+Il controllo di massima sugli eccentricita resta comunque utile:
 
 $$
-k_p \approx \frac{E_p A_p}{L_{eq}}
+e_x = \frac{M_y}{N}, \qquad e_y = \frac{M_x}{N}
 $$
 
-Il solver non restituisce soltanto le reazioni sui pali, ma anche:
+Se le eccentricita sono piccole, il campo di compressione rimane distribuito su tutti i pali; se crescono o il gruppo diventa irregolare, il problema non e piu solo "quanto vale $R_{max}$", ma "su quale palo cade davvero".
 
-- abbassamenti differenziali alle teste dei pali;
-- concentrazioni di reazione vicino alla zona di carico;
-- momenti e tagli interni nel plinto;
-- eventuali pali scaricati o in trazione.
-
-Il passaggio dal modello rigido al FEM ha quindi senso quando la decisione di progetto dipende non dalla media dei carichi, ma dal massimo locale.
-
-Come indicatore di buon senso, non normativo, conviene confrontare la rigidezza flessionale del plinto con quella dei pali su un interasse caratteristico $s$:
+Nel modello FEM a graticcio il plinto viene discretizzato con elementi trave e ogni palo viene rappresentato da una molla verticale:
 
 $$
-\chi=\frac{k_p s^3}{E_c I_{eq}}
+k_v = \frac{\Delta R}{\Delta s}
 $$
 
-dove $I_{eq}$ e l'inerzia della striscia equivalente di plinto che collega due pali. Se $\chi$ e molto piccolo, il plinto tende a comportarsi come corpo rigido. Quando $\chi$ si avvicina all'unita o la supera, il confronto con un modello deformabile diventa difficilmente evitabile. Non e una soglia di norma, ma una lettura meccanica utile per capire se vale la pena fermarsi al Navier oppure no.
+dove $k_v$ e la rigidezza assiale equivalente in $\mathrm{kN/m}$, $\Delta R$ la variazione di reazione e $\Delta s$ il corrispondente spostamento verticale. In pratica, il modello deformabile aggiunge tre informazioni che il plinto rigido non ha:
 
-**Caso numerico 1: benchmark 2x2 quasi al limite**
+- i cedimenti relativi tra le teste dei pali;
+- la possibilita che il palo governante cambi anche con $R_{max}$ quasi invariato;
+- una lettura piu credibile delle fasce di plinto da armare.
 
-Un caso molto utile per capire l'ordine di grandezza e quello salvato nel benchmark `test/caso_base.json` del repository pubblico `PlintoPali`. Il caso rappresenta un plinto quadrato su quattro pali con carico eccentrico ma ancora in campo ordinario di progetto.
-
-Dati principali del caso:
-
-- plinto $5.0 \times 5.0\,\mathrm{m}$, spessore $t=1.0\,\mathrm{m}$;
-- quattro pali da diametro $D=0.60\,\mathrm{m}$ e lunghezza $L=12.0\,\mathrm{m}$;
-- interassi $s_x=s_y=3.0\,\mathrm{m}$;
-- calcestruzzo del plinto con $E_c=30000\,\mathrm{MPa}$;
-- azioni di progetto: $N=1200\,\mathrm{kN}$, $M_x=120\,\mathrm{kNm}$, $M_y=80\,\mathrm{kNm}$;
-- stratigrafia di input: sabbia media nei primi $2\,\mathrm{m}$, sabbia addensata da $2$ a $5\,\mathrm{m}$, strato coesivo da $5$ a $10\,\mathrm{m}$.
-
-Con interassi di $3.0\,\mathrm{m}$ le coordinate dei pali rispetto al baricentro sono $(\pm 1.5,\pm 1.5)\,\mathrm{m}$. La quota uniforme vale:
+La portata ammissibile di progetto del palo singolo, nel caso trattato qui, e calcolata dal software come:
 
 $$
-\frac{N}{n}=\frac{1200}{4}=300\,\mathrm{kN}
+Q_{amm} = \eta_g \frac{Q_{ult}}{\gamma_s}
 $$
 
-e i contributi flessionali sono:
+dove:
+
+- $Q_{ult}$ e la capacita ultima del palo singolo in $\mathrm{kN}$;
+- $\eta_g$ e il coefficiente di efficienza del gruppo;
+- $\gamma_s$ e il fattore globale di sicurezza.
+
+Il controllo finale sul palo $i$ e leggibile con:
 
 $$
-\frac{M_x y_i}{\sum y_j^2}=\frac{120 \cdot y_i}{4 \cdot 1.5^2}
-=\frac{120 \cdot y_i}{9}
+FS_i = \frac{Q_{amm}}{R_i}
+$$
+
+Se $FS_i$ si porta vicino a $1.50$ in statico, il modello deformabile smette di essere un lusso e diventa un controllo necessario.
+
+**2. Esempio numerico realistico**
+
+Il caso seguente e lo stesso benchmark pubblico `test/caso_base.json` del repository `DomenicoGaudioso/PlintoPali`, eseguito localmente nell'app Streamlit. E' un caso semplice ma professionale: gruppo 2x2, plinto quadrato, azione eccentrica e stratigrafia mista sabbia-argilla.
+
+Dati geometrici e meccanici:
+
+- plinto $B = L = 5.0\,\mathrm{m}$;
+- spessore plinto $t = 1.0\,\mathrm{m}$;
+- modulo elastico del calcestruzzo $E_c = 30000\,\mathrm{MPa}$;
+- numero pali $n_x = n_y = 2$;
+- interassi $s_x = s_y = 3.0\,\mathrm{m}$;
+- diametro palo $D = 0.60\,\mathrm{m}$;
+- lunghezza palo $L = 12.0\,\mathrm{m}$;
+- fattori geotecnici: $N_q = 35$, $N_c = 9$, $\beta = 0.35$, $\alpha = 0.70$, $\gamma_s = 2.50$;
+- azioni di progetto: $N = 1200\,\mathrm{kN}$, $M_x = 120\,\mathrm{kNm}$, $M_y = 80\,\mathrm{kNm}$;
+- coefficienti pseudo-statici: $k_h = 0.06$, $k_v = 0.00$;
+- falda a $100\,\mathrm{m}$, quindi fuori dal volume efficace del problema.
+
+Stratigrafia di input:
+
+- strato 1, spessore $2.0\,\mathrm{m}$, $\gamma_{dry} = 18\,\mathrm{kN/m^3}$, $\phi = 30^\circ$, $c_u = 0$, $E = 25000\,\mathrm{kPa}$;
+- strato 2, spessore $3.0\,\mathrm{m}$, $\gamma_{dry} = 19\,\mathrm{kN/m^3}$, $\phi = 34^\circ$, $c_u = 0$, $E = 40000\,\mathrm{kPa}$;
+- strato 3, spessore $5.0\,\mathrm{m}$, $\gamma_{dry} = 20\,\mathrm{kN/m^3}$, $\phi = 0^\circ$, $c_u = 120\,\mathrm{kPa}$, $E = 60000\,\mathrm{kPa}$.
+
+La schermata seguente mostra il caso impostato nell'app e la sintesi numerica principale:
+
+![Input del benchmark 2x2 in PlintoPali con geometria, azioni eccentriche e sintesi delle verifiche]({{ site.baseurl }}/assets/images/plinto-rigido-fem-graticcio-plintopali-input-sintesi.png)
+
+**3. Capacita del palo singolo**
+
+Per il palo trivellato:
+
+$$
+A_b = \frac{\pi D^2}{4} = \frac{\pi \cdot 0.60^2}{4} = 0.2827\,\mathrm{m^2}
 $$
 
 $$
-\frac{M_y x_i}{\sum x_j^2}=\frac{80 \cdot x_i}{4 \cdot 1.5^2}
-=\frac{80 \cdot x_i}{9}
+u = \pi D = \pi \cdot 0.60 = 1.885\,\mathrm{m}
 $$
 
-Le reazioni del modello rigido risultano quindi:
-
-| Palo | Coordinate $(x_i,y_i)$ [m] | $R_i$ [kN] |
-| --- | --- | ---: |
-| P1 | $(-1.5,-1.5)$ | 266.7 |
-| P2 | $(+1.5,-1.5)$ | 293.3 |
-| P3 | $(-1.5,+1.5)$ | 306.7 |
-| P4 | $(+1.5,+1.5)$ | 333.3 |
-
-Il valore massimo coincide con quello del benchmark:
+La punta lavora nello strato coesivo di base, quindi il contributo di punta viene letto con:
 
 $$
-R_{max}=333.3\,\mathrm{kN}
+Q_b = N_c c_u A_b = 9 \cdot 120 \cdot 0.2827 = 305.4\,\mathrm{kN}
 $$
 
-Lo stesso caso riporta:
-
-- capacita ultima del palo singolo $Q_{ult}=1248.5\,\mathrm{kN}$;
-- portata ammissibile effettiva del palo $Q_{amm}=499.4\,\mathrm{kN}$;
-- fattore di sicurezza minimo sul gruppo, in termini semplificati, pari a circa $FS_{min}=1.50$;
-- cedimento elastico di gruppo dell'ordine di $1.89\,\mathrm{mm}$.
-
-Lettura tecnica. Questo e un caso molto istruttivo perche non esplode numericamente, ma e gia vicino a una soglia decisionale: il plinto rigido non segnala trazione nei pali e la massima reazione resta inferiore a $Q_{amm}$, pero il margine non e ampio. In un progetto reale, con combinazioni piu gravose o con un plinto piu snello, il FEM non e un raffinamento estetico: e il modo per capire se il palo P4 resta davvero nell'intorno dei $333\,\mathrm{kN}$ oppure se la deformabilita del plinto ne aumenta la domanda locale.
-
-**Dove il plinto rigido inizia a perdere affidabilita**
-
-Ci sono almeno quattro segnali operativi che suggeriscono di non fermarsi al modello rigido:
-
-- spessore del plinto modesto rispetto agli interassi;
-- carichi applicati in posizione localizzata o lontani dal baricentro del gruppo;
-- layout irregolare dei pali;
-- verifica geotecnica gia vicina al limite.
-
-Nel caso appena visto il rapporto tra spessore e interasse e:
+Il fusto viene invece calcolato per strati. Nei terreni granulari l'app usa:
 
 $$
-\frac{t}{s}=\frac{1.0}{3.0}=0.33
+q_s = \beta \sigma'_v
 $$
 
-Un rapporto cosi non dimostra da solo che il modello rigido sia errato, ma basta per dire che il confronto con un graticcio non e tempo perso. Se inoltre il carico verticale fosse portato da un setto o da un fusto fuori asse, la concentrazione sulle teste dei pali piu vicine alla risultante potrebbe salire anche a parita di azioni globali.
-
-**Caso numerico 2: layout irregolare con palo in trazione**
-
-Il benchmark `test/benchmark/gruppo_pali_irregolare_trazione.json` mostra bene quando il modello rigido, pur corretto come equilibrio, diventa insufficiente per chiudere la progettazione. Il gruppo e composto da cinque pali con coordinate irregolari, carico totale $N=900\,\mathrm{kN}$ e momento dominante $M_x=1450\,\mathrm{kNm}$.
-
-I risultati attesi del benchmark sono:
-
-- reazione minima $R_{min}=-164.7\,\mathrm{kN}$;
-- reazione massima $R_{max}=502.0\,\mathrm{kN}$;
-- portata ammissibile effettiva $Q_{amm}=384.1\,\mathrm{kN}$;
-- efficienza di gruppo $\eta_g=0.769$;
-- fattore di sicurezza minimo $FS_{min}=0.995$.
-
-Questo secondo caso e molto piu severo del primo e fa emergere due problemi diversi:
-
-1. un palo entra in trazione, quindi il controllo non e piu solo di compressione geotecnica ma anche di sfilamento, collegamento palo-plinto e dettaglio di armatura;
-2. il palo piu caricato supera la portata ammissibile del singolo elemento, quindi la riprogettazione non puo limitarsi a "spalmare meglio" il carico nel foglio Excel.
-
-Qui il FEM a graticcio non sostituisce la verifica geotecnica, ma aiuta a vedere se la concentrazione nasce soprattutto dal layout, dalla posizione della risultante oppure dalla deformabilita del plinto. E' il tipo di confronto che cambia le scelte: aumentare lo spessore del plinto, modificare il passo dei pali, aggiungere un palo o ruotare il layout per allinearlo meglio al momento dominante.
-
-**Che cosa deve uscire da un confronto serio**
-
-Se si esegue il doppio calcolo rigido/FEM, la tabella finale non dovrebbe limitarsi a mostrare un solo "OK". Conviene riportare almeno:
-
-- $R_{max}$ e $R_{min}$ per entrambi i modelli;
-- differenza percentuale sul palo piu caricato:
+mentre nello strato coesivo adotta:
 
 $$
-\Delta_R=\frac{R_{max,FEM}-R_{max,rig}}{R_{max,rig}}
+q_s = \alpha c_u
 $$
 
-- abbassamento massimo e differenziale tra le teste dei pali;
-- momento flettente di progetto nel plinto in corrispondenza delle fasce critiche;
-- rapporto domanda/capacita per i pali in compressione e, se presenti, per i pali in trazione.
+Per il primo strato sabbioso, al punto medio $z = 1.0\,\mathrm{m}$:
 
-Una regola pratica utile e questa: se il FEM sposta poco il palo critico e non cambia il segno delle reazioni, il modello rigido puo restare il riferimento principale di predimensionamento. Se invece aumenta sensibilmente $R_{max}$, introduce reazioni negative oppure fa emergere momenti locali elevati nel plinto, allora il modello rigido va declassato a controllo preliminare.
+$$
+\sigma'_{v,1} = 18 \cdot 1.0 = 18.0\,\mathrm{kPa}
+$$
 
-**Errori ricorrenti da evitare**
+$$
+Q_{s,1} = 0.35 \cdot 18.0 \cdot 1.885 \cdot 2.0 = 23.8\,\mathrm{kN}
+$$
 
-Nel confronto tra i due modelli compaiono spesso gli stessi errori:
+Per il secondo strato, al punto medio $z = 3.5\,\mathrm{m}$:
 
-- usare solo $N/n$ e dimenticare il contributo dei momenti;
-- controllare la massima reazione ma non la minima, perdendo l'informazione sulla trazione;
-- confrontare i modelli strutturali senza aggiornare la portata ammissibile con l'efficienza di gruppo;
-- citare il FEM senza documentare rigidezze delle molle, geometria della mesh e convenzioni di segno;
-- chiudere il report senza un benchmark o un caso di controllo rifacibile a mano.
+$$
+\sigma'_{v,2} = 18 \cdot 2.0 + 19 \cdot 1.5 = 64.5\,\mathrm{kPa}
+$$
 
-E' proprio qui che i repository ben costruiti fanno la differenza: non tanto perche "automatizzano", ma perche costringono a lasciare una traccia tecnica verificabile. Nel caso di `PlintoPali`, la presenza di benchmark JSON per casi regolari e irregolari e piu utile di molte interfacce eleganti: permette di capire se una modifica del solver cambia davvero il comportamento del caso base.
+$$
+Q_{s,2} = 0.35 \cdot 64.5 \cdot 1.885 \cdot 3.0 = 127.7\,\mathrm{kN}
+$$
 
-**Dal numero alla decisione progettuale**
+Per lo strato coesivo finale:
 
-Il punto non e scegliere in astratto tra plinto rigido e FEM a graticcio. Il punto e capire quando il secondo diventa necessario per difendere il progetto. Se il plinto e massiccio, il layout e regolare e i margini geotecnici sono larghi, il modello rigido resta uno strumento eccellente. Se invece il carico si concentra, i pali non sono simmetrici o la verifica e gia prossima al limite, il FEM non aggiunge "precisione accademica": aggiunge informazione sul palo che governa davvero e sulla fascia di plinto da armare.
+$$
+Q_{s,3} = 0.70 \cdot 120 \cdot 1.885 \cdot 5.0 = 791.6\,\mathrm{kN}
+$$
 
-Per un professionista, il valore di un software o di un foglio di calcolo non sta nel numero finale, ma nella sua tracciabilita. Un buon workflow, nello spirito StruHub e CivilBox, e quello che consente di passare dal benchmark al modello, dal modello alla tabella delle reazioni e dalla tabella alla decisione: ispessire il plinto, spostare i pali, modificare le combinazioni o giustificare perche l'ipotesi rigida resta adeguata.
+Quindi:
+
+$$
+Q_s = Q_{s,1} + Q_{s,2} + Q_{s,3} = 943.1\,\mathrm{kN}
+$$
+
+$$
+Q_{ult} = Q_b + Q_s = 305.4 + 943.1 = 1248.5\,\mathrm{kN}
+$$
+
+Con interasse $s = 3.0\,\mathrm{m}$ e diametro $D = 0.60\,\mathrm{m}$ si ha $s/D = 5.0$, quindi il benchmark e letto dal software come gruppo senza penalizzazione di efficienza:
+
+$$
+\eta_g = 1.00
+$$
+
+La portata ammissibile effettiva del palo vale quindi:
+
+$$
+Q_{amm} = \eta_g \frac{Q_{ult}}{\gamma_s} = 1.00 \cdot \frac{1248.5}{2.50} = 499.4\,\mathrm{kN}
+$$
+
+La verifica dimensionale torna: le tensioni geotecniche sono inserite in $\mathrm{kPa}$, la superficie e il perimetro in $\mathrm{m^2}$ e $\mathrm{m}$, quindi i contributi risultano correttamente in $\mathrm{kN}$.
+
+**4. Ripartizione rigida delle reazioni**
+
+Le coordinate dei pali rispetto al baricentro sono:
+
+$$
+(x_i, y_i) = (\pm 1.5, \pm 1.5)\,\mathrm{m}
+$$
+
+per cui:
+
+$$
+\sum x_i^2 = \sum y_i^2 = 4 \cdot 1.5^2 = 9.0\,\mathrm{m^2}
+$$
+
+Il contributo uniforme e:
+
+$$
+\frac{N}{n} = \frac{1200}{4} = 300.0\,\mathrm{kN}
+$$
+
+Sul palo P4 posto in $(+1.5,+1.5)$:
+
+$$
+R_4 = 300 + \frac{120 \cdot 1.5}{9} + \frac{80 \cdot 1.5}{9}
+= 300 + 20.0 + 13.3 = 333.3\,\mathrm{kN}
+$$
+
+Sul palo P1 posto in $(-1.5,-1.5)$:
+
+$$
+R_1 = 300 - 20.0 - 13.3 = 266.7\,\mathrm{kN}
+$$
+
+Le quattro reazioni statiche del modello rigido sono:
+
+| Palo | Coordinate $(x,y)$ [m] | $R_{rig}$ [kN] | $FS = Q_{amm}/R_{rig}$ [-] |
+| --- | --- | ---: | ---: |
+| P1 | $(-1.5,-1.5)$ | 266.7 | 1.87 |
+| P2 | $(+1.5,-1.5)$ | 293.3 | 1.70 |
+| P3 | $(-1.5,+1.5)$ | 306.7 | 1.63 |
+| P4 | $(+1.5,+1.5)$ | 333.3 | 1.50 |
+
+Il controllo governante in statico e quindi:
+
+$$
+FS_{min,stat} = \frac{499.4}{333.3} = 1.50
+$$
+
+In pseudo-statica, con $k_h = 0.06$, l'app porta la reazione massima a $335.3\,\mathrm{kN}$ e il fattore minimo a:
+
+$$
+FS_{min,sis} = \frac{499.4}{335.3} = 1.49
+$$
+
+Il caso resta verificato, ma si colloca esattamente nella fascia in cui un professionista prudente non si ferma al solo schema rigido.
+
+**5. Cosa mostra davvero il FEM a graticcio**
+
+La schermata seguente e importante perche visualizza insieme il quadro delle reazioni e il modello geometrico usato dal software:
+
+![Confronto pali e modello 3D del benchmark 2x2 in PlintoPali, con planimetria delle reazioni rigide e plinto su quattro pali]({{ site.baseurl }}/assets/images/plinto-rigido-fem-graticcio-plintopali-geometria-3d.png)
+
+Nel benchmark eseguito in `PlintoPali` il modello FEM usa una rigidezza assiale equivalente per palo pari a:
+
+$$
+k_v = 44070\,\mathrm{kN/m}
+$$
+
+Il risultato piu interessante non e un aumento del massimo assoluto, che resta sostanzialmente pari a $333.3\,\mathrm{kN}$ in statico, ma il fatto che il palo governante cambia. Nel confronto tabellare dell'app:
+
+- il plinto rigido governa sul palo P4 con $R = 333.3\,\mathrm{kN}$;
+- il FEM governa sul palo P2 con $R = 333.3\,\mathrm{kN}$;
+- i cedimenti FEM alle teste pali variano da $6.05$ a $7.56\,\mathrm{mm}$;
+- il cedimento differenziale massimo tra i pali e circa $1.51\,\mathrm{mm}$.
+
+Questa e una lettura progettuale molto concreta: in un caso regolare il valore massimo puo anche restare quasi invariato, ma la fascia di plinto che assorbe l'effetto locale cambia. Se il dettaglio delle armature superiori e inferiori e stato pensato solo sul palo "intuitivamente" piu gravoso, il FEM puo spostare il punto da presidiare.
+
+**6. Risultati statici, sismici e confronto tra casi**
+
+L'output reale dell'app, ottenuto sullo stesso caso numerico, rende immediato il confronto tra statico e pseudo-statico:
+
+![Output reale di PlintoPali con mesh del graticcio FEM, profilo stratigrafico, bolle di reazione statiche e sismiche e confronto a barre dei pali]({{ site.baseurl }}/assets/images/plinto-rigido-fem-graticcio-plintopali-risultati-statico-sismico.png)
+
+Da questa lettura si ricavano quattro messaggi tecnici utili:
+
+1. Il gruppo non entra in trazione ne in statico ne in pseudo-statica.
+2. L'efficienza di gruppo non riduce la portata, perche il caso ha $s/D = 5.0$.
+3. Il sisma pseudo-statico non cambia il meccanismo, ma sposta leggermente il palo piu caricato da $333$ a $335\,\mathrm{kN}$.
+4. La differenza rigido/FEM non va letta solo sul massimo numerico, ma sulla combinazione tra reazione locale e cedimento.
+
+Per questo motivo il confronto da riportare in relazione non dovrebbe fermarsi a una sola riga "OK/NON OK". La tabella minima utile e:
+
+| Modello | $R_{max}$ [kN] | Palo governante | $FS_{min}$ [-] | Nota tecnica |
+| --- | ---: | --- | ---: | --- |
+| Rigido statico | 333.3 | P4 | 1.50 | predimensionamento vicino alla soglia |
+| FEM statico | 333.3 | P2 | 1.50 | cambia il palo governante |
+| Rigido pseudo-statico | 335.3 | P4 | 1.49 | incremento lieve ma non nullo |
+
+Il caso e interessante proprio per questo: non "esplode", ma si colloca nella zona in cui il progettista non puo piu accontentarsi del solo Navier.
+
+**7. Verifiche finali e warnings automatici**
+
+La parte finale dell'app e quella che piu somiglia alla lettura da relazione:
+
+![Tabella verifiche, esiti e note automatiche di PlintoPali sul benchmark 2x2 con soglia statica prossima a FS 1.50]({{ site.baseurl }}/assets/images/plinto-rigido-fem-graticcio-plintopali-verifiche-warning.png)
+
+I controlli restituiti dal software sul caso numerico sono:
+
+- $FS_{min,stat} = 1.50$ con esito `ATTENZIONE`;
+- $FS_{min,sis} = 1.49$ con esito `VERIFICATO` rispetto al limite configurato per il caso sismico;
+- nessuna trazione nei pali;
+- nessun superamento di $Q_{amm}$ ne con modello rigido ne con FEM.
+
+Le note automatiche sono coerenti con la lettura manuale:
+
+- il plinto e segnalato come relativamente sottile rispetto all'interasse;
+- il palo piu caricato in ipotesi rigida e il n. 4 con $333\,\mathrm{kN}$;
+- la portata laterale di fusto governa sulla punta, quindi la stratigrafia non e un dato accessorio ma il cuore del problema.
+
+Questo e il punto in cui `PlintoPali` e utile in modo discreto ma concreto: non sostituisce il giudizio del progettista, ma mette nello stesso pannello il dato che serve a decidere se basta la modellazione rigida o se conviene chiudere la pratica con il graticcio FEM e una nota esplicita in relazione.
+
+**8. Come usare PlintoPali sullo stesso caso**
+
+Per rifare il caso numerico nell'app:
+
+1. Inserire in `Geometria plinto` i valori $B = 5.0\,\mathrm{m}$, $L = 5.0\,\mathrm{m}$, spessore $1.0\,\mathrm{m}$ ed $E_c = 30000\,\mathrm{MPa}$.
+2. Impostare in `Pali` una maglia $2 \times 2$ con interassi $3.0\,\mathrm{m}$, diametro $0.60\,\mathrm{m}$ e lunghezza $12.0\,\mathrm{m}$.
+3. Inserire in `Capacita geotecnica` i coefficienti $N_q = 35$, $N_c = 9$, $\beta = 0.35$, $\alpha = 0.70$ e fattore di sicurezza $2.50$.
+4. Compilare in `Azioni` i valori $N = 1200\,\mathrm{kN}$, $M_x = 120\,\mathrm{kNm}$, $M_y = 80\,\mathrm{kNm}$, $k_h = 0.06$, $k_v = 0.00$, falda $100\,\mathrm{m}$.
+5. Incollare in `Stratigrafia` le tre righe CSV del benchmark:
+
+```text
+2.0,18,20,30,0,25000
+3.0,19,21,34,0,40000
+5.0,20,20,0,120,60000
+```
+
+6. Leggere prima `Risultati principali` e `Sintesi` per controllare $Q_{amm}$, $FS_{min}$ e cedimento di gruppo.
+7. Passare a `Confronto pali`, `Geometria in pianta`, `Mesh FEM Graticcio` e ai plot di reazione per capire se il palo governante cambia tra rigido e deformabile.
+8. Chiudere con `Verifiche`, verificando che i messaggi automatici siano coerenti con la lettura tecnica che si vuole riportare in relazione.
+
+L'ultima schermata utile, spesso trascurata, e la parte di export:
+
+![Sidebar finale di PlintoPali con stratigrafia del benchmark e pulsanti di export JSON e relazione Word]({{ site.baseurl }}/assets/images/plinto-rigido-fem-graticcio-plintopali-export-report.png)
+
+I due export da usare davvero sono:
+
+- `Salva input JSON`, per congelare il caso di calcolo e poterlo riaprire senza errori di trascrizione;
+- `Scarica relazione Word`, da usare solo dopo avere verificato che il palo governante, il rapporto domanda/capacita e le note automatiche siano coerenti con il modello scelto.
+
+**9. Quando il plinto rigido non basta piu**
+
+Su casi come questo il modello rigido e ancora molto utile, ma a una condizione: deve restare un primo livello di controllo, non l'unico. Se gia in un gruppo 2x2 regolare il FEM sposta il palo governante pur lasciando quasi invariato $R_{max}$, allora su layout irregolari o su casi con momento dominante la sola tabella Navier rischia di essere troppo ottimistica.
+
+Nel repository `PlintoPali` c'e anche il benchmark `gruppo_pali_irregolare_trazione.json`, pensato proprio per questo salto di complessita: layout personalizzato, palo in trazione e portata ammissibile superata. E' il proseguimento naturale del caso qui sopra quando si vuole capire quando attivare il layout tabellare/irregolare e quando il graticcio FEM non e piu facoltativo.
 
 Riferimenti normativi e bibliografici utilizzati:
 
-- D.M. 17 gennaio 2018, *Aggiornamento delle "Norme tecniche per le costruzioni"*, Ministero delle Infrastrutture e dei Trasporti, G.U. n. 42 del 20 febbraio 2018, S.O. n. 8.
-- Circolare C.S.LL.PP. 21 gennaio 2019, n. 7, *Istruzioni per l'applicazione dell'Aggiornamento delle "Norme tecniche per le costruzioni" di cui al decreto ministeriale 17 gennaio 2018*, G.U. n. 35 del 11 febbraio 2019, S.O. n. 5.
+- D.M. 17 gennaio 2018, *Aggiornamento delle Norme tecniche per le costruzioni*, Ministero delle Infrastrutture e dei Trasporti, G.U. n. 42 del 20 febbraio 2018, S.O. n. 8.
+- Circolare C.S.LL.PP. 21 gennaio 2019, n. 7, *Istruzioni per l'applicazione dell'Aggiornamento delle Norme tecniche per le costruzioni di cui al decreto ministeriale 17 gennaio 2018*, G.U. n. 35 del 11 febbraio 2019, S.O. n. 5.
 - UNI EN 1992-1-1:2015, Eurocodice 2 - Progettazione delle strutture di calcestruzzo - Parte 1-1: Regole generali e regole per gli edifici.
 - UNI EN 1997-1:2013, Eurocodice 7 - Progettazione geotecnica - Parte 1: Regole generali.
 - Poulos, H. G.; Davis, E. H., *Pile Foundation Analysis and Design*, John Wiley & Sons, 1980.

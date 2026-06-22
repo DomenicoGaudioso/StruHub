@@ -327,5 +327,40 @@
     "post": "capacita-portante-assiale-pali.html",
     "bytes": 147929,
     "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/PlintoPali/streamlit-input-sintesi",
+    "localPath": "assets/images/plinto-rigido-fem-graticcio-plintopali-input-sintesi.png",
+    "post": "plinto-rigido-fem-graticcio.html",
+    "bytes": 228665,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/PlintoPali/streamlit-geometria-3d",
+    "localPath": "assets/images/plinto-rigido-fem-graticcio-plintopali-geometria-3d.png",
+    "post": "plinto-rigido-fem-graticcio.html",
+    "bytes": 97239,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/PlintoPali/streamlit-risultati-statico-sismico",
+    "localPath": "assets/images/plinto-rigido-fem-graticcio-plintopali-risultati-statico-sismico.png",
+    "post": "plinto-rigido-fem-graticcio.html",
+    "bytes": 102092,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/PlintoPali/streamlit-verifiche-warning",
+    "localPath": "assets/images/plinto-rigido-fem-graticcio-plintopali-verifiche-warning.png",
+    "post": "plinto-rigido-fem-graticcio.html",
+    "bytes": 102837,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-screenshot://DomenicoGaudioso/PlintoPali/streamlit-export-report",
+    "localPath": "assets/images/plinto-rigido-fem-graticcio-plintopali-export-report.png",
+    "post": "plinto-rigido-fem-graticcio.html",
+    "bytes": 26124,
+    "contentType": "image/png"
   }
 ]

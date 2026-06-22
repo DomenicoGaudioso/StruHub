@@ -397,5 +397,47 @@
     "post": "resistenza-laterale-pali-stratigrafia.html",
     "bytes": 166821,
     "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-output://DomenicoGaudioso/OPSTrainLoad/default-report/input-report",
+    "localPath": "assets/images/risposta-frequenza-transito-ferroviario-opstrainload-input-report.png",
+    "post": "risposta-frequenza-transito-ferroviario.html",
+    "bytes": 98908,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-output://DomenicoGaudioso/OPSTrainLoad/default-run/modello-fem",
+    "localPath": "assets/images/risposta-frequenza-transito-ferroviario-opstrainload-modello-fem.png",
+    "post": "risposta-frequenza-transito-ferroviario.html",
+    "bytes": 143302,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-output://DomenicoGaudioso/OPSTrainLoad/default-run/curva-velocita-daf",
+    "localPath": "assets/images/risposta-frequenza-transito-ferroviario-opstrainload-curva-velocita-daf.png",
+    "post": "risposta-frequenza-transito-ferroviario.html",
+    "bytes": 103944,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-output://DomenicoGaudioso/OPSTrainLoad/default-run/time-history-picco-spostamento",
+    "localPath": "assets/images/risposta-frequenza-transito-ferroviario-opstrainload-time-history-picco-spostamento.png",
+    "post": "risposta-frequenza-transito-ferroviario.html",
+    "bytes": 182604,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-output://DomenicoGaudioso/OPSTrainLoad/default-run/time-history-picco-acc",
+    "localPath": "assets/images/risposta-frequenza-transito-ferroviario-opstrainload-time-history-picco-acc.png",
+    "post": "risposta-frequenza-transito-ferroviario.html",
+    "bytes": 180302,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-output://DomenicoGaudioso/OPSTrainLoad/default-report/tabella-picchi",
+    "localPath": "assets/images/risposta-frequenza-transito-ferroviario-opstrainload-tabella-picchi.png",
+    "post": "risposta-frequenza-transito-ferroviario.html",
+    "bytes": 46706,
+    "contentType": "image/png"
   }
 ]

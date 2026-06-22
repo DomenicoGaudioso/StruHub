@@ -1,173 +1,229 @@
 ---
 layout: post
 title: "Valutazione della risposta in frequenza di impalcati soggetti a transito ferroviario"
-description: "Riferimento tecnico StruHub con formule, ipotesi di modello e riferimenti normativi."
+description: "Riferimento tecnico StruHub con sweep di velocita, caso numerico reale OPSTrainLoad e lettura professionale dei picchi dinamici."
 date: 2026-01-18
 order: 18
 permalink: /posts/risposta-frequenza-transito-ferroviario.html
-meta: "Quaderno tecnico · 1508 parole circa"
+meta: "Quaderno tecnico - risposta in frequenza ferroviaria e workflow OPSTrainLoad"
 ---
 
-**Il transito come eccitazione periodica**
+**La risposta in frequenza serve a scegliere dove guardare davvero**
 
-Un convoglio applica una sequenza di assi. Se alcune distanze sono ricorrenti, la struttura percepisce componenti di eccitazione legate alla velocità.
+Nel progetto di un ponte ferroviario non basta sapere che il treno e un carico mobile. Bisogna capire quali periodicita del convoglio entrano in risonanza con il ponte, in quale fascia di velocita, e se il parametro governante e lo spostamento, l'accelerazione o una sollecitazione locale. La risposta in frequenza non sostituisce la time-history, ma evita di analizzare "tutte le velocita allo stesso modo" e permette di concentrare il calcolo dove il ponte e piu sensibile.
 
-$$
-f_p=\frac{v}{d}
-$$
+Per questo il flusso corretto e:
 
-Per una trave semplicemente appoggiata:
+1. stimare la frequenza fondamentale del ponte;
+2. associare a ciascun interasse ricorrente del treno una velocita critica teorica;
+3. eseguire uno sweep di velocita con passo coerente;
+4. aprire le storie temporali nelle zone dove la curva mostra un picco vero.
 
-$$
-f_n=\frac{1}{2\pi}\left(\frac{n\pi}{L}\right)^2\sqrt{\frac{EI}{m}}
-$$
+Nel seguito il caso e collegato al repository `OPSTrainLoad`, che e l'applicativo locale piu pertinente per questo tema e consente di rifare davvero il caso numerico con output riproducibili.
 
-Curva velocità -risposta.
+**1. Teoria e metodo**
 
-Il risultato più leggibile è la funzione:
-
-$$
-R_{max}(v)=\max_t |R(t;v)|
-$$
-
-dove $R$ può essere spostamento, accelerazione, momento o taglio.
-
-Smorzamento e amplificazione.
-
-Per un oscillatore equivalente:
+Per una trave semplicemente appoggiata di tipo Euler-Bernoulli, la prima frequenza propria si puo stimare con:
 
 $$
-H(r)=\frac{1}{\sqrt{(1-r^2)^2+(2\xi r)^2}}, \qquad r=\frac{\omega}{\omega_n}
+f_1 = \frac{\pi}{2L^2}\sqrt{\frac{EI}{m}}
 $$
 
-Il carico mobile non è una sinusoide pura, ma questa formula spiega il ruolo dello smorzamento vicino alla risonanza.
+dove:
 
-Esempio. Se $f_1=4.2\,\mathrm{Hz}$ e $d=7.5\,\mathrm{m}$:
+- $L$ e la luce del ponte, in $\mathrm{m}$;
+- $EI$ e la rigidezza flessionale equivalente, in $\mathrm{N\,m^2}$;
+- $m$ e la massa lineare, in $\mathrm{kg/m}$.
 
-$$
-v_{cr,1}=4.2\cdot7.5=31.5\,\mathrm{m/s}=113.4\,\mathrm{km/h}
-$$
-
-La zona intorno a $110\div120\,\mathrm{km/h}$ merita una scansione più fine.
-
-Riferimenti tecnici utilizzati:
-
-- D.M. 17 gennaio 2018, NTC 2018, Capitolo 5.
-- UNI EN 1991-2, Eurocodice 1: Azioni da traffico sui ponti.
-
-**Uso operativo**
-
-La valutazione in frequenza non sostituisce la time-history: serve a scegliere con intelligenza le velocità da analizzare.
-
-**Perché la curva velocità -risposta va campionata con criterio**
-
-La curva $R_{max}(v)$ può avere picchi stretti. Se si usa un passo di velocità troppo ampio, la velocità più gravosa può non essere intercettata. Una procedura ragionevole è in due fasi: prima una scansione grossolana, poi un raffinamento vicino ai picchi.
-
-Se il picco preliminare cade alla velocità $v_p$, si può rieseguire l'analisi in:
+La generica equazione del moto resta:
 
 $$
-v\in[v_p-10, v_p+10] \, \mathrm{km/h}
+M\ddot{u}(t) + C\dot{u}(t) + Ku(t) = F(t)
 $$
 
-con passo più fine. La forma della curva è importante tanto quanto il massimo: un picco largo indica una sensibilità diffusa, un picco stretto indica una condizione più localizzata.
-
-**Lettura con più interassi caratteristici**
-
-Un convoglio reale può avere più lunghezze ricorrenti: interasse assi, interasse carrelli e distanza tra carrelli di carrozze successive. Per ciascuna distanza $d_j$ si può stimare:
+ma per il treno il punto decisivo e il contenuto periodico di $F(t)$. Se un certo interasse caratteristico vale $d_j$, la frequenza di eccitazione associata alla velocita $v$ e:
 
 $$
-v_{cr,n,j}=f_n d_j
+f_{p,j} = \frac{v}{d_j}
 $$
 
-La sovrapposizione di queste velocità critiche genera una mappa preliminare delle condizioni da verificare.
-
-Per trasformare la risposta in frequenza al transito ferroviario in un riferimento tecnico è utile separare tre livelli: il modello fisico, il modello numerico e la lettura dei risultati. Il modello fisico identifica masse, rigidezze, smorzamento e azioni. Il modello numerico stabilisce come queste grandezze entrano nell'equazione del moto. La lettura dei risultati decide quali effetti sono davvero utili al progetto.
+con $v$ in $\mathrm{m/s}$ e $d_j$ in $\mathrm{m}$. La velocita critica teorica del primo modo diventa quindi:
 
 $$
-M\ddot{u}(t)+C\dot{u}(t)+Ku(t)=F(t)
+v_{cr,j} = f_1 d_j
 $$
 
-Nel caso di impalcato ferroviario, la matrice di massa non è un dettaglio secondario. Una massa assegnata al nodo sbagliato modifica frequenze proprie e partecipazione modale; una rigidezza non coerente con la sezione resistente sposta il periodo e altera la domanda dinamica. Prima di discutere il risultato, il modello deve produrre modi plausibili.
-
-**Passaggio modale e significato dei modi**
-
-Il problema agli autovalori consente di estrarre frequenze e deformate. La forma modale non è solo un disegno: indica quali parti della struttura partecipano a un certo tipo di moto. Se la deformata è locale, il modo può essere poco rilevante per la risposta globale ma importante per una sollecitazione locale.
+oppure, direttamente in $\mathrm{km/h}$:
 
 $$
-K\phi_n=\omega_n^2M\phi_n
+v_{cr,j,\mathrm{km/h}} = 3.6 f_1 d_j
+$$
+
+La risposta in frequenza non va letta come una formula isolata ma come una mappa preliminare. Se il ponte ha $f_1$ elevata e il treno presenta interassi ripetuti di $2.6\,\mathrm{m}$, $4.8\,\mathrm{m}$ o $12.4\,\mathrm{m}$, le tre fasce critiche possono stare molto lontane tra loro e richiedere densita diverse di campionamento.
+
+Una grandezza operativa utile nello sweep e la risposta massima in funzione della velocita:
+
+$$
+R_{\max}(v) = \max_t |R(t;v)|
+$$
+
+dove $R$ puo essere spostamento verticale in mezzeria, accelerazione, momento o taglio. In `OPSTrainLoad` le grandezze monitorate in modo piu immediato sono spostamento e accelerazione in mezzeria.
+
+**2. Caso numerico reale sul benchmark OPSTrainLoad**
+
+Per evitare un esempio artificiale, il post usa il caso default del repository `DomenicoGaudioso/OPSTrainLoad`, eseguito localmente. I dati di input sono:
+
+- luce del ponte $L = 33.25\,\mathrm{m}$;
+- discretizzazione $l_e = 0.50\,\mathrm{m}$;
+- area della sezione $A = 0.8573\,\mathrm{m^2}$;
+- inerzia $I = 0.9529\,\mathrm{m^4}$;
+- modulo elastico $E = 167000\,\mathrm{MPa}$;
+- massa lineare $m = 6602\,\mathrm{kg/m}$;
+- smorzamento viscoso equivalente $\xi = 1.0\%$;
+- 7 assi da $170\,\mathrm{kN}$ con progressiva assi $0.0$, $4.8$, $7.4$, $19.8$, $22.4$, $27.2$, $29.8\,\mathrm{m}$.
+
+Le periodicita che contano per la lettura in frequenza non sono le progressive assolute ma gli interassi ricorrenti:
+
+- $d_1 = 2.6\,\mathrm{m}$;
+- $d_2 = 4.8\,\mathrm{m}$;
+- $d_3 = 12.4\,\mathrm{m}$.
+
+Il report reale del caso mostra input, configurazione treno e riepilogo analitico:
+
+![Riepilogo del report OPSTrainLoad con parametri del modello, tabella degli assi e frequenza fondamentale del caso benchmark]({{ site.baseurl }}/assets/images/risposta-frequenza-transito-ferroviario-opstrainload-input-report.png)
+
+Con conversione coerente in unita SI:
+
+$$
+EI = 167000 \cdot 10^6 \cdot 0.9529 = 1.591 \cdot 10^{11}\,\mathrm{N\,m^2}
+$$
+
+e quindi:
+
+$$
+f_1 = \frac{\pi}{2 \cdot 33.25^2}\sqrt{\frac{1.591 \cdot 10^{11}}{6602}} = 6.98\,\mathrm{Hz}
+$$
+
+Le velocita critiche teoriche del primo modo associate ai tre interassi ricorrenti diventano:
+
+$$
+v_{cr,2.6} = 3.6 \cdot 6.98 \cdot 2.6 = 65.3\,\mathrm{km/h}
 $$
 
 $$
-T_n=\frac{2\pi}{\omega_n}
+v_{cr,4.8} = 3.6 \cdot 6.98 \cdot 4.8 = 120.5\,\mathrm{km/h}
 $$
 
-La massa partecipante permette di passare da una lista di frequenze a una gerarchia ingegneristica. Un modo con alta partecipazione nella direzione dell'azione è un modo che può governare spostamenti e tagli globali. Modi con partecipazione inferiore possono comunque influenzare accelerazioni o curvature.
-
-**Procedura di calcolo consigliata**
-
-Una procedura robusta per la risposta in frequenza al transito ferroviario parte da un controllo statico o quasi-statico, prosegue con l'analisi modale, quindi entra nel dominio del tempo solo dopo aver verificato che frequenze e deformate siano coerenti. In questo ordine, l'analisi dinamica diventa un approfondimento controllato, non una scatola nera.
-
-- definizione di geometria, masse e rigidezze;
-- estrazione di periodi e forme modali;
-- scelta dello smorzamento e del passo temporale;
-- applicazione della storia di carico o del segnale;
-- estrazione di curva velocita-risposta;
-- confronto con un controllo semplificato.
-
-Esempio di controllo numerico. Supponiamo che il primo controllo restituisca un periodo teorico di (0.55\,\mathrm{s}) e il modello FEM un periodo di (0.92\,\mathrm{s}). La differenza relativa è:
-
 $$
-\Delta_T=\frac{0.92-0.55}{0.55}=0.67
+v_{cr,12.4} = 3.6 \cdot 6.98 \cdot 12.4 = 311.4\,\mathrm{km/h}
 $$
 
-Uno scarto del 67% non va ignorato. Può derivare da vincoli troppo flessibili, massa eccessiva, inerzia ridotta o unità non coerenti. Questo tipo di controllo è ciò che distingue un calcolo numerico da un uso passivo del software.
+Queste tre velocita spiegano gia la forma attesa della curva: un primo rigonfiamento attorno a $60$-$70\,\mathrm{km/h}$, un secondo attorno a $120\,\mathrm{km/h}$ e una fascia alta attorno a $300\,\mathrm{km/h}$. Nel report automatico del repo compare anche una velocita caratteristica $v_{cr} = 2Lf_1 \approx 1670\,\mathrm{km/h}$; e utile come dato interno del modello, ma per lo sweep progettuale contano le velocita $v_{cr,j} = f_1 d_j$ legate agli interassi del convoglio.
 
-Lettura progettuale. La lettura più utile non è il singolo valore di velocità critica, ma la forma della curva ottenuta variando la velocità. Una curva con più picchi suggerisce che diverse periodicità del convoglio stanno eccitando modi distinti. Un riferimento tecnico deve quindi mostrare non solo la formula, ma il motivo per cui quella formula è stata usata e il modo in cui il risultato viene interpretato. La parte finale del calcolo dovrebbe sempre riportare domanda, capacità, margine e ipotesi principali.
+Prima del lancio del solver, il repository permette di controllare anche lo schema FEM e la posizione degli assi:
 
-Impostazione del modello. Per usare questo tema come riferimento tecnico, conviene separare la modellazione in fasi verificabili. La prima fase è la definizione dello schema resistente: geometria, vincoli, masse, rigidezze e grandezze da estrarre. La seconda fase è la scelta del tipo di analisi: controllo statico, analisi modale, analisi nel tempo o confronto tra più livelli di modello. La terza fase è la lettura critica dei risultati, che non deve limitarsi al valore massimo ma deve includere posizione, segno, combinazione o istante di occorrenza.
+![Schema FEM prodotto dal repo OPSTrainLoad con trave semplicemente appoggiata, vincoli e posizione dei sette assi da 170 kN]({{ site.baseurl }}/assets/images/risposta-frequenza-transito-ferroviario-opstrainload-modello-fem.png)
 
-Un controllo utile consiste nel confrontare sempre un risultato numerico con una stima semplificata. Per esempio, un periodo ottenuto con FEM dovrebbe essere compatibile con una valutazione manuale basata su massa e rigidezza. Se l'ordine di grandezza non torna, il problema non è nel solutore ma nella rappresentazione fisica del sistema.
+Questo passaggio non e decorativo. Se luce, vincoli o disposizione degli assi non sono coerenti, il picco dinamico successivo puo essere numericamente stabile ma ingegneristicamente inutile.
 
-La catena minima di controllo può essere scritta così: definizione del modello, verifica delle unità, estrazione delle frequenze, scelta dello smorzamento, applicazione dell'azione, inviluppo degli effetti, interpretazione del margine. Ogni passaggio deve lasciare una traccia riproducibile.
+**3. Sweep di velocita, formule di lettura e risultati**
 
-Unità, segni e grandezze da archiviare. Le analisi dinamiche sono molto sensibili alla coerenza delle unità. Massa in chilogrammi, forze in Newton, rigidezze in Newton per metro e accelerazioni in metri al secondo quadrato devono essere trattate nello stesso sistema. Un errore tra massa e peso può spostare il periodo di un fattore significativo.
+Nel run reale e stato impostato l'intervallo `20-350 km/h` con passo `10 km/h`. Nell'implementazione corrente dell'applicazione la sequenza effettivamente analizzata e `20, 30, ..., 340 km/h`, cioe il limite superiore non viene incluso. Questa e una nota pratica utile quando si confrontano tabella di input e risultati esportati.
 
-Per ogni analisi è utile archiviare almeno: periodo fondamentale, masse partecipanti, smorzamento, passo temporale, massimo spostamento, massimo taglio, massimo momento e istante di occorrenza. Se il modello lavora per inviluppi, va salvata anche la sezione in cui ciascun effetto governa.
-
-La grandezza di progetto non è sempre il massimo assoluto. Nelle verifiche accoppiate può essere necessario leggere valori concomitanti. Se il massimo momento si verifica a un certo istante, lo sforzo normale da usare nel dominio di verifica deve essere quello dello stesso istante, non il massimo normale indipendente.
-
-Esempio di controllo incrociato. Supponiamo che un modello dinamico restituisca un taglio massimo alla base pari a (2.80\,\mathrm{MN}), mentre il controllo statico equivalente fornisce (2.35\,\mathrm{MN}). Il rapporto è:
+Per lo spostamento, il report del repository usa come indice di confronto interno:
 
 $$
-r_V=\frac{2.80}{2.35}=1.19
+I_w(v) = \frac{w_{\max}(v)}{w_{\max}(20)}
 $$
 
-Il dato indica una amplificazione del 19%. Questo non significa automaticamente che il modello dinamico sia più corretto, ma segnala che l'effetto dinamico non è trascurabile. A questo punto il tecnico deve controllare se la velocità, il contenuto in frequenza o il segnale sismico sono coerenti con la condizione più gravosa.
+dove $w_{\max}(20)$ e il massimo spostamento del primo run a $20\,\mathrm{km/h}$. Non e un DAF statico in senso stretto, ma un indice molto utile per leggere rapidamente l'amplificazione relativa lungo lo sweep.
 
-Se invece il rapporto fosse inferiore a 1, non si dovrebbe concludere in modo automatico che la dinamica è meno gravosa: potrebbe essere cambiata la grandezza controllata, oppure la massima risposta dinamica potrebbe verificarsi in un'altra sezione.
+I risultati piu significativi del caso sono:
 
-Come trasformare il risultato in testo tecnico. Un post di riferimento deve chiudere il cerchio: non basta presentare formule e grafici. Bisogna spiegare quale grandezza governa, quale ipotesi è più sensibile e quale controllo manuale consente di validare il risultato. Questa impostazione rende il contenuto utile anche a chi non usa lo stesso software, perché il metodo rimane trasferibile.
+| Velocita | $a_{\max}$ [m/s$^2$] | $w_{\max}$ [mm] | $I_w(v)$ |
+| --- | ---: | ---: | ---: |
+| $20\,\mathrm{km/h}$ | 0.0392 | 3.1102 | 1.000 |
+| $60\,\mathrm{km/h}$ | 0.2385 | 3.1697 | 1.019 |
+| $120\,\mathrm{km/h}$ | 0.2994 | 3.2069 | 1.031 |
+| $270\,\mathrm{km/h}$ | 0.9860 | 3.3503 | 1.077 |
+| $280\,\mathrm{km/h}$ | 1.0076 | 3.3380 | 1.073 |
+| $310\,\mathrm{km/h}$ | 0.7745 | 3.2733 | 1.052 |
 
-Controllo dimensionale. Un riferimento tecnico deve permettere al lettore di controllare gli ordini di grandezza. Ogni risultato numerico dovrebbe essere accompagnato da un controllo dimensionale, da una interpretazione fisica e da una indicazione del parametro dominante. Se una formula restituisce un valore in $\mathrm{kN}$, $\mathrm{kNm}$, $\mathrm{kPa}$ o $\mathrm{mm}$, l'unita deve essere esplicita e coerente con le grandezze inserite.
+La curva completa prodotta dal motore del repo e la seguente:
 
-La forma generale di una verifica puo essere letta come:
+![Curva reale accelerazione-velocita e indice di amplificazione dello spostamento generati dal solver OPSTrainLoad sul benchmark default]({{ site.baseurl }}/assets/images/risposta-frequenza-transito-ferroviario-opstrainload-curva-velocita-daf.png)
 
-$$
-\eta=\frac{E_d}{R_d} \le 1
-$$
+La lettura tecnica corretta e questa:
 
-dove $E_d$ e l'effetto dell'azione di progetto e $R_d$ la resistenza di progetto. Questa scrittura, comune a molti problemi strutturali e geotecnici, aiuta a separare domanda, capacita e margine.
+- la velocita teorica $65.3\,\mathrm{km/h}$ genera un primo aumento della risposta, ma non governa;
+- la velocita teorica $120.5\,\mathrm{km/h}$ produce un secondo rigonfiamento, anch'esso non governante;
+- la fascia alta prevista attorno a $311\,\mathrm{km/h}$ e quella davvero sensibile, ma il massimo di spostamento si sposta a $270\,\mathrm{km/h}$ e quello di accelerazione a $280\,\mathrm{km/h}$;
+- il fatto che il picco reale non coincida esattamente con la stima $f_1 d_j$ e normale: entrano in gioco piu periodicita del treno, la discretizzazione temporale e la vibrazione libera dopo l'uscita dell'ultimo asse.
 
-Dal calcolo alla decisione. Il valore finale non basta. Bisogna chiedersi da quale ipotesi dipende, quanto e sensibile ai parametri e quale meccanismo fisico rappresenta. Un margine ottenuto con parametri poco tracciabili ha meno valore di un margine piu modesto ma ben documentato. Per questo, quando si cita una norma o un criterio di combinazione, il riferimento deve essere scritto in modo esplicito e verificabile.
+La tabella estratta dal report conferma bene il plateau di alta sensibilita tra $250$ e $310\,\mathrm{km/h}$:
 
-Riferimenti normativi e bibliografici utilizzati:
+![Estratto della tabella risultati OPSTrainLoad nella fascia 220-340 km/h, con massimi di spostamento a 270 km/h e di accelerazione a 280 km/h]({{ site.baseurl }}/assets/images/risposta-frequenza-transito-ferroviario-opstrainload-tabella-picchi.png)
 
-- D.M. 17 gennaio 2018, "Aggiornamento delle Norme tecniche per le costruzioni", Ministero delle Infrastrutture e dei Trasporti, Supplemento ordinario alla Gazzetta Ufficiale n. 42 del 20 febbraio 2018.
-- Circolare C.S.LL.PP. 21 gennaio 2019, n. 7, "Istruzioni per l'applicazione dell'Aggiornamento delle Norme tecniche per le costruzioni di cui al decreto ministeriale 17 gennaio 2018".
-- UNI EN 1990:2006, Eurocodice - Criteri generali di progettazione strutturale.
-- UNI EN 1991-2:2005, Eurocodice 1 - Azioni sulle strutture - Parte 2: Carichi da traffico sui ponti.
-- UNI EN 1992-1-1:2015, Eurocodice 2 - Progettazione delle strutture di calcestruzzo.
-- UNI EN 1993-1-1:2014, Eurocodice 3 - Progettazione delle strutture di acciaio.
-- UNI EN 1994-2:2006, Eurocodice 4 - Progettazione delle strutture composte acciaio-calcestruzzo - Ponti.
-- UNI EN 1997-1:2013, Eurocodice 7 - Progettazione geotecnica - Parte 1: Regole generali.
-- UNI EN 1998-2:2011, Eurocodice 8 - Progettazione delle strutture per la resistenza sismica - Ponti.
+Per un professionista questo e il punto chiave: la risposta in frequenza non serve a dire "la velocita critica e 311 km/h" e fermarsi li. Serve a decidere che la fascia da densificare e circa $250$-$310\,\mathrm{km/h}$, con controlli piu fini sui due picchi distinti di spostamento e accelerazione.
+
+**4. Storie temporali e controlli sul caso governante**
+
+Nel caso di massimo spostamento, il solver restituisce:
+
+- $w_{\max} = 3.350\,\mathrm{mm}$ a $270\,\mathrm{km/h}$;
+- $a_{\max} = 0.986\,\mathrm{m/s^2}$ alla stessa velocita.
+
+La storia temporale corrispondente e:
+
+![Storia temporale reale del run OPSTrainLoad a 270 km/h con accelerazione, velocita e spostamento in mezzeria del ponte]({{ site.baseurl }}/assets/images/risposta-frequenza-transito-ferroviario-opstrainload-time-history-picco-spostamento.png)
+
+Nel caso di massimo di accelerazione, invece:
+
+- $a_{\max} = 1.008\,\mathrm{m/s^2}$ a $280\,\mathrm{km/h}$;
+- $w_{\max} = 3.338\,\mathrm{mm}$ alla stessa velocita.
+
+La storia temporale del run a $280\,\mathrm{km/h}$ mostra in modo pulito il decadimento della vibrazione libera dopo il passaggio del treno:
+
+![Storia temporale reale del run OPSTrainLoad a 280 km/h con picco di accelerazione e coda in vibrazione libera post-transito]({{ site.baseurl }}/assets/images/risposta-frequenza-transito-ferroviario-opstrainload-time-history-picco-acc.png)
+
+Queste due figure chiariscono due controlli che in pratica evitano molti errori:
+
+1. il massimo puo verificarsi poco dopo l'uscita dell'ultimo asse, non solo mentre il treno e interamente in campata;
+2. lo spostamento governante e l'accelerazione governante non sono obbligati a cadere alla stessa velocita.
+
+Se il progetto richiede un controllo di comfort, di accelerazione verticale o di interazione con la via, il run a $280\,\mathrm{km/h}$ e piu importante del run a $270\,\mathrm{km/h}$. Se il controllo riguarda soprattutto la deformazione o una grandezza correlata allo spostamento, il run da approfondire e invece quello a $270\,\mathrm{km/h}$.
+
+**5. Procedura operativa finale con OPSTrainLoad**
+
+Per rifare esattamente il caso numerico del post nel software:
+
+1. avviare l'app con `streamlit run runApp.py` dal repository `OPSTrainLoad`;
+2. inserire `L = 33.25 m`, `l_segment = 0.50 m`, `A = 0.8573 m^2`, `I = 0.9529 m^4`, `E = 167000 MPa`, `m = 6602 kg/m`, `xi = 0.01`;
+3. lasciare il convoglio default a 7 assi da `170 kN` con interassi `0, 4.8, 2.6, 12.4, 2.6, 4.8, 2.6 m`;
+4. impostare lo sweep `v_min = 20 km/h`, `v_max = 350 km/h`, `step = 10 km/h`;
+5. verificare nello schema FEM che i vincoli siano cerniera a sinistra e carrello a destra e che gli assi coprano davvero la luce;
+6. eseguire `Run` e leggere subito tre uscite: `f1_fem`, curva accelerazione-velocita e tabella dei massimi;
+7. aprire le velocita attorno a `270-280 km/h` e controllare le storie temporali complete, non solo il valore massimo;
+8. esportare il report Word dall'interfaccia e, se serve una relazione tecnica piu completa, usare le funzioni del repo per generare anche il PDF del run batch.
+
+Nel caso di questo post la sequenza visiva e stata ottenuta con output reali dello stesso repository: solver eseguito localmente, grafici generati dalle funzioni del repo e pagine del report renderizzate in PNG. Questo rende il collegamento con StruHub e CivilBox utile come verifica pratica del metodo, non come richiamo promozionale.
+
+**6. Cosa archiviare davvero in relazione**
+
+Quando la risposta in frequenza entra in una relazione di ponte ferroviario, conviene archiviare almeno:
+
+- formula e valore di $f_1$ con unita coerenti;
+- interassi ricorrenti del convoglio e corrispondenti velocita $v_{cr,j}$;
+- sweep realmente eseguito, con indicazione esplicita del passo;
+- velocita governante per spostamento e velocita governante per accelerazione;
+- storie temporali dei casi governanti;
+- criterio con cui si passa dal picco dinamico alla verifica progettuale successiva.
+
+E' qui che un applicativo come `OPSTrainLoad` diventa utile nel flusso StruHub/CivilBox: non per sostituire il giudizio del progettista, ma per lasciare una traccia verificabile tra teoria, caso numerico, curva di sweep e report finale.
+
+**Riferimenti tecnici e normativi**
+
+- D.M. 17 gennaio 2018, *Aggiornamento delle Norme Tecniche per le Costruzioni*, con riferimento al Capitolo 5 per ponti e azioni da traffico.
+- Circolare C.S.LL.PP. 21 gennaio 2019 n. 7, *Istruzioni per l'applicazione dell'Aggiornamento delle Norme Tecniche per le Costruzioni*.
+- UNI EN 1991-2:2005, *Eurocodice 1 - Azioni sulle strutture - Parte 2: Carichi da traffico sui ponti*, con riferimento alla dinamica del traffico ferroviario e ai criteri di valutazione della risposta.
+- UNI EN 1990:2006, *Eurocodice - Criteri generali di progettazione strutturale*, per l'impostazione coerente delle verifiche e dei livelli prestazionali.

@@ -362,5 +362,40 @@
     "post": "plinto-rigido-fem-graticcio.html",
     "bytes": 26124,
     "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-output://DomenicoGaudioso/Palo/benchmark-lateral/input-sintesi",
+    "localPath": "assets/images/resistenza-laterale-pali-stratigrafia-palo-input-sintesi.png",
+    "post": "resistenza-laterale-pali-stratigrafia.html",
+    "bytes": 160392,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-output://DomenicoGaudioso/Palo/benchmark-lateral/stratigrafia-tensioni",
+    "localPath": "assets/images/resistenza-laterale-pali-stratigrafia-palo-stratigrafia-tensioni.png",
+    "post": "resistenza-laterale-pali-stratigrafia.html",
+    "bytes": 165431,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-output://DomenicoGaudioso/Palo/benchmark-lateral/risposta-laterale",
+    "localPath": "assets/images/resistenza-laterale-pali-stratigrafia-palo-risposta-laterale.png",
+    "post": "resistenza-laterale-pali-stratigrafia.html",
+    "bytes": 89856,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-output://DomenicoGaudioso/Palo/benchmark-lateral/confronto-fd-fem",
+    "localPath": "assets/images/resistenza-laterale-pali-stratigrafia-palo-confronto-fd-fem.png",
+    "post": "resistenza-laterale-pali-stratigrafia.html",
+    "bytes": 138054,
+    "contentType": "image/png"
+  },
+  {
+    "sourceUrl": "app-output://DomenicoGaudioso/Palo/benchmark-lateral/report-controlli",
+    "localPath": "assets/images/resistenza-laterale-pali-stratigrafia-palo-report-controlli.png",
+    "post": "resistenza-laterale-pali-stratigrafia.html",
+    "bytes": 166821,
+    "contentType": "image/png"
   }
 ]

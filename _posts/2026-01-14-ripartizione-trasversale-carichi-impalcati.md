@@ -1,160 +1,302 @@
 ---
 layout: post
 title: "Ripartizione trasversale dei carichi negli impalcati da ponte"
-description: "Riferimento tecnico StruHub con formule, ipotesi di modello e riferimenti normativi."
+description: "Metodo tecnico completo con piastra ortotropa equivalente, caso numerico su due corsie e workflow operativo con GuyonMassonnetBares."
 date: 2026-01-14
 order: 14
 permalink: /posts/ripartizione-trasversale-carichi-impalcati.html
-meta: "Quaderno tecnico · 1349 parole circa"
+meta: "Quaderno tecnico - ripartizione trasversale con caso numerico e workflow GuyonMassonnetBares"
 ---
 
-**Distribuzione trasversale**
+**La ripartizione trasversale e il punto in cui il traffico smette di essere un carico globale e diventa domanda sulla singola trave**
 
-Un carico applicato su una corsia non viene assorbito da una sola trave. Soletta, traversi e torsione trasferiscono quota della domanda alle travi vicine.
+Nel calcolo di un impalcato da ponte il modello longitudinale fornisce il momento globale, il taglio globale e l'inviluppo lungo la luce. Questo non basta ancora per verificare una trave principale. Serve capire quanta parte di quell'effetto entra davvero nella trave di bordo, in quella centrale e nella trave piu vicina alla corsia caricata.
 
-$$
-E_j=eta_jE_{tot}, qquad sum_jeta_japprox1
-$$
+Qui il collegamento piu naturale con gli applicativi di Domenico Gaudioso e il repository `GuyonMassonnetBares`, che implementa la lettura semianalitica Guyon-Massonnet-Bares con piastra ortotropa equivalente, sviluppo dei carichi in serie di Fourier e output per momento, taglio e deformata delle travi principali. Nel seguito non viene usato come vetrina: viene usato come controllo ripetibile dello stesso caso numerico riportato nel post.
 
-Rigidezze equivalenti.
+Le immagini inserite nel testo sono output reali generati dal repository `GuyonMassonnetBares` sul caso qui descritto. Il caso e stato costruito in due varianti, cosi da far vedere una cosa che in pratica conta molto piu del formalismo: con la stessa sezione trasversale basta spostare la corsia per cambiare in modo netto la trave governante.
 
-$$
-D_x=\frac{EI_x}{b}, qquad D_y=\frac{EI_y}{l}
-$$
+**1. Teoria e metodo**
 
-Esempio.
-
-Con (M_{tot}=1200,mathrm{kNm}) e coefficienti (0.25,0.50,0.25):
+La ripartizione trasversale non e una semplice divisione per il numero di travi. Se il modello longitudinale restituisce un effetto globale $E_{tot}(x)$, per esempio un momento in campata o un taglio in prossimita dell'appoggio, il primo passaggio e solo contabile:
 
 $$
-M_1=300,quad M_2=600,quad M_3=300,mathrm{kNm}
+E_{medio}(x)=\frac{E_{tot}(x)}{n}
 $$
+
+dove:
+
+- $E_{tot}(x)$ e l'effetto globale dell'impalcato, in $\mathrm{kN m}$ oppure $\mathrm{kN}$;
+- $n$ e il numero delle travi principali;
+- $E_{medio}(x)$ e il valore medio per trave, utile solo come base di confronto.
+
+La quota sulla trave $j$ si scrive poi come:
+
+$$
+E_j(x)=\eta_j(x,e)\,E_{medio}(x)
+$$
+
+dove $\eta_j$ dipende da:
+
+- posizione trasversale del carico $e$;
+- rigidezza flessionale delle travi longitudinali;
+- rigidezza trasversale efficace di soletta e traversi;
+- rigidezza torsionale dell'impalcato;
+- larghezza efficace e sbalzi laterali.
+
+Nel metodo Guyon-Massonnet-Bares l'impalcato reale viene assimilato a una piastra ortotropa equivalente di luce $L$ e semi-larghezza $b$. Le rigidezze equivalenti principali sono:
+
+$$
+\rho_P=\frac{E I_l}{s}
+$$
+
+$$
+\rho_E=\frac{E I_t}{s_t}
+$$
+
+dove:
+
+- $E$ e il modulo elastico, in $\mathrm{Pa}$;
+- $I_l$ e l'inerzia longitudinale equivalente della singola trave, in $\mathrm{m^4}$;
+- $I_t$ e l'inerzia trasversale equivalente, in $\mathrm{m^4}$;
+- $s$ e l'interasse tra travi longitudinali, in $\mathrm{m}$;
+- $s_t$ e il passo caratteristico della rigidezza trasversale, in $\mathrm{m}$.
+
+I due parametri che governano la diffusione trasversale nel repository sono:
+
+$$
+\theta=\frac{b}{L}\sqrt[4]{\frac{\rho_P}{\rho_E}}
+$$
+
+$$
+\alpha=\frac{\gamma_P+\gamma_E}{2\sqrt{\rho_P\rho_E}}
+$$
+
+con $\gamma_P$ e $\gamma_E$ associate alle rigidezze torsionali longitudinale e trasversale. In lettura professionale:
+
+- $\theta$ governa il rapporto tra rigidezza longitudinale e trasversale;
+- $\alpha$ misura quanto la torsione aiuta a redistribuire il carico.
+
+Il repository non applica direttamente una "corsia equivalente" sulla singola trave. Costruisce prima il carico longitudinale come serie di Fourier:
+
+$$
+p(x)=\sum_{m=1}^{N} A_m \sin\left(\frac{m\pi x}{L}\right)
+$$
+
+Per un asse concentrato $P_r$ applicato alla posizione $x_r$:
+
+$$
+A_m^{(r)}=\frac{2P_r}{L}\sin\left(\frac{m\pi x_r}{L}\right)
+$$
+
+Per una fascia uniformemente caricata di intensita $q$ e larghezza efficace $b_{eff}$:
+
+$$
+p_{line}=q\,b_{eff}
+$$
+
+Il solver calcola quindi per ogni trave un peso trasversale $W_j$ e restituisce:
+
+$$
+M_j(x)=W_j\,M_{medio}(x)
+$$
+
+$$
+V_j(x)=W_j\,V_{medio}(x)
+$$
+
+Per riportare in tabella una quota percentuale leggibile conviene normalizzare:
+
+$$
+w_j=\frac{W_j}{\sum_i W_i}
+$$
+
+cosi che:
+
+$$
+\sum_j w_j = 1
+$$
+
+Questa normalizzazione e utile in relazione per confrontare casi diversi, mentre i grafici di momento e taglio restano quelli restituiti dal solver.
+
+**2. Caso numerico reale con due posizioni di corsia**
+
+Si considera lo stesso impalcato per due casi di carico, uno centrato e uno eccentrico, cosi da separare bene il controllo di simmetria dal controllo di bordo. I dati geometrici e meccanici sono quelli usati nel repository `GuyonMassonnetBares`:
+
+| Parametro | Valore |
+| --- | ---: |
+| Luce $L$ | $22.30\,\mathrm{m}$ |
+| Larghezza totale $L_y$ | $11.50\,\mathrm{m}$ |
+| Semi-larghezza $b=L_y/2$ | $5.75\,\mathrm{m}$ |
+| Numero travi $n$ | $11$ |
+| Interasse travi $s$ | $1.00\,\mathrm{m}$ |
+| Modulo elastico $E$ | $32.308\,\mathrm{GPa}$ |
+| Inerzia longitudinale $I_l$ | $0.11375171\,\mathrm{m^4}$ |
+| Inerzia torsionale longitudinale $J_l$ | $0.00510383\,\mathrm{m^4}$ |
+| Inerzia trasversale $I_t$ | $0.10382507\,\mathrm{m^4}$ |
+| Inerzia torsionale trasversale $J_{lt}$ | $0.01228304\,\mathrm{m^4}$ |
+| Termini di Fourier $N$ | $67$ |
+
+Nel repository il passo trasversale equivalente e assunto pari a:
+
+$$
+s_t=\frac{L}{2}=11.15\,\mathrm{m}
+$$
+
+Da qui si ricavano:
+
+$$
+\rho_P=\frac{32.308\cdot10^9 \cdot 0.11375171}{1.00}=3.675\cdot10^9\,\mathrm{N\,m}
+$$
+
+$$
+\rho_E=\frac{32.308\cdot10^9 \cdot 0.10382507}{11.15}=3.008\cdot10^8\,\mathrm{N\,m}
+$$
+
+$$
+\theta=0.482
+$$
+
+$$
+\alpha=0.0397
+$$
+
+Il valore di $\theta$ segnala un impalcato molto piu rigido lungo la luce che in direzione trasversale. Il valore basso di $\alpha$ dice che la torsione aiuta la diffusione, ma non al punto da annullare l'effetto dell'eccentricita.
+
+I due casi di carico studiati sono:
+
+1. `LC-C corsia centrata`: fascia da traffico uniforme $q=9.0\,\mathrm{kN/m^2}$ su larghezza $3.0\,\mathrm{m}$ centrata in asse, piu due assi da $320\,\mathrm{kN}$ a $x=10.60\,\mathrm{m}$ e $x=11.80\,\mathrm{m}$, entrambi a $y=0$.
+2. `LC-E corsia eccentrica`: stessa fascia da traffico e stesso tandem spostati a $y=+2.8\,\mathrm{m}$, con in piu un carico distribuito residuo $q=2.5\,\mathrm{kN/m^2}$ su fascia larga $1.5\,\mathrm{m}$ a $y=-3.2\,\mathrm{m}$, attivo tra $x=3.0\,\mathrm{m}$ e $x=19.5\,\mathrm{m}$.
+
+![Schema reale dell'impalcato equivalente e dei casi LC-C centrato e LC-E eccentrico generato dalle funzioni del repository GuyonMassonnetBares]({{ site.baseurl }}/assets/images/ripartizione-trasversale-carichi-impalcati-gmb-casi-input.png)
+
+Per il caso eccentrico il carico totale vale:
+
+$$
+P_{tot}=q_1 b_1 L + q_2 b_2 (x_2-x_1) + 2P
+$$
+
+$$
+P_{tot}=9.0\cdot3.0\cdot22.30 + 2.5\cdot1.5\cdot16.5 + 2\cdot320 = 1303.98\,\mathrm{kN}
+$$
+
+La risultante trasversale cade a:
+
+$$
+e=\frac{\sum_i P_i y_i}{P_{tot}}=2.52\,\mathrm{m}
+$$
+
+quindi circa a meta tra l'asse dell'impalcato e il bordo caricato. E' gia un valore sufficiente per aspettarsi una crescita netta della domanda sulle travi del lato positivo.
+
+**3. Risultati numerici e controlli**
+
+Il primo controllo utile e quello di confronto tra quote normalizzate sulle travi. Per il caso centrato la distribuzione deve risultare simmetrica; per il caso eccentrico deve spostarsi verso le travi prossime alla corsia senza perdere del tutto la collaborazione del resto dell'impalcato.
+
+![Confronto tra le quote normalizzate w_j delle 11 travi nei casi di corsia centrata e corsia eccentrica, ricavate dal solver GM]({{ site.baseurl }}/assets/images/ripartizione-trasversale-carichi-impalcati-gmb-quote-ripartizione.png)
+
+Le quote normalizzate mostrano subito la differenza meccanica:
+
+- nel caso `LC-C` la trave d'asse G6 prende l'11.35% della quota totale, mentre i due bordi G1 e G11 stanno al 6.43%;
+- nel caso `LC-E` la trave G9, piu vicina alla corsia, sale al 12.20%;
+- il bordo caricato G11 sale al 10.62%;
+- il bordo opposto G1 scende al 4.00%.
+
+Tradotto in termini pratici: spostando la corsia dalla mezzeria verso $y=+2.8\,\mathrm{m}$, la quota della trave G9 cresce rispetto al caso centrato di circa:
+
+$$
+\frac{12.20-9.01}{9.01}=35.4\%
+$$
+
+mentre la quota della trave G1 si riduce di:
+
+$$
+\frac{6.43-4.00}{6.43}=37.8\%
+$$
+
+Il secondo controllo e sulle grandezze di progetto, non solo sulle percentuali. La tabella seguente riassume travi e valori governanti:
+
+![Tabella tecnica con quote di ripartizione, momenti massimi e deformata massima nei due casi LC-C e LC-E]({{ site.baseurl }}/assets/images/ripartizione-trasversale-carichi-impalcati-gmb-tabella-confronto.png)
+
+La lettura ingegneristica e immediata:
+
+- con corsia centrata il massimo momento e sulla trave G6, con $M_{max}=459.8\,\mathrm{kN\,m}$;
+- con corsia eccentrica la trave governante diventa G9, con $M_{max}=466.0\,\mathrm{kN\,m}$;
+- la stessa eccitazione fa salire la trave di bordo G11 da $260.6$ a $405.8\,\mathrm{kN\,m}$;
+- il rapporto tra trave caricata G9 e bordo opposto G1 nel caso eccentrico vale:
+
+$$
+\frac{466.0}{152.9}=3.05
+$$
+
+Questa e la ragione per cui la media per trave e quasi sempre fuorviante: il massimo globale cambia poco, ma la trave che governa cambia molto. La deformata massima della piastra passa infatti solo da $63.7$ a $65.1\,\mathrm{mm}$, cioe circa il $2.2\%$ in piu, mentre la distribuzione locale delle sollecitazioni cambia in modo molto piu marcato.
+
+Sul lato dei momenti lungo la luce, il caso eccentrico restituisce questo quadro:
+
+![Diagrammi reali del momento flettente M(x) sulle travi G1, G6, G9 e G11 per il caso eccentrico LC-E]({{ site.baseurl }}/assets/images/ripartizione-trasversale-carichi-impalcati-gmb-momenti-travi.png)
+
+Si vede bene che:
+
+- G9 e la trave governante in quasi tutta la zona centrale;
+- G11 resta molto sollecitata per effetto della vicinanza al carico e della torsione dell'impalcato;
+- G6, pur non essendo direttamente caricata, resta su livelli elevati per effetto della diffusione trasversale;
+- G1 riceve ancora una quota non trascurabile, segno che l'impalcato non si comporta come un insieme di travi isolate.
+
+Lo stesso ragionamento va fatto sul taglio, perche un metodo serio non si ferma alla tabella dei momenti:
+
+![Diagrammi reali del taglio V(x) sulle travi G1, G6, G9 e G11 per il caso eccentrico LC-E]({{ site.baseurl }}/assets/images/ripartizione-trasversale-carichi-impalcati-gmb-tagli-travi.png)
+
+Nel caso LC-E i massimi di taglio seguono la stessa gerarchia dei momenti. Questo e importante per due motivi:
+
+1. conferma che la posizione trasversale della corsia sposta davvero la domanda sulla coppia di travi del lato caricato;
+2. evita l'errore frequente di usare un coefficiente valido per il momento e trasferirlo automaticamente anche al taglio senza controllo.
+
+L'ultima lettura utile e la superficie deformata:
+
+![Superficie deformata reale della piastra ortotropa equivalente nel caso eccentrico LC-E, con massimo spostamento in zona centrale e lato caricato]({{ site.baseurl }}/assets/images/ripartizione-trasversale-carichi-impalcati-gmb-deformata-3d.png)
+
+La deformata non e qui una verifica di esercizio autonoma. Serve a controllare che la forma della risposta sia coerente con:
+
+- carico centrato in campata;
+- eccentricita positiva del tandem e della fascia caricata;
+- maggiore coinvolgimento del lato destro dell'impalcato.
+
+In altre parole, la deformata e un controllo di consistenza del modello, non solo un grafico da allegare.
+
+**4. Come usare GuyonMassonnetBares sullo stesso caso**
+
+Per rifare il caso nell'app `GuyonMassonnetBares` conviene seguire questa sequenza operativa.
+
+1. Avviare l'app con `streamlit run streamlit_app.py`.
+2. Nella sidebar impostare il modello: `Lx = 22.30 m`, `Ly = 11.50 m`, `n_travi = 11`, `s = 1.00 m`.
+3. Inserire le proprieta di materiale e sezione: `E = 32.308e9 Pa`, `nu = 0.20`, `Il = 0.11375171 m^4`, `Jl = 0.00510383 m^4`, `It = 0.10382507 m^4`, `Jlt = 0.01228304 m^4`.
+4. Lasciare una discretizzazione coerente con il benchmark: `nx = 1450`, `ny = 60`, `n_iter = 67`.
+5. Controllare subito i parametri adimensionali: se non si leggono circa `theta = 0.482` e `alpha = 0.0397`, c'e un errore negli input di rigidezza o di geometria.
+6. Nel tab `Casi di carico` creare `LC-C` con una fascia `udl_full` a `y = 0.0 m`, `width = 3.0 m`, `q = 9000 N/m^2`, e due carichi `point` da `320000 N` a `x = 10.60 m` e `x = 11.80 m`.
+7. Duplicare il caso e costruire `LC-E`: spostare fascia e tandem a `y = +2.8 m`, poi aggiungere un secondo `udl_partial` a `y = -3.2 m`, `width = 1.5 m`, `q = 2500 N/m^2`, attivo tra `x1 = 3.0 m` e `x2 = 19.5 m`.
+8. Nel tab `Risultati` leggere prima `M(x)` e `V(x)` delle travi G1, G6, G9 e G11, non il solo massimo globale.
+9. Controllare che `LC-C` sia simmetrico tra travi opposte e che in `LC-E` la trave G9 superi G6, mentre G11 cresca in modo sensibile rispetto al caso centrato.
+10. Esportare il PDF solo dopo avere verificato coerenza tra geometria del carico, gerarchia delle travi e forma della deformata.
+
+Questa e la parte in cui il richiamo a `GuyonMassonnetBares` diventa davvero utile dentro StruHub: non come pagina promozionale, ma come prova pratica che il passaggio da carico globale a domanda locale puo essere rifatto, controllato e documentato.
+
+**5. Cosa portare davvero in relazione**
+
+Per una relazione di progetto o verifica conviene archiviare almeno questi elementi:
+
+- geometria trasversale dell'impalcato e coordinate delle travi;
+- valori di $\theta$ e $\alpha$ con nota sulle rigidezze equivalenti adottate;
+- posizione trasversale della corsia o del tandem che governa;
+- confronto tra almeno un caso centrato e uno eccentrico;
+- diagrammi di momento e taglio della trave governante e di una trave di bordo;
+- verifica che la forma deformata sia coerente con la posizione del carico.
+
+Se manca uno di questi passaggi, il coefficiente di ripartizione resta un numero poco revisionabile. Se invece restano traccia di input, curva e trave governante, la verifica diventa difendibile anche a distanza di tempo.
 
 Riferimenti tecnici utilizzati:
 
-- D.M. 17 gennaio 2018, NTC 2018, Capitolo 5.
-- UNI EN 1991-2, Eurocodice 1: Azioni da traffico sui ponti.
-
-Nota StruHub.
-
-La ripartizione trasversale è il ponte tra modello globale e verifica locale delle travi principali.
-
-**Compatibilità oltre l'equilibrio**
-
-La somma dei coefficienti di ripartizione garantisce l'equilibrio globale, ma non basta a descrivere il comportamento dell'impalcato. La ripartizione nasce anche dalla compatibilità degli spostamenti trasversali: una trave caricata trascina le altre attraverso la soletta e gli elementi trasversali.
-
-In termini concettuali, la distribuzione non è solo:
-
-$$
-\sum_j V_j=V_{tot}
-$$
-
-ma anche coerenza tra deformate:
-
-$$
-w_j(x)\approx w_{j+1}(x) \quad \text{se la soletta è molto rigida trasversalmente}
-$$
-
-**Effetto della torsione**
-
-La rigidezza torsionale modifica la capacità dell'impalcato di distribuire un carico eccentrico. Un sistema con bassa torsione tende a concentrare la domanda vicino alla linea di carico; un sistema più torsionalmente rigido la spalma in modo più uniforme.
-
-Nel tema di la ripartizione trasversale dei carichi, il punto non è ottenere un coefficiente isolato, ma costruire una catena coerente tra modello globale e verifica locale. Il carico applicato al impalcato a travi e soletta attraversa una gerarchia resistente: soletta, traversi, travi principali, appoggi e infine sottostrutture.
-
-Il primo controllo è l'equilibrio. Se gli effetti ripartiti non ricostruiscono l'azione globale, il modello non è accettabile. Il secondo controllo è la compatibilità: gli elementi connessi non possono deformarsi come sistemi indipendenti se la soletta o i collegamenti impongono continuità.
-
-$$
-\sum_j E_j \simeq E_{tot}
-$$
-
-**Rigidezze equivalenti e sensibilità**
-
-La ripartizione dipende dai rapporti di rigidezza, non dai soli interassi geometrici. Un elemento molto rigido attira più domanda, mentre un elemento flessibile tende a scaricare verso gli elementi vicini. Questo vale per travi, piastre equivalenti e modelli a graticcio.
-
-$$
-D_x \propto EI_x, \qquad D_y \propto EI_y, \qquad D_{xy} \propto GJ
-$$
-
-Una variazione del 20% nella rigidezza trasversale può modificare in modo significativo il coefficiente di ripartizione. Per questo l'articolo tecnico non deve limitarsi a presentare il risultato: deve spiegare quali parametri lo muovono.
-
-Esempio di confronto. Si consideri un effetto globale (E_{tot}=1000\,\mathrm{kNm}). Un primo modello fornisce coefficienti (0.20,0.35,0.35,0.10); un secondo modello, con maggiore rigidezza trasversale, fornisce (0.24,0.29,0.29,0.18). I due risultati sono entrambi equilibrati, ma raccontano impalcati diversi.
-
-$$
-E_{j}=\eta_j E_{tot}
-$$
-
-Nel primo caso la domanda è concentrata sulle travi interne; nel secondo la distribuzione è più uniforme. La scelta progettuale deve leggere questa differenza, non solo copiare il massimo valore.
-
-**Uso nella relazione tecnica**
-
-Una relazione ben costruita dovrebbe riportare schema dell'impalcato, rigidezze equivalenti, posizione dei carichi, coefficienti ottenuti e controllo di equilibrio. Se il metodo è semianalitico, è utile affiancare un confronto con un modello graticcio o FEM semplificato.
-
-La ripartizione trasversale nasce dall’equilibrio ma anche dalla compatibilità. Una soletta rigida obbliga travi vicine a deformarsi insieme; una soletta più deformabile lascia il carico più concentrato. In questo modo il post diventa un riferimento tecnico: non propone soltanto un numero, ma insegna a giudicarlo.
-
-**Dal modello globale alla verifica locale**
-
-Nei temi di impalcato, sezioni composte e azioni di progetto, il passaggio più importante è collegare una grandezza globale a un controllo locale. Un momento globale lungo l'impalcato non è ancora una verifica di fibra; un carico da traffico non è ancora una tensione; un coefficiente di ripartizione non è ancora una domanda resistente. Il calcolo diventa affidabile quando ogni trasformazione è esplicita.
-
-La sequenza tipica è: definizione dell'azione, scelta dello schema resistente, calcolo dell'effetto globale, ripartizione o trasformazione sezionale, verifica della fibra o dell'elemento. Saltare uno di questi passaggi produce risultati difficili da revisionare.
-
-Tracciabilità delle combinazioni. Ogni valore dovrebbe conservare l'origine. Se una sezione ha (M_{max}=950\,\mathrm{kNm}), la relazione deve indicare se deriva da traffico, temperatura, fase costruttiva, ritiro o combinazione sismica. In assenza di questa informazione il dato è numericamente utile ma tecnicamente debole.
-
-Una forma pratica di archiviazione è associare a ogni effetto tre campi: valore, combinazione governante e posizione. Per gli inviluppi:
-
-$$
-E_{max}(x_j)=E_{d,k}(x_j) \quad con \quad k=k_{gov}(x_j)
-$$
-
-Questa scrittura chiarisce che il massimo non è astratto: è prodotto da una combinazione precisa.
-
-Controllo delle rigidezze. Quando si lavora con ripartizioni, sezioni composte o fasi costruttive, la rigidezza è il parametro più influente. Una rigidezza sbagliata può produrre una distribuzione apparentemente equilibrata ma fisicamente non corretta. Per questo, prima della verifica, conviene riportare le proprietà principali: area, inerzia, modulo elastico, coefficiente di omogeneizzazione e fase resistente.
-
-Per una sezione composta, ad esempio, una stessa azione può produrre tensioni diverse se applicata prima o dopo la maturazione della soletta. Il valore finale è la somma di contributi nati in tempi diversi:
-
-$$
-\sigma_{finale}=\sum_i \sigma_i(A_i,I_i,E_i,t_i)
-$$
-
-La notazione evidenzia che ogni contributo ha proprietà resistenti proprie.
-
-Esempio di lettura critica. Si consideri un impalcato con quattro travi. Un modello semplificato fornisce coefficienti (0.18,0.32,0.32,0.18), mentre un modello più rigido trasversalmente fornisce (0.22,0.28,0.28,0.22). Entrambi rispettano l'equilibrio, ma il secondo distribuisce maggiormente verso le travi laterali. Se la verifica locale di una trave laterale è vicina al limite, questa differenza non è accademica.
-
-Scrittura da riferimento tecnico. Il testo deve accompagnare il lettore dalla causa all'effetto: quale azione entra, come viene distribuita, quale proprietà resistente la trasforma in tensione o sollecitazione, quale limite viene controllato. Questa catena rende l'articolo consultabile anche a distanza di tempo.
-
-Il significato della ripartizione trasversale. La ripartizione trasversale dei carichi nasce da una domanda pratica: quanto del carico applicato su una corsia viene assorbito da ciascuna trave longitudinale? In un impalcato reale la risposta non e quella di travi isolate. Soletta, traversi, diaframmi e rigidezza torsionale trasferiscono parte dell'azione alle travi vicine. La quota assegnata a una trave puo essere espressa tramite un coefficiente di ripartizione $\alpha_i$:
-
-$$
-Q_i=\alpha_i Q \qquad \sum_i \alpha_i \approx 1
-$$
-
-La difficolta e stimare $\alpha_i$ in modo coerente con geometria, rigidezze e posizione del carico. Nei ponti a piu travi, una stima troppo semplificata puo sovraccaricare o sottovalutare le travi di bordo, soprattutto quando la carreggiata consente eccentricita elevate del carico mobile.
-
-Un modello a graticcio rappresenta le travi longitudinali e gli elementi trasversali come aste, con rigidezze flessionali e torsionali equivalenti. La soletta non viene descritta punto per punto, ma trasferisce rigidezza tramite elementi trasversali. La scelta delle rigidezze equivalenti e il punto sensibile: se i traversi sono troppo rigidi, il modello distribuisce eccessivamente; se sono troppo deformabili, il carico resta confinato nella trave caricata.
-
-Rigidezza relativa e posizione del carico. Per capire la ripartizione e utile ragionare in termini di rigidezza relativa. Se $k_i$ e la rigidezza verticale equivalente della trave $i$, una prima approssimazione elastica puo essere:
-
-$$
-\alpha_i \simeq \frac{k_i}{\sum_j k_j}
-$$
-
-Questa formula e solo orientativa, perche ignora l'eccentricita del carico e la torsione dell'impalcato, ma chiarisce un punto: la ripartizione non e una percentuale geometrica, e una conseguenza della compatibilita degli spostamenti. Quando il carico e eccentrico, alla ripartizione verticale si somma un effetto torsionale. Per una risultante $Q$ applicata con eccentricita $e_q$, il momento torcente globale e:
-
-$$
-T = Q e_q
-$$
-
-Le travi di bordo diventano allora decisive. Un controllo tecnico dovrebbe confrontare almeno tre scenari: carico centrato, carico eccentrico verso un bordo, carico distribuito su piu corsie. Quando si parla di carichi da traffico sui ponti, la citazione normativa corretta include D.M. 17 gennaio 2018, Capitolo 5, e UNI EN 1991-2:2005.
-
-La lettura finale non e il singolo coefficiente, ma l'inviluppo delle sollecitazioni nelle travi. Se il modello e ben impostato, il progettista riesce a distinguere l'effetto locale del carico mobile dall'effetto globale di torsione dell'impalcato.
-
-Riferimenti normativi e bibliografici utilizzati:
-
-- D.M. 17 gennaio 2018, "Aggiornamento delle Norme tecniche per le costruzioni", Ministero delle Infrastrutture e dei Trasporti, Supplemento ordinario alla Gazzetta Ufficiale n. 42 del 20 febbraio 2018.
-- Circolare C.S.LL.PP. 21 gennaio 2019, n. 7, "Istruzioni per l'applicazione dell'Aggiornamento delle Norme tecniche per le costruzioni di cui al decreto ministeriale 17 gennaio 2018".
-- UNI EN 1990:2006, Eurocodice - Criteri generali di progettazione strutturale.
-- UNI EN 1991-2:2005, Eurocodice 1 - Azioni sulle strutture - Parte 2: Carichi da traffico sui ponti.
-- UNI EN 1992-1-1:2015, Eurocodice 2 - Progettazione delle strutture di calcestruzzo.
-- UNI EN 1993-1-1:2014, Eurocodice 3 - Progettazione delle strutture di acciaio.
-- UNI EN 1994-2:2006, Eurocodice 4 - Progettazione delle strutture composte acciaio-calcestruzzo - Ponti.
-- UNI EN 1997-1:2013, Eurocodice 7 - Progettazione geotecnica - Parte 1: Regole generali.
-- UNI EN 1998-2:2011, Eurocodice 8 - Progettazione delle strutture per la resistenza sismica - Ponti.
+- D.M. 17 gennaio 2018, *Aggiornamento delle "Norme tecniche per le costruzioni"*, con modifiche introdotte dal D.M. 9 marzo 2023.
+- Circolare C.S.LL.PP. 21 gennaio 2019, n. 7, istruzioni applicative delle NTC 2018.
+- UNI EN 1991-2:2005, *Eurocodice 1 - Azioni sulle strutture - Parte 2: Carichi da traffico sui ponti*.
+- Hambly, E. C., *Bridge Deck Behaviour*, 2nd edition.
+- Guyon, Massonnet e Bares, riferimenti classici sulla ripartizione trasversale degli impalcati assimilati a piastra ortotropa equivalente.
+- Implementazione applicativa nel repository `GuyonMassonnetBares`, usato qui come benchmark reale del caso numerico riportato nel post.
